@@ -1,7 +1,9 @@
-// tslint:disable: no-any ban-ts-ignore
+// tslint:disable: no-any
 import { resolve } from 'path';
-import _rewiremock from 'rewiremock';
+import rewiremock from 'rewiremock';
 import * as sinon from 'sinon';
+
+rewiremock.overrideEntryPoint(module);
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -12,8 +14,6 @@ export class ModuleRewiring<
   }
 > {
 
-  private rewiremock: typeof _rewiremock;
-
   private loader: ModuleLoader<Module>;
   private mockedModules: MockedModules = {} as MockedModules;
 
@@ -21,9 +21,6 @@ export class ModuleRewiring<
     loader: ModuleLoader<Module>,
     mockedModules: MockedModules = {} as MockedModules,
   ) {
-    // rewiremock
-    this.rewiremock = _rewiremock;
-    this.rewiremock.overrideEntryPoint(module);
     // save loader
     this.loader = loader;
     // save mocked modules
@@ -35,7 +32,7 @@ export class ModuleRewiring<
   }
 
   async getModule() {
-    return this.rewiremock.around(this.loader, mock => {
+    return rewiremock.around(this.loader, mock => {
       // rewire all dependencies
       if (!!this.mockedModules) {
         for (let path of Object.keys(this.mockedModules)) {
@@ -156,4 +153,49 @@ export class ServiceRewiring<
     return this;
   }
 
+}
+
+export async function rewireFull<
+  Module,
+  MockedModules extends {
+    [moduleId: string]: Function | {}; // funtion => default or a mocked module
+  },
+  Service,
+  MockedServices extends {
+    [serviceName: string]: {}; // a mocked service
+  },
+  ServiceStubs extends {
+    [method in keyof Service]: any; // a function (async) or returns value
+  }
+>(
+  loader: ModuleLoader<Module>,
+  mockedModules: MockedModules = {} as MockedModules,
+  serviceInterface: new (...args: any[]) => Service,
+  mockedServices: MockedServices = {} as MockedServices,
+  withStubs: ServiceStubs = {} as ServiceStubs,
+) {
+  // rewire module
+  const moduleRewiring = new ModuleRewiring(loader, mockedModules);
+  const mockedModulesOutput = moduleRewiring.getMocked();
+  // rewire service
+  const serviceName = serviceInterface.name as keyof Module;
+  const serviceConstructor = await moduleRewiring.getService(serviceName);
+  const serviceRewiring = new ServiceRewiring(
+    serviceConstructor as any,
+    mockedServices,
+    withStubs,
+  );
+  const mockedServicesOutput = serviceRewiring.getMocked();
+  const service = serviceRewiring.getInstance() as Service;
+  // return all data
+  return {
+    // module
+    moduleRewiring,
+    mockedModules: mockedModulesOutput,
+    // service
+    serviceName,
+    serviceRewiring,
+    mockedServices: mockedServicesOutput,
+    service,
+  };
 }

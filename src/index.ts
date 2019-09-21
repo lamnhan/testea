@@ -37,3 +37,5 @@ export function rewireService<
 ) {
   return new ServiceRewiring(service, mockedServices, withStubs);
 }
+
+export { rewireFull } from './rewiring';
