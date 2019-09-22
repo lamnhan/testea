@@ -10,14 +10,14 @@ import {
   ServiceRewiring,
 } from './rewiring';
 
-export { MockedModule, MockedService } from './mocking';
+export { ModuleMocking, ServiceMocking } from './mocking';
 export { ServiceStubing, rewireFull } from './rewiring';
 
 export { buildMock as mockModule };
 export { buildMock as mockService };
 
-export function buildMock<Methods>(methods: Methods) {
-  return new MockBuilder(methods);
+export function buildMock<Members>(members: Members) {
+  return new MockBuilder(members);
 }
 
 export function rewireModule<

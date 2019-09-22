@@ -66,7 +66,7 @@ export class ModuleRewiring<
           if (mocked instanceof Function) {
             mock(() => import(path)).withDefault(mocked);
           } else {
-            mock(() => import(path)).with(mocked);
+            mock(() => import(path)).mockThrough().with(mocked);
           }
         }
       }

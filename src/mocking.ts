@@ -3,37 +3,43 @@ export type MockedValue = Function | string | number | boolean | {} | any[];
 
 export type MockedReturns = '*' | MockedValue;
 
-export type MockedModule<Methods> = {
-  [member in keyof Methods]?: MockedReturns;
+export type ModuleMocking<Members> = {
+  [member in keyof Members]?: MockedReturns;
 };
 
-export type MockedService<Methods> = {
-  [method in keyof Methods]?: MockedReturns;
+export type ServiceMocking<Members> = {
+  [member in keyof Members]?: MockedReturns;
 };
+
+type ReturnsKeeping<Members> = {
+  [member in keyof Members]: MockedReturns;
+}
+
+type ArgsKeeping<Members> = {
+  [member in keyof Members]: any[];
+}
+
+type StackedArgsKeeping<Members> = {
+  [member in keyof Members]: any[][];
+}
 
 export class MockBuilder<
-  Methods,
-  ReturnsKeeper extends {
-    [name in keyof Methods]: MockedReturns;
-  },
-  ArgsKeeper extends {
-    [name in keyof Methods]: any[];
-  },
-  StackedArgsKeeper extends {
-    [name in keyof Methods]: any[][];
-  }
+  Members,
+  ReturnsKeeper extends ReturnsKeeping<Members>,
+  ArgsKeeper extends ArgsKeeping<Members>,
+  StackedArgsKeeper extends StackedArgsKeeping<Members>
 > {
 
   private returnsKeeper: ReturnsKeeper;
   private argsKeeper: ArgsKeeper = {} as ArgsKeeper;
   private stackedArgsKeeper: StackedArgsKeeper = {} as StackedArgsKeeper;
 
-  constructor(methods: Methods) {
+  constructor(members: Members) {
     // set returns
-    this.returnsKeeper = methods as any;
-    // register methods
-    for (const name of Object.keys(methods)) {
-      const methodName = name as keyof Methods;
+    this.returnsKeeper = members as any;
+    // register members
+    for (const name of Object.keys(members)) {
+      const methodName = name as keyof Members;
       // @ts-ignore
       this[methodName] = (...args: any[]) => {
         // set args
@@ -79,23 +85,23 @@ export class MockBuilder<
   }
 
   /**
-   * Get the raw value defined for a method to return
+   * Get the raw value defined for a member to return
    *
    * `NOTE`: **DO NOT** use this for testing purpose
-   * @param method - The method name
+   * @param member - The member name
    */
-  getReturns(method: keyof Methods) {
-    return !!this.returnsKeeper ? this.returnsKeeper[method] : undefined;
+  getReturns(member: keyof Members) {
+    return !!this.returnsKeeper ? this.returnsKeeper[member] : undefined;
   }
 
   /**
-   * Get the returned value of a method
+   * Get the returned value of a member
    * 
    * `NOTE`: **DO NOT** use this for testing purpose
-   * @param method - The method name
+   * @param member - The member name
    */
-  getReturnsResult(method: keyof Methods) {
-    const returns = this.getReturns(method);
+  getReturnsResult(member: keyof Members) {
+    const returns = this.getReturns(member);
     if (returns === '*') {
       return this;
     } else if (returns instanceof Function) {
@@ -107,173 +113,173 @@ export class MockBuilder<
 
   /**
    * Get a list of args
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgs(method: keyof Methods) {
-    return !!this.argsKeeper ? this.argsKeeper[method] : [];
+  getArgs(member: keyof Members) {
+    return !!this.argsKeeper ? this.argsKeeper[member] : [];
   }
 
   /**
    * Get an arg by paramter position
-   * @param method - The method name
+   * @param member - The member name
    * @param position - The param position
    */
-  getArg(method: keyof Methods, position = 1) {
-    const args = this.getArgs(method);
+  getArg(member: keyof Members, position = 1) {
+    const args = this.getArgs(member);
     return args[position - 1];
   }
 
   /**
    * Get the first arg
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgFirst(method: keyof Methods) {
-    return this.getArg(method, 1);
+  getArgFirst(member: keyof Members) {
+    return this.getArg(member, 1);
   }
   
   /**
    * Get the second arg
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgSecond(method: keyof Methods) {
-    return this.getArg(method, 2);
+  getArgSecond(member: keyof Members) {
+    return this.getArg(member, 2);
   }
 
   /**
    * Get the third arg
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgThird(method: keyof Methods) {
-    return this.getArg(method, 3);
+  getArgThird(member: keyof Members) {
+    return this.getArg(member, 3);
   }
 
   /**
    * Get a list of stacked args
-   * @param method - The method name
+   * @param member - The member name
    */
-  getStackedArgs(method: keyof Methods) {
-    return !!this.stackedArgsKeeper ? this.stackedArgsKeeper[method] : [];
+  getStackedArgs(member: keyof Members) {
+    return !!this.stackedArgsKeeper ? this.stackedArgsKeeper[member] : [];
   }
 
   /**
    * Get a list of args by execution order
-   * @param method - The method name
+   * @param member - The member name
    * @param execution - The execution order
    */
-  getStackedArgsChild(method: keyof Methods, execution = 1) {
-    const stackedArgs = this.getStackedArgs(method);
+  getStackedArgsChild(member: keyof Members, execution = 1) {
+    const stackedArgs = this.getStackedArgs(member);
     return stackedArgs[execution - 1] || [];
   }
 
   /**
    * Get a list of args of the first execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getStackedArgsChildFirst(method: keyof Methods) {
-    return this.getStackedArgsChild(method, 1);
+  getStackedArgsChildFirst(member: keyof Members) {
+    return this.getStackedArgsChild(member, 1);
   }
 
   /**
    * Get a list of args of the second execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getStackedArgsChildSecond(method: keyof Methods) {
-    return this.getStackedArgsChild(method, 2);
+  getStackedArgsChildSecond(member: keyof Members) {
+    return this.getStackedArgsChild(member, 2);
   }
 
   /**
    * Get a list of args of the third execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getStackedArgsChildThird(method: keyof Methods) {
-    return this.getStackedArgsChild(method, 3);
+  getStackedArgsChildThird(member: keyof Members) {
+    return this.getStackedArgsChild(member, 3);
   }
 
   /**
    * Get an arg by execution order and parameter position
-   * @param method - The method name
+   * @param member - The member name
    * @param execution - The execution order
    * @param position - The param position
    */
   getArgInStack(
-    method: keyof Methods,
+    member: keyof Members,
     execution = 1,
     position = 1,
   ) {
-    const childArgs = this.getStackedArgsChild(method, execution);
+    const childArgs = this.getStackedArgsChild(member, execution);
     return childArgs[position - 1];
   }
 
   /**
    * Get the first arg of the first execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt1X1(method: keyof Methods) {
-    return this.getArgInStack(method, 1, 1);
+  getArgInStackAt1X1(member: keyof Members) {
+    return this.getArgInStack(member, 1, 1);
   }
 
   /**
    * Get the second arg of the first execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt1X2(method: keyof Methods) {
-    return this.getArgInStack(method, 1, 2);
+  getArgInStackAt1X2(member: keyof Members) {
+    return this.getArgInStack(member, 1, 2);
   }
 
   /**
    * Get the third arg of the first execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt1X3(method: keyof Methods) {
-    return this.getArgInStack(method, 1, 3);
+  getArgInStackAt1X3(member: keyof Members) {
+    return this.getArgInStack(member, 1, 3);
   }
 
   /**
    * Get the first arg of the second execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt2X1(method: keyof Methods) {
-    return this.getArgInStack(method, 2, 1);
+  getArgInStackAt2X1(member: keyof Members) {
+    return this.getArgInStack(member, 2, 1);
   }
 
   /**
    * Get the second arg of the second execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt2X2(method: keyof Methods) {
-    return this.getArgInStack(method, 2, 2);
+  getArgInStackAt2X2(member: keyof Members) {
+    return this.getArgInStack(member, 2, 2);
   }
 
   /**
    * Get the third arg of the second execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt2X3(method: keyof Methods) {
-    return this.getArgInStack(method, 2, 3);
+  getArgInStackAt2X3(member: keyof Members) {
+    return this.getArgInStack(member, 2, 3);
   }
 
   /**
    * Get the first arg of the third execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt3X1(method: keyof Methods) {
-    return this.getArgInStack(method, 3, 1);
+  getArgInStackAt3X1(member: keyof Members) {
+    return this.getArgInStack(member, 3, 1);
   }
 
   /**
    * Get the second arg of the third execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt3X2(method: keyof Methods) {
-    return this.getArgInStack(method, 3, 2);
+  getArgInStackAt3X2(member: keyof Members) {
+    return this.getArgInStack(member, 3, 2);
   }
 
   /**
    * Get the third arg of the third execution
-   * @param method - The method name
+   * @param member - The member name
    */
-  getArgInStackAt3X3(method: keyof Methods) {
-    return this.getArgInStack(method, 3, 3);
+  getArgInStackAt3X3(member: keyof Members) {
+    return this.getArgInStack(member, 3, 3);
   }
 
 }
