@@ -2,9 +2,19 @@
 import { MockBuilder } from './mocking';
 import {
   ModuleLoader,
+  ModuleMocks,
+  ServiceMocks,
+  ServiceStubing,
+  ServiceConstructor,
   ModuleRewiring,
   ServiceRewiring,
 } from './rewiring';
+
+export { MockedModule, MockedService } from './mocking';
+export { ServiceStubing, rewireFull } from './rewiring';
+
+export { buildMock as mockModule };
+export { buildMock as mockService };
 
 export function buildMock<Methods>(methods: Methods) {
   return new MockBuilder(methods);
@@ -12,9 +22,7 @@ export function buildMock<Methods>(methods: Methods) {
 
 export function rewireModule<
   Module,
-  MockedModules extends {
-    [moduleId: string]: Function | {}; // funtion => default or a mocked module
-  }
+  MockedModules extends ModuleMocks
 >(
   loader: ModuleLoader<Module>,
   mockedModules?: MockedModules,
@@ -24,18 +32,12 @@ export function rewireModule<
 
 export function rewireService<
   Service,
-  MockedServices extends {
-    [serviceName: string]: {}; // a mocked service
-  },
-  ServiceStubs extends {
-    [method in keyof Service]: any; // a function (async) or returns value
-  }
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
 >(
-  service: new (...args: any[]) => Service,
+  serviceConstructor: ServiceConstructor<Service>,
   mockedServices: MockedServices = {} as MockedServices,
   withStubs: ServiceStubs = {} as ServiceStubs,
 ) {
-  return new ServiceRewiring(service, mockedServices, withStubs);
+  return new ServiceRewiring(serviceConstructor, mockedServices, withStubs);
 }
-
-export { rewireFull } from './rewiring';

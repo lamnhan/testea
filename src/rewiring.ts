@@ -3,15 +3,33 @@ import { resolve } from 'path';
 import rewiremock from 'rewiremock';
 import * as sinon from 'sinon';
 
+import { MockedValue } from './mocking';
+
 rewiremock.overrideEntryPoint(module);
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
+export interface ModuleMocks {
+  [moduleId: string]: Function | {}; // a default funtion or a full mocked module
+}
+
+export interface ServiceMocks {
+  [serviceName: string]: {}; // a mocked service
+}
+
+export type ServiceStubing<Service> = {
+  [method in keyof Service]?: MockedValue; // a async function or a value
+}
+
+export type ServiceStubed<Service> = {
+  [method in keyof Service]?: sinon.SinonStub;
+};
+
+export type ServiceConstructor<Service> = new (...args: any[]) => Service;
+
 export class ModuleRewiring<
   Module,
-  MockedModules extends {
-    [moduleId: string]: Function | {}; // funtion => default or a mocked module
-  }
+  MockedModules extends ModuleMocks
 > {
 
   private loader: ModuleLoader<Module>;
@@ -64,20 +82,16 @@ export class ModuleRewiring<
 
 export class ServiceRewiring<
   Service,
-  MockedServices extends {
-    [serviceName: string]: {}; // a mocked service
-  },
-  ServiceStubs extends {
-    [method in keyof Service]: any; // a function (async) or returns value
-  }
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
 > {
 
   private serviceInstance: Service;
   private mockedServices: MockedServices;
-  private stubedMethods: {[method in keyof Service]: sinon.SinonStub} = {} as any;
+  private stubedMethods: ServiceStubed<Service> = {};
 
   constructor(
-    service: new (...args: any[]) => Service,
+    serviceConstructor: ServiceConstructor<Service>,
     mockedServices: MockedServices = {} as MockedServices,
     withStubs: ServiceStubs = {} as ServiceStubs,
   ) {
@@ -90,7 +104,7 @@ export class ServiceRewiring<
         mockedServicesAsArgs.push(mockedServices[name]);
       }
     }
-    this.serviceInstance = new service(...mockedServicesAsArgs);
+    this.serviceInstance = new serviceConstructor(...mockedServicesAsArgs);
     // stubs
     this.setStubs(withStubs);
   }
@@ -107,13 +121,13 @@ export class ServiceRewiring<
     if (!this.stubedMethods[method]) {
       this.stubedMethods[method] = sinon.stub(this.serviceInstance, method);
     }
-    return this.stubedMethods[method];
+    return this.stubedMethods[method] as sinon.SinonStub;
   }
 
-  setStubs(serviceStubs: ServiceStubs) {
-    for (const method of Object.keys(serviceStubs)) {
+  setStubs(stubs: ServiceStubs) {
+    for (const method of Object.keys(stubs)) {
       const methodName = method as keyof Service;
-      this.setStub(methodName, serviceStubs[methodName]);
+      this.setStub(methodName, stubs[methodName]);
     }
     return this;
   }
@@ -133,22 +147,19 @@ export class ServiceRewiring<
   }
 
   getStub(method: keyof Service) {
-    return !!this.stubedMethods ? this.stubedMethods[method] : undefined;
+    return this.stubedMethods[method];
   }
 
   restoreStubs() {
-    if (!!this.stubedMethods) {
-      for (const method of Object.keys(this.stubedMethods)) {
-        const methodName = method as keyof Service;
-        this.stubedMethods[methodName].restore();
-      }
+    for (const method of Object.keys(this.stubedMethods)) {
+      this.restoreStub(method as keyof Service);
     }
     return this;
   }
 
   restoreStub(method: keyof Service) {
-    if (this.stubedMethods && !!this.stubedMethods[method]) {
-      this.stubedMethods[method].restore();
+    if (!!this.stubedMethods[method]) {
+      (this.stubedMethods[method] as sinon.SinonStub).restore();
     }
     return this;
   }
@@ -157,20 +168,14 @@ export class ServiceRewiring<
 
 export async function rewireFull<
   Module,
-  MockedModules extends {
-    [moduleId: string]: Function | {}; // funtion => default or a mocked module
-  },
+  MockedModules extends ModuleMocks,
   Service,
-  MockedServices extends {
-    [serviceName: string]: {}; // a mocked service
-  },
-  ServiceStubs extends {
-    [method in keyof Service]: any; // a function (async) or returns value
-  }
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
 >(
   loader: ModuleLoader<Module>,
   mockedModules: MockedModules = {} as MockedModules,
-  serviceInterface: new (...args: any[]) => Service,
+  serviceInterface: ServiceConstructor<Service>,
   mockedServices: MockedServices = {} as MockedServices,
   withStubs: ServiceStubs = {} as ServiceStubs,
 ) {
