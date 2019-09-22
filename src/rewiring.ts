@@ -39,9 +39,7 @@ export class ModuleRewiring<
     loader: ModuleLoader<Module>,
     mockedModules: MockedModules = {} as MockedModules,
   ) {
-    // save loader
     this.loader = loader;
-    // save mocked modules
     this.mockedModules = mockedModules;
   }
 
@@ -166,41 +164,71 @@ export class ServiceRewiring<
 
 }
 
-export async function rewireFull<
+export class FullRewiring<
   Module,
   MockedModules extends ModuleMocks,
-  Service,
-  MockedServices extends ServiceMocks,
-  ServiceStubs extends ServiceStubing<Service>
->(
-  loader: ModuleLoader<Module>,
-  mockedModules: MockedModules = {} as MockedModules,
-  serviceInterface: ServiceConstructor<Service>,
-  mockedServices: MockedServices = {} as MockedServices,
-  withStubs: ServiceStubs = {} as ServiceStubs,
-) {
-  // rewire module
-  const moduleRewiring = new ModuleRewiring(loader, mockedModules);
-  const mockedModulesOutput = moduleRewiring.getMocked();
-  // rewire service
-  const serviceName = serviceInterface.name as keyof Module;
-  const serviceConstructor = await moduleRewiring.getService(serviceName);
-  const serviceRewiring = new ServiceRewiring(
-    serviceConstructor as any,
-    mockedServices,
-    withStubs,
-  );
-  const mockedServicesOutput = serviceRewiring.getMocked();
-  const service = serviceRewiring.getInstance() as Service;
-  // return all data
-  return {
-    // module
-    moduleRewiring,
-    mockedModules: mockedModulesOutput,
-    // service
-    serviceName,
-    serviceRewiring,
-    mockedServices: mockedServicesOutput,
-    service,
-  };
+> {
+
+  private loader: ModuleLoader<Module>;
+  private mockedModules: MockedModules = {} as MockedModules;
+
+  constructor(
+    loader: ModuleLoader<Module>,
+    mockedModules: MockedModules = {} as MockedModules,
+  ) {
+    this.loader = loader;
+    this.mockedModules = mockedModules;
+  }
+
+  rewireModule() {
+    return new ModuleRewiring(this.loader, this.mockedModules);
+  }
+
+  rewireService<
+    Service,
+    MockedServices extends ServiceMocks,
+    ServiceStubs extends ServiceStubing<Service>
+  >(
+    serviceInterface: ServiceConstructor<Service>,
+    mockedServices: MockedServices = {} as MockedServices,
+    withStubs: ServiceStubs = {} as ServiceStubs,
+  ) {
+    return new ServiceRewiring(serviceInterface, mockedServices, withStubs);
+  }
+
+  async rewireFull<
+    Service,
+    MockedServices extends ServiceMocks,
+    ServiceStubs extends ServiceStubing<Service>
+  >(
+    serviceInterface: ServiceConstructor<Service>,
+    mockedServices: MockedServices = {} as MockedServices,
+    withStubs: ServiceStubs = {} as ServiceStubs,
+  ) {
+    // rewire module
+    const moduleRewiring = new ModuleRewiring(this.loader, this.mockedModules);
+    const mockedModulesOutput = moduleRewiring.getMocked();
+    // rewire service
+    const serviceName = serviceInterface.name as keyof Module;
+    const serviceConstructor = await moduleRewiring.getService(serviceName);
+    const serviceRewiring = new ServiceRewiring(
+      serviceConstructor as any,
+      mockedServices,
+      withStubs,
+    );
+    const mockedServicesOutput = serviceRewiring.getMocked();
+    const service = serviceRewiring.getInstance() as Service;
+    // return all data
+    return {
+      // module
+      moduleRewiring,
+      mockedModules: mockedModulesOutput,
+      // service
+      serviceName,
+      serviceRewiring,
+      mockedServices: mockedServicesOutput,
+      service,
+    };
+  }
+
 }

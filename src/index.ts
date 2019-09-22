@@ -8,15 +8,17 @@ import {
   ServiceConstructor,
   ModuleRewiring,
   ServiceRewiring,
+  FullRewiring,
 } from './rewiring';
 
 export { ModuleMocking, ServiceMocking } from './mocking';
-export { ServiceStubing, rewireFull } from './rewiring';
+export { ServiceStubing } from './rewiring';
 
-export { buildMock as mockModule };
-export { buildMock as mockService };
+export function mockModule<Members>(members: Members) {
+  return new MockBuilder(members);
+}
 
-export function buildMock<Members>(members: Members) {
+export function mockService<Members>(members: Members) {
   return new MockBuilder(members);
 }
 
@@ -40,4 +42,27 @@ export function rewireService<
   withStubs: ServiceStubs = {} as ServiceStubs,
 ) {
   return new ServiceRewiring(serviceConstructor, mockedServices, withStubs);
+}
+
+export async function rewireFull<
+  Module,
+  MockedModules extends ModuleMocks,
+  Service,
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
+>(
+  loader: ModuleLoader<Module>,
+  mockedModules: MockedModules = {} as MockedModules,
+  serviceInterface: ServiceConstructor<Service>,
+  mockedServices: MockedServices = {} as MockedServices,
+  withStubs: ServiceStubs = {} as ServiceStubs,
+) {
+  return new FullRewiring(
+    loader,
+    mockedModules,
+  ).rewireFull(
+    serviceInterface,
+    mockedServices,
+    withStubs,
+  );
 }
