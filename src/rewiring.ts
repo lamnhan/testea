@@ -14,7 +14,7 @@ export interface ModuleMocks {
 }
 
 export interface ServiceMocks {
-  [serviceName: string]: {}; // a mocked service
+  [serviceId: string]: {}; // a mocked service
 }
 
 export type ServiceStubing<Service> = {
@@ -225,16 +225,87 @@ export class Rewiring<
     const mockedServicesOutput = serviceRewiring.getMocked();
     const service = serviceRewiring.getInstance() as Service;
     // return all data
-    return {
+    return new FullRewiring(
       // module
       moduleRewiring,
-      mockedModules: mockedModulesOutput,
+      mockedModulesOutput,
       // service
       serviceName,
       serviceRewiring,
-      mockedServices: mockedServicesOutput,
+      mockedServicesOutput,
       service,
-    };
+    );
+  }
+
+}
+
+class FullRewiring<
+  Module,
+  MockedModules extends ModuleMocks,
+  Service,
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
+> {
+
+  // module
+  moduleRewiring: ModuleRewiring<Module, MockedModules>;
+  mockedModules: MockedModules;
+  // service
+  serviceName: keyof Module;
+  serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>;
+  mockedServices: MockedServices;
+  service: Service;
+
+  constructor(
+    // module
+    moduleRewiring: ModuleRewiring<Module, MockedModules>,
+    mockedModules: MockedModules,
+    // service
+    serviceName: keyof Module,
+    serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>,
+    mockedServices: MockedServices,
+    service: Service,
+  ) {
+    // module
+    this.moduleRewiring = moduleRewiring;
+    this.mockedModules = mockedModules;
+    // service
+    this.serviceName = serviceName;
+    this.serviceRewiring = serviceRewiring;
+    this.mockedServices = mockedServices;
+    this.service = service;
+  }
+
+  getModuleRewiring() {
+    return this.moduleRewiring;
+  }
+
+  getMockedModules() {
+    return this.mockedModules;
+  }
+
+  getMockedModule(id: keyof MockedModules) {
+    return this.mockedModules[id];
+  }
+
+  getServiceName() {
+    return this.serviceName;
+  }
+
+  getServiceRewiring() {
+    return this.serviceRewiring;
+  }
+  
+  getMockedServices() {
+    return this.mockedServices;
+  }
+
+  getMockedService(id: keyof MockedServices) {
+    return this.mockedServices[id];
+  }
+
+  getService() {
+    return this.service;
   }
 
 }
