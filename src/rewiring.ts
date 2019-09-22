@@ -164,7 +164,7 @@ export class ServiceRewiring<
 
 }
 
-export class FullRewiring<
+export class Rewiring<
   Module,
   MockedModules extends ModuleMocks,
 > {
