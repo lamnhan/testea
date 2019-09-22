@@ -1,4 +1,4 @@
-// tslint:disable: no-any
+// tslint:disable: no-any ban-ts-ignore
 import { resolve } from 'path';
 import rewiremock from 'rewiremock';
 import * as sinon from 'sinon';
@@ -49,22 +49,27 @@ export class ModuleRewiring<
 
   async getModule() {
     return rewiremock.around(this.loader, mock => {
-      // rewire all dependencies
       if (!!this.mockedModules) {
+        // rewire all dependencies
         for (let path of Object.keys(this.mockedModules)) {
-          // retrieve mocked
           const mocked = this.mockedModules[path];
           // resolve path
-          if (path.indexOf('@src/') !== -1) {
+          // xxx => native module
+          if (path.substr(0, 1) === '~') {
+            // ~xxx => ./node_modules/xxx
+            path = resolve('.', 'node_modules', path.replace('~', ''));
+          } else if (path.substr(0, 5) === '@src/') {
+            // @src/xxx/abc => ./src/xxx/abc
             path = resolve('.', path.replace('@src/', 'src/'));
-          } else {
-            path = resolve('.', 'node_modules', path);
+          } else if (path.substr(0, 1) === '@') {
+            // @xxx/abc => ./src/xxx/abc
+            path = resolve('.', path.replace('@', 'src/'));
           }
           // start mocking
           if (mocked instanceof Function) {
             mock(() => import(path)).withDefault(mocked);
           } else {
-            mock(() => import(path)).mockThrough().with(mocked);
+            mock(() => import(path)).with(mocked);
           }
         }
       }
@@ -210,9 +215,10 @@ export class Rewiring<
     const mockedModulesOutput = moduleRewiring.getMocked();
     // rewire service
     const serviceName = serviceInterface.name as keyof Module;
-    const serviceConstructor = await moduleRewiring.getService(serviceName);
+    // @ts-ignore
+    const serviceConstructor: ServiceConstructor<Service> = await moduleRewiring.getService(serviceName);
     const serviceRewiring = new ServiceRewiring(
-      serviceConstructor as any,
+      serviceConstructor,
       mockedServices,
       withStubs,
     );
