@@ -22,16 +22,6 @@ export function mockService<Members>(members: Members) {
   return new MockBuilder(members);
 }
 
-export function rewire<
-  Module,
-  MockedModules extends ModuleMocks
->(
-  loader: ModuleLoader<Module>,
-  mockedModules?: MockedModules,
-) {
-  return new Rewiring(loader, mockedModules);
-}
-
 export function rewireModule<
   Module,
   MockedModules extends ModuleMocks
@@ -52,6 +42,16 @@ export function rewireService<
   withStubs: ServiceStubs = {} as ServiceStubs,
 ) {
   return new ServiceRewiring(serviceConstructor, mockedServices, withStubs);
+}
+
+export function rewire<
+  Module,
+  MockedModules extends ModuleMocks
+>(
+  loader: ModuleLoader<Module>,
+  mockedModules?: MockedModules,
+) {
+  return new Rewiring(loader, mockedModules);
 }
 
 export async function rewireFull<

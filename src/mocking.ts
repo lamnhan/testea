@@ -216,7 +216,7 @@ export class MockBuilder<
    * Get the first arg of the first execution
    * @param member - The member name
    */
-  getArgInStackAt1X1(member: keyof Members) {
+  getArgInStack1X1(member: keyof Members) {
     return this.getArgInStack(member, 1, 1);
   }
 
@@ -224,7 +224,7 @@ export class MockBuilder<
    * Get the second arg of the first execution
    * @param member - The member name
    */
-  getArgInStackAt1X2(member: keyof Members) {
+  getArgInStack1X2(member: keyof Members) {
     return this.getArgInStack(member, 1, 2);
   }
 
@@ -232,7 +232,7 @@ export class MockBuilder<
    * Get the third arg of the first execution
    * @param member - The member name
    */
-  getArgInStackAt1X3(member: keyof Members) {
+  getArgInStack1X3(member: keyof Members) {
     return this.getArgInStack(member, 1, 3);
   }
 
@@ -240,7 +240,7 @@ export class MockBuilder<
    * Get the first arg of the second execution
    * @param member - The member name
    */
-  getArgInStackAt2X1(member: keyof Members) {
+  getArgInStack2X1(member: keyof Members) {
     return this.getArgInStack(member, 2, 1);
   }
 
@@ -248,7 +248,7 @@ export class MockBuilder<
    * Get the second arg of the second execution
    * @param member - The member name
    */
-  getArgInStackAt2X2(member: keyof Members) {
+  getArgInStack2X2(member: keyof Members) {
     return this.getArgInStack(member, 2, 2);
   }
 
@@ -256,7 +256,7 @@ export class MockBuilder<
    * Get the third arg of the second execution
    * @param member - The member name
    */
-  getArgInStackAt2X3(member: keyof Members) {
+  getArgInStack2X3(member: keyof Members) {
     return this.getArgInStack(member, 2, 3);
   }
 
@@ -264,7 +264,7 @@ export class MockBuilder<
    * Get the first arg of the third execution
    * @param member - The member name
    */
-  getArgInStackAt3X1(member: keyof Members) {
+  getArgInStack3X1(member: keyof Members) {
     return this.getArgInStack(member, 3, 1);
   }
 
@@ -272,7 +272,7 @@ export class MockBuilder<
    * Get the second arg of the third execution
    * @param member - The member name
    */
-  getArgInStackAt3X2(member: keyof Members) {
+  getArgInStack3X2(member: keyof Members) {
     return this.getArgInStack(member, 3, 2);
   }
 
@@ -280,7 +280,7 @@ export class MockBuilder<
    * Get the third arg of the third execution
    * @param member - The member name
    */
-  getArgInStackAt3X3(member: keyof Members) {
+  getArgInStack3X3(member: keyof Members) {
     return this.getArgInStack(member, 3, 3);
   }
 

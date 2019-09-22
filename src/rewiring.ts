@@ -225,7 +225,7 @@ export class Rewiring<
     const mockedServicesOutput = serviceRewiring.getMocked();
     const service = serviceRewiring.getInstance() as Service;
     // return all data
-    return new FullRewiring(
+    return new FullRewiringResult(
       // module
       moduleRewiring,
       mockedModulesOutput,
@@ -239,7 +239,7 @@ export class Rewiring<
 
 }
 
-class FullRewiring<
+export class FullRewiringResult<
   Module,
   MockedModules extends ModuleMocks,
   Service,
