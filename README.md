@@ -14,21 +14,21 @@ Rewiring, mocking & helpers for testing modules in Node.
 - [Terminology](#terminology)
 - [API overview](#api-overview)
 - [Mocking](#mocking)
-  - [`mockModule()`](#mock-module)
-  - [mockService()](#mock-service)
-  - [The `MockBuilder`](#mock-builder)
+  - [`mockModule()`](#mockmodulemembers)
+  - [`mockService()`](#mockservicemembers)
+  - [The `MockBuilder`](#the-mockbuilder)
     - [Mocked returns](#mocked-returns)
     - [Instance methods](#instance-methods)
 - [Rewiring](#rewiring)
-  - [`rewireModule()`](#rewire-module)
-  - [`rewireService()`](#rewire-service)
-  - [`rewire()`](#rewire)
-  - [`rewireFull()`](#rewire-full)
+  - [`rewireModule()`](#rewiremoduleloader-mockedmodules)
+  - [`rewireService()`](#rewireserviceserviceconstructor-mockedservices-withstubs)
+  - [`rewire()`](#rewireloader-mockedmodules)
+  - [`rewireFull()`](#rewirefullloader-mockedmodules-serviceinterface-mockedservices-withstubs)
 - [Examples](#examples)
-  - [Mocking](#mocking-example)
-  - [Rewire a module](#rewire-module-example)
-  - [Rewire a service](#rewire-service-example)
-  - [Fully rewiring](#rewire-full-example)
+  - [Mocking example](#mocking-example)
+  - [Rewire a module](#rewire-a-module)
+  - [Rewire a service](#rewire-a-service)
+  - [Fully rewiring](#fully-rewiring)
 - [API reference](https://lamnhan.com/testing)
 
 ## Install
@@ -91,7 +91,7 @@ A **mocked service** is a service that was created to replace the original servi
 
 ## Mocking
 
-### [mockModule(members)](#mock-module)
+### `mockModule(members)`
 
 Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#mockbuilder).
 
@@ -122,11 +122,11 @@ const mockedModule = mockModule({
 // start using the mocked module
 ```
 
-### [`mockService(members)`](#mock-service)
+### `mockService(members)`
 
 Create a mock service for testing purpose, this method is a proxy to the `MockBuilder`. See `mockModule` for usage info.
 
-### [The `MockBuilder`](#mockbuilder)
+### The `MockBuilder`
 
 The `MockBuilder` constructor create a mocked object for mocking modules and services.
 
@@ -139,7 +139,7 @@ const mocked = new MockBuilder({
 
 The `MockBuilder` create a mocked instance of any modules or services with every method defined in the `members` param. When a method is called, the mocked instance record all arguments and returns a value that defined by the `members` param.
 
-#### [Mocked returns](#mocked-returns)
+#### Mocked returns
 
 These are the supported returns values.
 
@@ -148,7 +148,7 @@ These are the supported returns values.
 - `Function`: returns the result of this function (with the same arguments as the original method)
 - `any`: returns as is any other values: `string`, `number`, `boolean`, `{}`, `any[]`, ...
 
-#### [Instance methods](#mocked-methods)
+#### Instance methods
 
 A `MockBuilder` instance provides these methods for retrieving testing data.
 
@@ -192,7 +192,7 @@ A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
   - `@src/xxx/abc` -> **./src/xxx/abc**
   - Or `@xxx/abc` -> **./src/xxx/abc**
 
-### [`rewireModule(loader, mockedModules)`](#rewire-module)
+### `rewireModule(loader, mockedModules)`
 
 Load a module with mocked dependencies.
 
@@ -228,7 +228,7 @@ it('ok', async () => {
 | `getModule()` | `Promise<object>` | Get the rewired module |
 | `getService(name)` | `Promise<class>` | Get a service constructor of the mocked module |
 
-### [`rewireService(serviceConstructor, mockedServices, withStubs)`](#rewire-service)
+### `rewireService(serviceConstructor, mockedServices, withStubs)`
 
 Load a service with mocked dependencies and stubing methods.
 
@@ -275,7 +275,7 @@ it('ok', async () => {
 | `restoreStubs()` | `ServiceRewiring` | Restore all stubbed methods |
 | `restoreStub(method)` | `ServiceRewiring` | Restore a stubbed method |
 
-### [`rewire(loader, mockedModules)`](#rewire)
+### `rewire(loader, mockedModules)`
 
 Unify api for rewiring both module & service.
 
@@ -289,7 +289,7 @@ See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail
 | `rewireService(serviceInterface, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
 | `rewireFull(serviceInterface, mockedServices, withStubs)` | `Promise<FullRewiringResult>` | Rewire module and service and return all data |
 
-### [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewire-full)
+### `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`
 
 The shortcut to `rewire(...).rewireFull(...)`, resulting is a `FullRewiringResult` instance.
 
@@ -316,7 +316,7 @@ A `FullRewiringResult` instance provides properties/methods to retrieve data for
 
 All testing examples is using `mocha` as test runner and `chai` as assertion tool.
 
-### [Mocking](#mocking-example)
+### Mocking example
 
 An example of how to create a mocked version of a module or a service.
 
@@ -345,7 +345,7 @@ const mockedModule = mockModule({
 // start using the mocked module
 ```
 
-### [Rewire a module](#rewire-module-example)
+### Rewire a module
 
 An example of how to rewire a module.
 
@@ -397,7 +397,7 @@ describe('Test module1', () => {
 
 ```
 
-### [Rewire a service](#rewire-service-example)
+### Rewire a service
 
 An example of how to rewire a service.
 
@@ -480,7 +480,7 @@ describe('Test Service2', () => {
 });
 ```
 
-### [Fully rewiring](#rewire-full-example)
+### Fully rewiring
 
 An example of how to rewire a module and a service with full functionality.
 
