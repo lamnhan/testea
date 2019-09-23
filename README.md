@@ -14,6 +14,7 @@ Rewiring, mocking & utils for testing Node-based modules.
 - [API overview](#api-overview)
 - [Mocking](#mocking)
 - [Rewiring](#rewiring)
+- [API reference](https://lamnhan.github.io/testing)
 
 ## Install
 
@@ -29,6 +30,8 @@ const mocked = mockModule({
 
 // test begins
 ```
+
+Detail API reference at: <https://lamnhan.github.io/testing>
 
 ## Terminology
 
@@ -68,8 +71,8 @@ A `mocked service` is a service that was created to replace the original service
 | `mockService(members)` | `MockBuilder` | Create a mock service |
 | `rewireModule(loader, mockedModules)` | `ModuleRewiring` | Rewire a service |
 | `rewireService(serviceConstructor, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
-| `rewire(loader, mockedModules)` | `Rewiring` | Rewire module/service or fully rewire module & service |
-| `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)` | `FullRewiringResult` | Rewire module & service |
+| `rewire(loader, mockedModules)` | `Rewiring` | Unify api for rewiring both module & service |
+| `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)` | `FullRewiringResult` | Shortcut to `rewire(...).rewireFull(...)` |
 
 ## Mocking
 
@@ -177,8 +180,6 @@ A dependency module is resolved by an module `ID`, depending on the kind of a mo
 Load a module with mocked dependencies.
 
 ```ts
-// ./test/test.ts
-
 // rewire the 'module1'
 const module1Rewiring = rewireModule(
   // load the original module
@@ -192,7 +193,7 @@ const module1Rewiring = rewireModule(
 );
 
 // start test
-expect('ok', async () => {
+it('ok', async () => {
   // retrieve the rewired module
   const rewiredModule1 = await module1Rewiring.getModule();
 
@@ -202,7 +203,7 @@ expect('ok', async () => {
 });
 ```
 
-`ModuleRewiring` is the constructor of `rewireModule`, see `rewireModule` for parameters.
+`ModuleRewiring` is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
@@ -233,7 +234,7 @@ const myServiceRewiring = rewireService(
 );
 
 // start test
-expect('ok', async () => {
+it('ok', async () => {
   // retrieve the rewired service
   const rewiredMyService = await myServiceRewiring.getInstance();
 
@@ -243,7 +244,7 @@ expect('ok', async () => {
 });
 ```
 
-`ServiceRewiring` is the constructor of `rewireService`, see `rewireService` for parameters.
+`ServiceRewiring` is the constructor of `rewireService`, see `rewireService` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
@@ -253,15 +254,40 @@ expect('ok', async () => {
 
 ### `rewire(loader, mockedModules)`
 
-Rewire modules or services.
+Unify api for rewiring both module & service.
 
-TODO: ...
+`Rewiring` is the constructor of `rewire`, see `rewire` for the list of parameters.
+
+See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail.
+
+| Method | Returns type | Description |
+| --- | --- | --- |
+| `rewireModule()` | `ModuleRewiring` | Rewire a module |
+| `rewireService(serviceInterface, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
+| `rewireFull(serviceInterface, mockedServices, withStubs)` | `Promise<FullRewiringResult>` | Rewire module and service and return all data |
 
 ### `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`
 
-Rewire modules and services.
+The shortcut to `rewire(...).rewireFull(...)`, resulting is a `FullRewiringResult` instance.
 
-TODO: ...
+A `FullRewiringResult` instance provides properties/methods to retrieve data for testing.
+
+| Prop/method | Returns type | Description |
+| --- | --- | --- |
+| `moduleRewiring` | `ModuleRewiring` | The module rewiring instance |
+| `mockedModules` | `object` | All mocked modules |
+| `serviceName` | `string` | The rewired service name |
+| `serviceRewiring` | `ServiceRewiring` | The service rewiring instance |
+| `mockedServices` | `object` | All mocked services |
+| `service` | `object` | The rewired service instance |
+| `getModuleRewiring()` | `ModuleRewiring` | Get the module rewiring instance |
+| `getMockedModules()` | `object` | Get all mocked modules |
+| `getMockedModule(id)` | `object` | Get a mocked module |
+| `getServiceName()` | `string` | Get the rewired service name |
+| `getServiceRewiring()` | `ServiceRewiring` | Get the service rewiring instance |
+| `getMockedServices()` | `object` | Get all mocked services |
+| `getMockedService(id)` | `object` | Get a mocked service |
+| `getService` | `object` | Get the rewired service instance |
 
 ## License
 

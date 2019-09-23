@@ -15,6 +15,7 @@
     "lint": "gts check",
     "fix": "gts fix",
     "build": "npm run compile",
+    "docs": "typedoc src --out docs --mode file --readme none --excludeNotExported --excludePrivate --excludeProtected",
     "test": "npm run compile && nyc --cache false mocha test/**/*.js",
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
   },
@@ -48,6 +49,7 @@
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
     "tslint": "^5.20.0",
+    "typedoc": "^0.15.0",
     "typescript": "^3.6.3"
   }
 }

@@ -22,12 +22,9 @@ export function mockService<Members>(members: Members) {
   return new MockBuilder(members);
 }
 
-export function rewireModule<
-  Module,
-  MockedModules extends ModuleMocks
->(
+export function rewireModule<Module, MockedModules extends ModuleMocks>(
   loader: ModuleLoader<Module>,
-  mockedModules?: MockedModules,
+  mockedModules?: MockedModules
 ) {
   return new ModuleRewiring(loader, mockedModules);
 }
@@ -39,17 +36,14 @@ export function rewireService<
 >(
   serviceConstructor: ServiceConstructor<Service>,
   mockedServices: MockedServices = {} as MockedServices,
-  withStubs: ServiceStubs = {} as ServiceStubs,
+  withStubs: ServiceStubs = {} as ServiceStubs
 ) {
   return new ServiceRewiring(serviceConstructor, mockedServices, withStubs);
 }
 
-export function rewire<
-  Module,
-  MockedModules extends ModuleMocks
->(
+export function rewire<Module, MockedModules extends ModuleMocks>(
   loader: ModuleLoader<Module>,
-  mockedModules?: MockedModules,
+  mockedModules?: MockedModules
 ) {
   return new Rewiring(loader, mockedModules);
 }
@@ -65,14 +59,11 @@ export async function rewireFull<
   mockedModules: MockedModules = {} as MockedModules,
   serviceInterface: ServiceConstructor<Service>,
   mockedServices: MockedServices = {} as MockedServices,
-  withStubs: ServiceStubs = {} as ServiceStubs,
+  withStubs: ServiceStubs = {} as ServiceStubs
 ) {
-  return new Rewiring(
-    loader,
-    mockedModules,
-  ).rewireFull(
+  return new Rewiring(loader, mockedModules).rewireFull(
     serviceInterface,
     mockedServices,
-    withStubs,
+    withStubs
   );
 }

@@ -2,6 +2,7 @@
   "files.exclude": {
     ".vscode/": true,
     "dist/": true,
+    "docs/": true,
     ".nyc_output/": true
   }
 }
