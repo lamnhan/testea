@@ -1,6 +1,6 @@
 # @lamnhan/testing
 
-Rewiring, mocking & utils for testing Node-based modules.
+Rewiring, mocking & helpers for testing modules in Node.
 
 <!-- <block:header> -->
 
@@ -8,13 +8,28 @@ Rewiring, mocking & utils for testing Node-based modules.
 
 <!-- </block:header> -->
 
-**Table of content**
+## Table of content
 
 - [Install](#install)
+- [Terminology](#terminology)
 - [API overview](#api-overview)
 - [Mocking](#mocking)
+  - [`mockModule()`](#mock-module)
+  - [`mockService()`](#mock-service)
+  - [The `MockBuilder`](#mock-builder)
+    - [Mocked returns](#mocked-returns)
+    - [Instance methods](#instance-methods)
 - [Rewiring](#rewiring)
-- [API reference](https://lamnhan.github.io/testing)
+  - [`rewireModule()`](#rewire-module)
+  - [`rewireService()`](#rewire-service)
+  - [`rewire()`](#rewire)
+  - [`rewireFull()`](#rewire-full)
+- [Examples](#examples)
+  - [Mocking](#mocking-example)
+  - [Rewire a module](#rewire-module-example)
+  - [Rewire a service](#rewire-service-example)
+  - [Fully rewiring](#rewire-full-example)
+- [API reference](https://lamnhan.com/testing)
 
 ## Install
 
@@ -31,7 +46,7 @@ const mocked = mockModule({
 // test begins
 ```
 
-Detail API reference at: <https://lamnhan.github.io/testing>
+Detail API reference at: <https://lamnhan.com/testing>
 
 ## Terminology
 
@@ -76,11 +91,11 @@ A `mocked service` is a service that was created to replace the original service
 
 ## Mocking
 
-### `mockModule(members)`
+### [`mockModule(members)`](#mock-module)
 
-Create a mock module for testing purpose, this method is a proxy to the `MockBuilder`. For example:
+Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#mockbuilder).
 
-The original module:
+The original module, for example:
 
 ```ts
 function a() {
@@ -107,11 +122,11 @@ const mockedModule = mockModule({
 // start using the mocked module
 ```
 
-### `mockService(members)`
+### [`mockService(members)`](#mock-service)
 
 Create a mock service for testing purpose, this method is a proxy to the `MockBuilder`. See `mockModule` for usage info.
 
-### `MockBuilder`
+### [The `MockBuilder`](#mockbuilder)
 
 The `MockBuilder` constructor create a mocked object for mocking modules and services.
 
@@ -124,7 +139,7 @@ const mocked = new MockBuilder({
 
 The `MockBuilder` create a mocked instance of any modules or services with every method defined in the `members` param. When a method is called, the mocked instance record all arguments and returns a value that defined by the `members` param.
 
-#### Mocked values
+#### [Mocked returns](#mocked-returns)
 
 These are the supported returns values.
 
@@ -133,9 +148,9 @@ These are the supported returns values.
 - `Function`: returns the result of this function (with the same arguments as the original method)
 - `any`: returns as is any other values: `string`, `number`, `boolean`, `{}`, `any[]`, ...
 
-#### Testing methods
+#### [Instance methods](#mocked-methods)
 
-A `MockBuilder` instance provides these methods for testing.
+A `MockBuilder` instance provides these methods for retrieving testing data.
 
 - `getAllReturns()`: Get all the data holded by the Returns Keeper
 - `getAllArgs()`: Get all the data holded by the Args Keeper
@@ -167,15 +182,17 @@ A `MockBuilder` instance provides these methods for testing.
 
 Load modules or services with mocked dependencies.
 
-A dependency module is resolved by an module `ID`, depending on the kind of a module:
+A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
 
-- **Native**: the `id` is the same as the `name`. Ex.: `path`, `os`, ...
-- **Installed**: the `id` is the dependency name prefixed by a `~`. Ex.: `~fs-extra`, `~lodash`, ...
+- **Native**: the `id` is the same as the `name`: `path`, `os`, ...
+- **Installed**: the `id` is the dependency name prefixed by a `~`:
+  - `~lodash` -> **./node_modules/lodash**
+  - `~@xxx/abc` -> **./node_modules/xxx/abc**
 - **Local**: the `id` is prefixed by a `@`:
-  + `@src/xxx/abc` -> `./src/xxx/abc`
-  + Or `@xxx/abc` -> `./src/xxx/abc`
+  - `@src/xxx/abc` -> **./src/xxx/abc**
+  - Or `@xxx/abc` -> **./src/xxx/abc**
 
-### `rewireModule(loader, mockedModules)`
+### [`rewireModule(loader, mockedModules)`](#rewire-module)
 
 Load a module with mocked dependencies.
 
@@ -211,7 +228,7 @@ it('ok', async () => {
 | `getModule()` | `Promise<object>` | Get the rewired module |
 | `getService(name)` | `Promise<class>` | Get a service constructor of the mocked module |
 
-### `rewireService(serviceConstructor, mockedServices, withStubs)`
+### [`rewireService(serviceConstructor, mockedServices, withStubs)`](#rewire-service)
 
 Load a service with mocked dependencies and stubing methods.
 
@@ -251,8 +268,14 @@ it('ok', async () => {
 | `getInstance()` | `object` | Get a instance of the rewired service |
 | `getMocked()` | `object` | Get all mocked dependencies |
 | `stub(method)` | `sinon.SinonStub` | Stub a method of the service |
+| `setStubs(stubs)` | `ServiceRewiring` | Stub multiple methods |
+| `setStub(method, stubed)` | `ServiceRewiring` | Stub a method |
+| `getStubs()` | `object` | Get all stubbed methods |
+| `getStub(method)` | `sinon.SinonStub` | Get a stubbed method |
+| `restoreStubs()` | `ServiceRewiring` | Restore all stubbed methods |
+| `restoreStub(method)` | `ServiceRewiring` | Restore a stubbed method |
 
-### `rewire(loader, mockedModules)`
+### [`rewire(loader, mockedModules)`](#rewire)
 
 Unify api for rewiring both module & service.
 
@@ -266,7 +289,7 @@ See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail
 | `rewireService(serviceInterface, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
 | `rewireFull(serviceInterface, mockedServices, withStubs)` | `Promise<FullRewiringResult>` | Rewire module and service and return all data |
 
-### `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`
+### [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewire-full)
 
 The shortcut to `rewire(...).rewireFull(...)`, resulting is a `FullRewiringResult` instance.
 
@@ -288,6 +311,289 @@ A `FullRewiringResult` instance provides properties/methods to retrieve data for
 | `getMockedServices()` | `object` | Get all mocked services |
 | `getMockedService(id)` | `object` | Get a mocked service |
 | `getService` | `object` | Get the rewired service instance |
+
+## Examples
+
+All testing examples is using `mocha` as test runner and `chai` as assertion tool.
+
+### [Mocking](#mocking-example)
+
+An example of how to create a mocked version of a module or a service.
+
+**`./src/module1.ts`**
+
+```ts
+export function doSomething1() {
+  // do something
+  return 'something';
+}
+
+export async function doSomething2() {
+  // do somthing else
+  return 'nothing at all';
+}
+```
+
+**`./test/module1.spec.ts`**
+
+```ts
+const mockedModule = mockModule({
+  doSomething1: 'any mocked returns value',
+  doSomething2: async () => 'any mocked returns value,
+});
+
+// start using the mocked module
+```
+
+### [Rewire a module](#rewire-module-example)
+
+An example of how to rewire a module.
+
+**`./src/module1.ts`**
+
+```ts
+import { resolve } from 'path';
+
+export function doSomething() {
+  const useExternal = resolve('xxx');
+  return 'something';
+}
+```
+
+**`./test/module1.spec.ts`**
+
+```ts
+import { rewireModule } from '@lamnhan/testing';
+
+// setup
+function getModule() {
+  return rewireModule(
+    // load the tested module
+    () => import('../src/module1'),
+    // rewire all dependencies with mocked replacement
+    {
+      'path': {
+        resolve: () => 'any mocked returns value',
+        // mock other methods of this module
+      },
+    }
+  );
+}
+
+// start testing
+describe('Test module1', () => {
+
+  it('#doSomething', async () => {
+    // retrieve the rewired module
+    const module1Rewiring = getModule();
+    const rewiredModule1 = await module1Rewiring.getModule();
+
+    // test a module member
+    const result = rewiredModule1.doSomething();
+    expect(result).equal('xxx');
+  });
+
+});
+
+```
+
+### [Rewire a service](#rewire-service-example)
+
+An example of how to rewire a service.
+
+**`./src/module1.ts`**
+
+```ts
+export class Service1 {
+
+  constructor() {}
+
+  doSomething(param1: any) {
+    // do something with the 'param1'
+    return 'something';
+  }
+
+}
+```
+
+**`./src/module2.ts`**
+
+```ts
+import { Service1 } from './module1';
+
+export class Service2 {
+
+  private service1: Service1;
+
+  constructor(service1: Service1) {
+    this.service1 = service1;
+  }
+
+  doSomething() {
+    const useExternal = this.service1.doSomething('xxx');
+    return 'something';
+  }
+
+}
+```
+
+**`./test/module2.spec.ts`**
+
+```ts
+import { rewireService } from '@lamnhan/testing';
+
+import { Service2 } from '../src/module2';
+
+// setup
+function getService() {
+  return rewireService(
+    // rewire this service
+    Service2,
+    // replace all dependencies with mocked replacement
+    {
+      '@src/module1': {
+        doSomething1: 'any mocked returns value';
+      },
+    },
+    // no stubbing for now
+  );
+}
+
+// start testing
+describe('Test Service2', () => {
+
+  it('#doSomething2', async () => {
+    // retrieve the rewired service
+    const service2Rewiring = getService();
+    const rewiredService2 = await service2Rewiring.getInstance();
+    // retrieve a mocked servics for passed argument testing
+    const { '@src/module1': mockedModule1 } = service2Rewiring.getMocked();
+
+    // test a module member
+    const result = rewiredService2.doSomething();
+    expect(result).equal('...');
+    expect(
+      mockedModule1.getArgFirst('doSomething'), // get the first arg of #doSomething
+    ).equal('xxx');
+  });
+
+});
+```
+
+### [Fully rewiring](#rewire-full-example)
+
+An example of how to rewire a module and a service with full functionality.
+
+**`./src/module1.ts`**
+
+```ts
+import { resolve } from 'path';
+import { readFile } from 'fs-extra';
+
+import { Service2 } from './service2';
+
+export class MyService {
+
+  private service2: Service2;
+
+  constructor(service2: Service2) {
+    this.service2 = service2;
+  }
+
+  doSomething() {
+    const usePath = resolve('xxx');
+    const useFSExtra = readFile('xxx.txt');
+    const useService2 = this.service2.doSomething('xxx');
+    return 'something';
+  }
+
+  doMore() {
+    const useThis = this.doSomething();
+    return 'do more';
+  }
+
+}
+```
+
+**`./test/module1.spec.ts`**
+
+```ts
+import { rewireFull } from '@lamnhan/testing';
+
+import { MyService } from '../src/module1';
+
+// setup test
+async function setup(
+  stubs: any,
+) {
+  return rewireFull(
+    // load the tested module
+    () => import('../src/module1'),
+    // rewire all dependencies with mocked replacement
+    {
+      'path': {
+        resolve: () => 'any mocked returns value',
+        // mock other methods of this module
+      },
+      '~fs-extra': {
+        readFile: async () => 'any mocked returns value',
+        // mock other methods of this module
+      }
+    }
+    // rewire this service
+    MyService,
+    // replace all dependencies with mocked replacement
+    {
+      '@src/service2': {
+        doSomething: 'any mocked returns value';
+      },
+    },
+    stubs,
+  );
+}
+
+// start testing
+describe('Test MyService', () => {
+
+  it('#doSomething', async () => {
+    // retrieve the data
+    const {
+      service,
+      mockedModules: {
+        'path': mockedPathModuleTesting,
+        '~fs-extra': mockedFSExtraModuleTesting,
+      },
+      mockedServices: {
+        '@src/service2': mockedService2Testing,
+      }
+    } = await setup();
+
+    // test a service method
+    const result = service.doSomething();
+    expect(result).equal('...');
+    // do more assertions about passed arguments
+    const resolveArgs = mockedPathModuleTesting.getArgFirst('resolve');
+    const readFileArg = mockedFSExtraModuleTesting.getArgFirst('readFile');
+    const doSomethingArg = mockedService2Testing.getArgFirst('doSomething');
+    expect(resolveArg).equal('xxx');
+    expect(readFileArg).equal('xxx.txt');
+    expect(doSomethingArg).equal('xxx');
+    // ...
+  });
+
+  it('#doMore', async () => {
+    // retrieve the data
+    const { service } = await setup({
+      doSomething: 'returns something else',
+    });
+
+    // test a service method
+    const result = service.doMore();
+    expect(result).equal('...');
+  });
+
+});
+```
 
 ## License
 
