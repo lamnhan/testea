@@ -11,7 +11,7 @@ import {
   ServiceRewiring,
 } from './rewiring';
 
-export { ModuleMocking, ServiceMocking } from './mocking';
+export { ModuleMocking, ServiceMocking, MockBuilder } from './mocking';
 export { ServiceStubing } from './rewiring';
 
 export function mockModule<Members>(members: Members) {
