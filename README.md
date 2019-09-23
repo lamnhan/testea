@@ -86,16 +86,16 @@ A **mocked service** is a service that was created to replace the original servi
 
 | Methods | Returns type | Description |
 | --- | --- | --- |
-| `mockModule(members)` | `MockBuilder` | Create a mock module |
-| `mockService(members)` | `MockBuilder` | Create a mock service |
-| `rewireModule(loader, mockedModules)` | `ModuleRewiring` | Rewire a service |
-| `rewireService(serviceConstructor, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
-| `rewire(loader, mockedModules)` | `Rewiring` | Unify api for rewiring both module & service |
-| `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)` | `FullRewiringResult` | Shortcut to `rewire(...).rewireFull(...)` |
+| [`mockModule(members)`](#mockmodulemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock module |
+| [`mockService(members)`](#mockservicemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock service |
+| [`rewireModule(loader, mockedModules)`](#rewiremoduleloader-mockedmodules) | [`ModuleRewiring`](#the-modulerewiring) | Rewire a service |
+| [`rewireService(serviceConstructor, mockedServices, withStubs)`](#rewireserviceserviceconstructor-mockedservices-withstubs) | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
+| [`rewire(loader, mockedModules)`](#rewireloader-mockedmodules) | [`Rewiring`](#the-rewiring) | Unify api for rewiring both module & service |
+| [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewirefullloader-mockedmodules-serviceinterface-mockedservices-withstubs) | [`FullRewiringResult`](#the-fullrewiringresult) | Shortcut to [`rewire(...).rewireFull(...)`](#rewireloader-mockedmodules) |
 
 ## Mocking
 
-### `mockModule(members)`
+### [`mockModule(members)`](https://lamnhan.com/testing/index.html#mockmodule)
 
 Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#mockbuilder).
 
@@ -126,13 +126,13 @@ const mockedModule = mockModule({
 // start using the mocked module
 ```
 
-### `mockService(members)`
+### [`mockService(members)`](https://lamnhan.com/testing/index.html#mockservice)
 
-Create a mock service for testing purpose, this method is a proxy to the `MockBuilder`. See `mockModule` for usage info.
+Create a mock service for testing purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder). See [`mockModule`](#mockmodulemembers) for usage info.
 
-### The `MockBuilder`
+### The [`MockBuilder`](https://lamnhan.com/testing/classes/mockbuilder.html)
 
-The `MockBuilder` constructor create a mocked object for mocking modules and services.
+The [`MockBuilder`](https://lamnhan.com/testing/classes/mockbuilder.html) constructor create a mocked object for mocking modules and services.
 
 ```ts
 const mocked = new MockBuilder({
@@ -141,7 +141,7 @@ const mocked = new MockBuilder({
 });
 ```
 
-The `MockBuilder` create a mocked instance of any modules or services with every method defined in the `members` param. When a method is called, the mocked instance record all arguments and returns a value that defined by the `members` param.
+The [`MockBuilder`](#the-mockbuilder) create a mocked instance of any modules or services with every method defined in the `members` param. When a method is called, the mocked instance record all arguments and returns a value that defined by the `members` param.
 
 #### Mocked returns
 
@@ -154,7 +154,7 @@ These are the supported returns values.
 
 #### Instance methods
 
-A `MockBuilder` instance provides these methods for retrieving testing data.
+A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrieving testing data.
 
 - `getAllReturns()`: Get all the data holded by the Returns Keeper
 - `getAllArgs()`: Get all the data holded by the Args Keeper
@@ -196,7 +196,7 @@ A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
   - `@src/xxx/abc` -> **./src/xxx/abc**
   - Or `@xxx/abc` -> **./src/xxx/abc**
 
-### `rewireModule(loader, mockedModules)`
+### [`rewireModule(loader, mockedModules)`](https://lamnhan.com/testing/index.html#rewiremodule)
 
 Load a module with mocked dependencies.
 
@@ -224,9 +224,9 @@ it('ok', async () => {
 });
 ```
 
-#### The `ModuleRewiring`
+#### [The `ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html)
 
-`ModuleRewiring` is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
+[`ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html) is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
@@ -234,7 +234,7 @@ it('ok', async () => {
 | `getModule()` | `Promise<object>` | Get the rewired module |
 | `getService(name)` | `Promise<class>` | Get a service constructor of the mocked module |
 
-### `rewireService(serviceConstructor, mockedServices, withStubs)`
+### [`rewireService(serviceConstructor, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewireservice)
 
 Load a service with mocked dependencies and stubing methods.
 
@@ -267,66 +267,66 @@ it('ok', async () => {
 });
 ```
 
-#### The `ServiceRewiring`
+#### [The `ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html)
 
-`ServiceRewiring` is the constructor of `rewireService`, see `rewireService` for the list of parameters.
+[`ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html) is the constructor of `rewireService`, see `rewireService` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
 | `getInstance()` | `object` | Get a instance of the rewired service |
 | `getMocked()` | `object` | Get all mocked dependencies |
 | `stub(method)` | `sinon.SinonStub` | Stub a method of the service |
-| `setStubs(stubs)` | `ServiceRewiring` | Stub multiple methods |
-| `setStub(method, stubed)` | `ServiceRewiring` | Stub a method |
+| `setStubs(stubs)` | [`ServiceRewiring`](#the-servicerewiring) | Stub multiple methods |
+| `setStub(method, stubed)` | [`ServiceRewiring`](#the-servicerewiring) | Stub a method |
 | `getStubs()` | `object` | Get all stubbed methods |
 | `getStub(method)` | `sinon.SinonStub` | Get a stubbed method |
-| `restoreStubs()` | `ServiceRewiring` | Restore all stubbed methods |
-| `restoreStub(method)` | `ServiceRewiring` | Restore a stubbed method |
+| `restoreStubs()` | [`ServiceRewiring`](#the-servicerewiring) | Restore all stubbed methods |
+| `restoreStub(method)` | [`ServiceRewiring`](#the-servicerewiring) | Restore a stubbed method |
 
-### `rewire(loader, mockedModules)`
+### [`rewire(loader, mockedModules)`](https://lamnhan.com/testing/index.html#rewire)
 
 Unify api for rewiring both module & service.
 
-#### The `Rewiring`
+#### [The `Rewiring`](https://lamnhan.com/testing/classes/rewiring.html)
 
-`Rewiring` is the constructor of `rewire`, see `rewire` for the list of parameters.
+[`Rewiring`](https://lamnhan.com/testing/classes/rewiring.html) is the constructor of `rewire`, see `rewire` for the list of parameters.
 
 See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
-| `rewireModule()` | `ModuleRewiring` | Rewire a module |
-| `rewireService(serviceInterface, mockedServices, withStubs)` | `ServiceRewiring` | Rewire a service |
-| `rewireFull(serviceInterface, mockedServices, withStubs)` | `Promise<FullRewiringResult>` | Rewire module and service and return all data |
+| `rewireModule()` | [`ModuleRewiring`](#the-modulerewiring) | Rewire a module |
+| `rewireService(serviceInterface, mockedServices, withStubs)` | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
+| `rewireFull(serviceInterface, mockedServices, withStubs)` | [`Promise<FullRewiringResult>`](#the-fullrewiringresult) | Rewire module and service and return all data |
 
-### `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`
+### [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewirefull)
 
-The shortcut to `rewire(...).rewireFull(...)`, resulting is a `FullRewiringResult` instance.
+The shortcut to [`rewire(...).rewireFull(...)`](#rewireloader-mockedmodules), resulting is a [`FullRewiringResult`](#the-fullrewiringresult) instance.
 
-### The `FullRewiringResult`
+### [The `FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html)
 
-A `FullRewiringResult` instance provides properties/methods to retrieve data for testing.
+A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html) instance provides properties/methods to retrieve data for testing.
 
 | Prop/method | Returns type | Description |
 | --- | --- | --- |
-| `moduleRewiring` | `ModuleRewiring` | The module rewiring instance |
+| `moduleRewiring` | [`ModuleRewiring`](#the-modulerewiring) | The module rewiring instance |
 | `mockedModules` | `object` | All mocked modules |
 | `serviceName` | `string` | The rewired service name |
-| `serviceRewiring` | `ServiceRewiring` | The service rewiring instance |
+| `serviceRewiring` | [`ServiceRewiring`](#the-servicerewiring) | The service rewiring instance |
 | `mockedServices` | `object` | All mocked services |
 | `service` | `object` | The rewired service instance |
-| `getModuleRewiring()` | `ModuleRewiring` | Get the module rewiring instance |
+| `getModuleRewiring()` | [`ModuleRewiring`](#the-modulerewiring) | Get the module rewiring instance |
 | `getMockedModules()` | `object` | Get all mocked modules |
 | `getMockedModule(id)` | `object` | Get a mocked module |
 | `getServiceName()` | `string` | Get the rewired service name |
-| `getServiceRewiring()` | `ServiceRewiring` | Get the service rewiring instance |
+| `getServiceRewiring()` | [`ServiceRewiring`](#the-servicerewiring) | Get the service rewiring instance |
 | `getMockedServices()` | `object` | Get all mocked services |
 | `getMockedService(id)` | `object` | Get a mocked service |
 | `getService` | `object` | Get the rewired service instance |
 
 ## Examples
 
-All testing examples is using `mocha` as test runner and `chai` as assertion tool.
+All testing examples is using [mocha](https://mochajs.org/) as test runner and [chai](https://www.chaijs.com/) as assertion tool.
 
 ### Mocking example
 
