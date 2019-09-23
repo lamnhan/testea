@@ -97,7 +97,7 @@ A **mocked service** is a service that was created to replace the original servi
 
 ### [`mockModule(members)`](https://lamnhan.com/testing/index.html#mockmodule)
 
-Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#mockbuilder).
+Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder).
 
 The original module, for example:
 
@@ -224,7 +224,7 @@ it('ok', async () => {
 });
 ```
 
-#### [The `ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html)
+#### The [`ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html)
 
 [`ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html) is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
 
@@ -267,7 +267,7 @@ it('ok', async () => {
 });
 ```
 
-#### [The `ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html)
+#### The [`ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html)
 
 [`ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html) is the constructor of `rewireService`, see `rewireService` for the list of parameters.
 
@@ -287,7 +287,7 @@ it('ok', async () => {
 
 Unify api for rewiring both module & service.
 
-#### [The `Rewiring`](https://lamnhan.com/testing/classes/rewiring.html)
+#### The [`Rewiring`](https://lamnhan.com/testing/classes/rewiring.html)
 
 [`Rewiring`](https://lamnhan.com/testing/classes/rewiring.html) is the constructor of `rewire`, see `rewire` for the list of parameters.
 
@@ -303,7 +303,7 @@ See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail
 
 The shortcut to [`rewire(...).rewireFull(...)`](#rewireloader-mockedmodules), resulting is a [`FullRewiringResult`](#the-fullrewiringresult) instance.
 
-### [The `FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html)
+#### The [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html)
 
 A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html) instance provides properties/methods to retrieve data for testing.
 
