@@ -21,9 +21,13 @@ Rewiring, mocking & helpers for testing modules in Node.
     - [Instance methods](#instance-methods)
 - [Rewiring](#rewiring)
   - [`rewireModule()`](#rewiremoduleloader-mockedmodules)
+    - [The `ModuleRewiring`](#the-modulerewiring)
   - [`rewireService()`](#rewireserviceserviceconstructor-mockedservices-withstubs)
+    - [The `ServiceRewiring`](#the-servicerewiring)
   - [`rewire()`](#rewireloader-mockedmodules)
+    - [The `Rewiring`](#the-rewiring)
   - [`rewireFull()`](#rewirefullloader-mockedmodules-serviceinterface-mockedservices-withstubs)
+    - [The `FullRewiringResult`](#the-fullrewiringresult)
 - [Examples](#examples)
   - [Mocking example](#mocking-example)
   - [Rewire a module](#rewire-a-module)
@@ -220,6 +224,8 @@ it('ok', async () => {
 });
 ```
 
+#### The `ModuleRewiring`
+
 `ModuleRewiring` is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
 
 | Method | Returns type | Description |
@@ -261,6 +267,8 @@ it('ok', async () => {
 });
 ```
 
+#### The `ServiceRewiring`
+
 `ServiceRewiring` is the constructor of `rewireService`, see `rewireService` for the list of parameters.
 
 | Method | Returns type | Description |
@@ -279,6 +287,8 @@ it('ok', async () => {
 
 Unify api for rewiring both module & service.
 
+#### The `Rewiring`
+
 `Rewiring` is the constructor of `rewire`, see `rewire` for the list of parameters.
 
 See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail.
@@ -292,6 +302,8 @@ See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail
 ### `rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`
 
 The shortcut to `rewire(...).rewireFull(...)`, resulting is a `FullRewiringResult` instance.
+
+### The `FullRewiringResult`
 
 A `FullRewiringResult` instance provides properties/methods to retrieve data for testing.
 
