@@ -15,7 +15,7 @@ Rewiring, mocking & helpers for testing modules in Node.
 - [API overview](#api-overview)
 - [Mocking](#mocking)
   - [`mockModule()`](#mock-module)
-  - [`mockService()`](#mock-service)
+  - [mockService()](#mock-service)
   - [The `MockBuilder`](#mock-builder)
     - [Mocked returns](#mocked-returns)
     - [Instance methods](#instance-methods)
@@ -50,9 +50,9 @@ Detail API reference at: <https://lamnhan.com/testing>
 
 ## Terminology
 
-### `Module` and `Mocked module`
+### `Module` and `mocked module`
 
-A `module` is a dependency or a file that is imported by your code. Example: `path` module, `module1` module, ...
+A **module** is a dependency or a file that is imported by your code. Example: `path` module, `module1` module, ...
 
 ```ts
 import { resolve } from 'path';
@@ -65,18 +65,18 @@ There are 3 kinds of module:
 - **Installed**: installed `node_modules/` dependencies
 - **Local**: any files in the `src/` folder
 
-A `mocked module` is a module that was created to replace the original module for testing purpose.
+A **mocked module** is a module that was created to replace the original module for testing purpose.
 
-### `Service` and `Mocked service`
+### `Service` and `mocked service`
 
-A `service` is an exported member of a `module`, usually an exported `class` in a `module`. Example: `MyService` service, `AnotherService` service, ...
+A **service** is an exported member of a **module**, usually an exported `class` in a module. Example: `MyService` service, `AnotherService` service, ...
 
 ```ts
 import { MyService } from './module1';
 import { AnotherService } from './module2';
 ```
 
-A `mocked service` is a service that was created to replace the original service for testing purpose.
+A **mocked service** is a service that was created to replace the original service for testing purpose.
 
 ## API overview
 
@@ -91,7 +91,7 @@ A `mocked service` is a service that was created to replace the original service
 
 ## Mocking
 
-### [`mockModule(members)`](#mock-module)
+### [mockModule(members)](#mock-module)
 
 Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#mockbuilder).
 
@@ -339,7 +339,7 @@ export async function doSomething2() {
 ```ts
 const mockedModule = mockModule({
   doSomething1: 'any mocked returns value',
-  doSomething2: async () => 'any mocked returns value,
+  doSomething2: async () => 'any mocked returns value',
 });
 
 // start using the mocked module
