@@ -20,13 +20,13 @@ Rewiring, mocking & helpers for testing modules in Node.
     - [Mocked returns](#mocked-returns)
     - [Instance methods](#instance-methods)
 - [Rewiring](#rewiring)
-  - [`rewireModule()`](#rewiremoduleloader-mockedmodules)
+  - [`rewireModule()`](#rewiremoduleinput-mockedmodules)
     - [The `ModuleRewiring`](#the-modulerewiring)
   - [`rewireService()`](#rewireserviceserviceconstructor-mockedservices-withstubs)
     - [The `ServiceRewiring`](#the-servicerewiring)
-  - [`rewire()`](#rewireloader-mockedmodules)
+  - [`rewire()`](#rewireinput-mockedmodules)
     - [The `Rewiring`](#the-rewiring)
-  - [`rewireFull()`](#rewirefullloader-mockedmodules-serviceinterface-mockedservices-withstubs)
+  - [`rewireFull()`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs)
     - [The `FullRewiringResult`](#the-fullrewiringresult)
 - [Examples](#examples)
   - [Mocking example](#mocking-example)
@@ -88,10 +88,10 @@ A **mocked service** is a service that was created to replace the original servi
 | --- | --- | --- |
 | [`mockModule(members)`](#mockmodulemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock module |
 | [`mockService(members)`](#mockservicemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock service |
-| [`rewireModule(loader, mockedModules)`](#rewiremoduleloader-mockedmodules) | [`ModuleRewiring`](#the-modulerewiring) | Rewire a service |
+| [`rewireModule(input, mockedModules)`](#rewiremoduleinput-mockedmodules) | [`ModuleRewiring`](#the-modulerewiring) | Rewire a service |
 | [`rewireService(serviceConstructor, mockedServices, withStubs)`](#rewireserviceserviceconstructor-mockedservices-withstubs) | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
-| [`rewire(loader, mockedModules)`](#rewireloader-mockedmodules) | [`Rewiring`](#the-rewiring) | Unify api for rewiring both module & service |
-| [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewirefullloader-mockedmodules-serviceinterface-mockedservices-withstubs) | [`FullRewiringResult`](#the-fullrewiringresult) | Shortcut to [`rewire(...).rewireFull(...)`](#rewireloader-mockedmodules) |
+| [`rewire(input, mockedModules)`](#rewireinput-mockedmodules) | [`Rewiring`](#the-rewiring) | Unify api for rewiring both module & service |
+| [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs) | [`FullRewiringResult`](#the-fullrewiringresult) | Shortcut to [`rewire(...).rewireFull(...)`](#rewireinput-mockedmodules) |
 
 ## Mocking
 
@@ -149,6 +149,9 @@ These are the supported returns values.
 
 - `*`: returns `this`
 - `.`: returns the first argument
+- `*.`: async returns the first argument
+- `...`: returns the list of arguments
+- `*...`: async returns the list of arguments
 - `Function`: returns the result of this function (with the same arguments as the original method)
 - `any`: returns as is any other values: `string`, `number`, `boolean`, `{}`, `any[]`, ...
 
@@ -196,7 +199,7 @@ A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
   - `@src/xxx/abc` -> **./src/xxx/abc**
   - Or `@xxx/abc` -> **./src/xxx/abc**
 
-### [`rewireModule(loader, mockedModules)`](https://lamnhan.com/testing/index.html#rewiremodule)
+### [`rewireModule(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewiremodule)
 
 Load a module with mocked dependencies.
 
@@ -283,7 +286,7 @@ it('ok', async () => {
 | `restoreStubs()` | [`ServiceRewiring`](#the-servicerewiring) | Restore all stubbed methods |
 | `restoreStub(method)` | [`ServiceRewiring`](#the-servicerewiring) | Restore a stubbed method |
 
-### [`rewire(loader, mockedModules)`](https://lamnhan.com/testing/index.html#rewire)
+### [`rewire(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewire)
 
 Unify api for rewiring both module & service.
 
@@ -299,9 +302,9 @@ See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail
 | `rewireService(serviceInterface, mockedServices, withStubs)` | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
 | `rewireFull(serviceInterface, mockedServices, withStubs)` | [`Promise<FullRewiringResult>`](#the-fullrewiringresult) | Rewire module and service and return all data |
 
-### [`rewireFull(loader, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewirefull)
+### [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewirefull)
 
-The shortcut to [`rewire(...).rewireFull(...)`](#rewireloader-mockedmodules), resulting is a [`FullRewiringResult`](#the-fullrewiringresult) instance.
+The shortcut to [`rewire(...).rewireFull(...)`](#rewireinput-mockedmodules), resulting is a [`FullRewiringResult`](#the-fullrewiringresult) instance.
 
 #### The [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html)
 
