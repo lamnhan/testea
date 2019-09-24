@@ -32,44 +32,37 @@ export class ModuleRewiring<
   MockedModules extends ModuleMocks
 > {
 
-  private loader: ModuleLoader<Module>;
+  private input: string | ModuleLoader<Module>;
   private mockedModules: MockedModules = {} as MockedModules;
 
   constructor(
-    loader: ModuleLoader<Module>,
+    input: string | ModuleLoader<Module>,
     mockedModules: MockedModules = {} as MockedModules,
   ) {
-    this.loader = loader;
+    this.input = input;
     this.mockedModules = mockedModules;
   }
 
-  getMocked() {
-    return this.mockedModules;
-  }
-
   async getModule() {
-    return rewiremock.around(this.loader, mock => {
+    const loader: ModuleLoader<Module> = (
+      this.input instanceof Function ?
+      this.input :
+      () => import(
+        this.resolvePath(this.input as string)
+      )
+    );
+    return rewiremock.around(loader, mock => {
       if (!!this.mockedModules) {
         // rewire all dependencies
         for (let path of Object.keys(this.mockedModules)) {
           const mocked = this.mockedModules[path];
           // resolve path
-          // xxx => native module
-          if (path.substr(0, 1) === '~') {
-            // ~xxx => ./node_modules/xxx
-            path = resolve('.', 'node_modules', path.replace('~', ''));
-          } else if (path.substr(0, 5) === '@src/') {
-            // @src/xxx/abc => ./src/xxx/abc
-            path = resolve('.', path.replace('@src/', 'src/'));
-          } else if (path.substr(0, 1) === '@') {
-            // @xxx/abc => ./src/xxx/abc
-            path = resolve('.', path.replace('@', 'src/'));
-          }
+          path = this.resolvePath(path);
           // start mocking
           if (mocked instanceof Function) {
-            mock(() => import(path)).withDefault(mocked);
+            mock(path).withDefault(mocked);
           } else {
-            mock(() => import(path)).with(mocked);
+            mock(path).with(mocked);
           }
         }
       }
@@ -79,6 +72,25 @@ export class ModuleRewiring<
   async getService(name: keyof Module) {
     const rewiredModule = await this.getModule();
     return rewiredModule[name];
+  }
+
+  getMocked() {
+    return this.mockedModules;
+  }
+
+  private resolvePath(path: string) {
+    // xxx => native module
+    if (path.substr(0, 1) === '~') {
+      // ~xxx => ./node_modules/xxx
+      path = resolve('.', 'node_modules', path.replace('~', ''));
+    } else if (path.substr(0, 5) === '@src/') {
+      // @src/xxx/abc => ./src/xxx/abc
+      path = resolve('.', path.replace('@src/', 'src/'));
+    } else if (path.substr(0, 1) === '@') {
+      // @xxx/abc => ./src/xxx/abc
+      path = resolve('.', path.replace('@', 'src/'));
+    }
+    return path;
   }
 
 }
@@ -174,19 +186,19 @@ export class Rewiring<
   MockedModules extends ModuleMocks,
 > {
 
-  private loader: ModuleLoader<Module>;
+  private input: string | ModuleLoader<Module>;
   private mockedModules: MockedModules = {} as MockedModules;
 
   constructor(
-    loader: ModuleLoader<Module>,
+    input: string | ModuleLoader<Module>,
     mockedModules: MockedModules = {} as MockedModules,
   ) {
-    this.loader = loader;
+    this.input = input;
     this.mockedModules = mockedModules;
   }
 
   rewireModule() {
-    return new ModuleRewiring(this.loader, this.mockedModules);
+    return new ModuleRewiring(this.input, this.mockedModules);
   }
 
   rewireService<
@@ -211,7 +223,7 @@ export class Rewiring<
     withStubs: ServiceStubs = {} as ServiceStubs,
   ) {
     // rewire module
-    const moduleRewiring = new ModuleRewiring(this.loader, this.mockedModules);
+    const moduleRewiring = new ModuleRewiring(this.input, this.mockedModules);
     const mockedModulesOutput = moduleRewiring.getMocked();
     // rewire service
     const serviceName = serviceInterface.name as keyof Module;
