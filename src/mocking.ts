@@ -1,7 +1,7 @@
 // tslint:disable: no-any ban-ts-ignore
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
-export type MockedReturns = '*' | '.' | '...' | MockedValue;
+export type MockedReturns = '*' | '*.' | '.' | '*...' | '...' | MockedValue;
 
 export type ModuleMocking<Members> = {
   [member in keyof Members]?: MockedReturns;
@@ -54,8 +54,12 @@ export class MockBuilder<
         const returns = this.returnsKeeper[methodName];
         if (returns === '*') {
           return this;
+        } else if (returns === '*.') {
+          return Promise.resolve(args[0]);
         } else if (returns === '.') {
           return args[0];
+        } else if (returns === '*...') {
+          return Promise.resolve(args);
         } else if (returns === '...') {
           return args;
         } else if (returns instanceof Function) {

@@ -60,9 +60,9 @@ export class ModuleRewiring<
           path = this.resolvePath(path);
           // start mocking
           if (mocked instanceof Function) {
-            mock(path).withDefault(mocked);
+            mock(() => import(path)).withDefault(mocked);
           } else {
-            mock(path).with(mocked);
+            mock(() => import(path)).with(mocked);
           }
         }
       }
