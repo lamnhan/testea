@@ -39,35 +39,43 @@ export class MockBuilder<
     this.returnsKeeper = members as any;
     // register members
     for (const name of Object.keys(members)) {
-      const methodName = name as keyof Members;
-      // @ts-ignore
-      this[methodName] = (...args: any[]) => {
-        // set args
-        this.argsKeeper[methodName] = args as any;
-        // set args stack
-        if (!this.stackedArgsKeeper[methodName]) {
-          this.stackedArgsKeeper[methodName] = [args] as any;
-        } else {
-          this.stackedArgsKeeper[methodName].push(args);
-        }
-        // returns
-        const returns = this.returnsKeeper[methodName];
-        if (returns === '*') {
-          return this;
-        } else if (returns === '*.') {
-          return Promise.resolve(args[0]);
-        } else if (returns === '.') {
-          return args[0];
-        } else if (returns === '*...') {
-          return Promise.resolve(args);
-        } else if (returns === '...') {
-          return args;
-        } else if (returns instanceof Function) {
-          return (returns as Function)(...args);
-        } else {
-          return returns;
-        }
-      };
+      const memberName = name as keyof Members;
+      const returns = this.returnsKeeper[memberName];
+      // a prop
+      if (name.substr(0, 1) === '.') {
+        // @ts-ignore
+        this[name.substr(1)] = returns;
+      }
+      // a method
+      else {
+        // @ts-ignore
+        this[memberName] = (...args: any[]) => {
+          // set args
+          this.argsKeeper[memberName] = args as any;
+          // set args stack
+          if (!this.stackedArgsKeeper[memberName]) {
+            this.stackedArgsKeeper[memberName] = [args] as any;
+          } else {
+            this.stackedArgsKeeper[memberName].push(args);
+          }
+          // returns
+          if (returns === '*') {
+            return this;
+          } else if (returns === '*.') {
+            return Promise.resolve(args[0]);
+          } else if (returns === '.') {
+            return args[0];
+          } else if (returns === '*...') {
+            return Promise.resolve(args);
+          } else if (returns === '...') {
+            return args;
+          } else if (returns instanceof Function) {
+            return (returns as Function)(...args);
+          } else {
+            return returns;
+          }
+        };
+      }
     }
   }
 

@@ -136,12 +136,15 @@ The [`MockBuilder`](https://lamnhan.com/testing/classes/mockbuilder.html) constr
 
 ```ts
 const mocked = new MockBuilder({
-  a: () => 1,
-  b: async () => 2,
+  '.A': 0, // prop 'A' contains a value of 0
+  a: () => 1, // method 'a' returns 1
+  b: async () => 2, // method 'b' async returns 2
 });
 ```
 
 The [`MockBuilder`](#the-mockbuilder) create a mocked instance of any modules or services with every method defined in the `members` param. When a method is called, the mocked instance record all arguments and returns a value that defined by the `members` param.
+
+**Note**: To mock a property, just add a `.` before the property name.
 
 #### Mocked returns
 
