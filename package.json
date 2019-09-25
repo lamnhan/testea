@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/testing",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Rewiring, mocking & helpers for testing modules in Node.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
