@@ -119,8 +119,8 @@ Create a mocked version of the original module:
 
 ```ts
 const mockedModule = mockModule({
-  a: () => 1,
-  b: async () => 2,
+  a: () => 'something else',
+  b: async () => 'never',
 });
 
 // start using the mocked module
@@ -206,7 +206,7 @@ Load a module with mocked dependencies.
 // rewire the 'module1'
 const module1Rewiring = rewireModule(
   // load the original module
-  () => import('../src/module1'),
+  '@src/module1',
   // (optional) replace dependencies with mocked instances
   {
     'path': {},
@@ -383,7 +383,7 @@ import { rewireModule } from '@lamnhan/testing';
 function getModule() {
   return rewireModule(
     // load the tested module
-    () => import('../src/module1'),
+    '@src/module1',
     // rewire all dependencies with mocked replacement
     {
       'path': {
@@ -542,7 +542,7 @@ async function setup(
 ) {
   return rewireFull(
     // load the tested module
-    () => import('../src/module1'),
+    '@src/module1', // () => import('../src/module1')
     // rewire all dependencies with mocked replacement
     {
       'path': {
