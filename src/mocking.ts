@@ -23,16 +23,22 @@ type StackedArgsKeeping<Members> = {
   [member in keyof Members]: any[][];
 }
 
+type CalledKeeping<Members> = {
+  [member in keyof Members]: number;
+}
+
 export class MockBuilder<
   Members,
   ReturnsKeeper extends ReturnsKeeping<Members>,
   ArgsKeeper extends ArgsKeeping<Members>,
-  StackedArgsKeeper extends StackedArgsKeeping<Members>
+  StackedArgsKeeper extends StackedArgsKeeping<Members>,
+  CalledKeeper extends CalledKeeping<Members>
 > {
 
   private returnsKeeper: ReturnsKeeper;
   private argsKeeper: ArgsKeeper = {} as ArgsKeeper;
   private stackedArgsKeeper: StackedArgsKeeper = {} as StackedArgsKeeper;
+  private calledKeeper: CalledKeeper = {} as CalledKeeper;
 
   constructor(members: Members) {
     // set returns
@@ -57,6 +63,12 @@ export class MockBuilder<
             this.stackedArgsKeeper[memberName] = [args] as any;
           } else {
             this.stackedArgsKeeper[memberName].push(args);
+          }
+          // set called
+          if (!this.calledKeeper[memberName]) {
+            this.calledKeeper[memberName] = 1 as any;
+          } else {
+            this.calledKeeper[memberName]++;
           }
           // returns
           if (returns === '*') {
@@ -170,6 +182,15 @@ export class MockBuilder<
   }
 
   /**
+   * Get the last arg
+   * @param member - The member name
+   */
+  getArgLast(member: keyof Members) {
+    const args = this.getArgs(member);
+    return args[args.length - 1];
+  }
+
+  /**
    * Get a list of stacked args
    * @param member - The member name
    */
@@ -191,7 +212,7 @@ export class MockBuilder<
    * Get a list of args of the first execution
    * @param member - The member name
    */
-  getStackedArgsChildFirst(member: keyof Members) {
+  getStackedArgsFirst(member: keyof Members) {
     return this.getStackedArgsChild(member, 1);
   }
 
@@ -199,7 +220,7 @@ export class MockBuilder<
    * Get a list of args of the second execution
    * @param member - The member name
    */
-  getStackedArgsChildSecond(member: keyof Members) {
+  getStackedArgsSecond(member: keyof Members) {
     return this.getStackedArgsChild(member, 2);
   }
 
@@ -207,8 +228,17 @@ export class MockBuilder<
    * Get a list of args of the third execution
    * @param member - The member name
    */
-  getStackedArgsChildThird(member: keyof Members) {
+  getStackedArgsThird(member: keyof Members) {
     return this.getStackedArgsChild(member, 3);
+  }
+
+  /**
+   * Get a list of args of the last execution
+   * @param member - The member name
+   */
+  getStackedArgsLast(member: keyof Members) {
+    const stackedArgs = this.getStackedArgs(member);
+    return stackedArgs[stackedArgs.length - 1];
   }
 
   /**
@@ -227,75 +257,30 @@ export class MockBuilder<
   }
 
   /**
-   * Get the first arg of the first execution
+   * See if a method have been called
    * @param member - The member name
    */
-  getArgInStack1X1(member: keyof Members) {
-    return this.getArgInStack(member, 1, 1);
+  haveBeenCalled(member: keyof Members) {
+    return !!this.calledKeeper[member];
   }
 
   /**
-   * Get the second arg of the first execution
+   * See if a method have been called with certain args
    * @param member - The member name
+   * @param args - The list of arguments
    */
-  getArgInStack1X2(member: keyof Members) {
-    return this.getArgInStack(member, 1, 2);
+  haveBeenCalledWith(member: keyof Members, ...args: any[]) {
+    const methodArgs = this.getArgs(member);
+    const equalArgs = !methodArgs ? false : JSON.stringify(methodArgs) === JSON.stringify(args);
+    return equalArgs;
   }
 
   /**
-   * Get the third arg of the first execution
+   * Get the number of call
    * @param member - The member name
    */
-  getArgInStack1X3(member: keyof Members) {
-    return this.getArgInStack(member, 1, 3);
-  }
-
-  /**
-   * Get the first arg of the second execution
-   * @param member - The member name
-   */
-  getArgInStack2X1(member: keyof Members) {
-    return this.getArgInStack(member, 2, 1);
-  }
-
-  /**
-   * Get the second arg of the second execution
-   * @param member - The member name
-   */
-  getArgInStack2X2(member: keyof Members) {
-    return this.getArgInStack(member, 2, 2);
-  }
-
-  /**
-   * Get the third arg of the second execution
-   * @param member - The member name
-   */
-  getArgInStack2X3(member: keyof Members) {
-    return this.getArgInStack(member, 2, 3);
-  }
-
-  /**
-   * Get the first arg of the third execution
-   * @param member - The member name
-   */
-  getArgInStack3X1(member: keyof Members) {
-    return this.getArgInStack(member, 3, 1);
-  }
-
-  /**
-   * Get the second arg of the third execution
-   * @param member - The member name
-   */
-  getArgInStack3X2(member: keyof Members) {
-    return this.getArgInStack(member, 3, 2);
-  }
-
-  /**
-   * Get the third arg of the third execution
-   * @param member - The member name
-   */
-  getArgInStack3X3(member: keyof Members) {
-    return this.getArgInStack(member, 3, 3);
+  callCount(member: keyof Members) {
+    return this.calledKeeper[member] || 0;
   }
 
 }

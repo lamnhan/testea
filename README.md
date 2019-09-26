@@ -172,21 +172,17 @@ A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrievi
 - `getArgFirst(member)`: Get the first arg
 - `getArgSecond(member)`: Get the second arg
 - `getArgThird(member)`: Get the third arg
+- `getArgLast(member)`: Get the last arg
 - `getStackedArgs(member)`: Get a list of stacked args
 - `getStackedArgsChild(member, execution)`: Get a list of args by execution order
-- `getStackedArgsChildFirst(member)`: Get a list of args of the first execution
-- `getStackedArgsChildSecond(member)`: Get a list of args of the second execution
-- `getStackedArgsChildThird(member)`: Get a list of args of the third execution
+- `getStackedArgsFirst(member)`: Get a list of args of the first execution
+- `getStackedArgsSecond(member)`: Get a list of args of the second execution
+- `getStackedArgsThird(member)`: Get a list of args of the third execution
+- `getStackedArgsLast(member)`: Get a list of args of the last execution
 - `getArgInStack(member, execution, position)`: Get an arg by execution order and parameter position
-- `getArgInStack1X1(member)`: Get the first arg of the first execution
-- `getArgInStack1X2(member)`: Get the second arg of the first execution
-- `getArgInStack1X3(member)`: Get the third arg of the first execution
-- `getArgInStack2X1(member)`: Get the first arg of the second execution
-- `getArgInStack2X2(member)`: Get the second arg of the second execution
-- `getArgInStack2X3(member)`: Get the third arg of the second execution
-- `getArgInStack3X1(member)`: Get the first arg of the third execution
-- `getArgInStack3X2(member)`: Get the second arg of the third execution
-- `getArgInStack3X3(member)`: Get the third arg of the third execution
+- `haveBeenCalled(member)`: See if a method have been called
+- `haveBeenCalledWith(member, ...args)`: See if a method have been called with certain args
+- `callCount(member)`: Get the number of call
 
 ## Rewiring
 
