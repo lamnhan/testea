@@ -165,8 +165,6 @@ A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrievi
 - `getAllReturns()`: Get all the data holded by the Returns Keeper
 - `getAllArgs()`: Get all the data holded by the Args Keeper
 - `getAllStackedArgs()`: Get all the data holded by the StackedArgs Keeper
-- `getReturns(member)`: Get the raw value defined for a member to return
-- `getReturnsResult(member)`: Get the returned value of a member
 - `getArgs(member)`: Get a list of args
 - `getArg(member, position)`: Get an arg by paramter position
 - `getArgFirst(member)`: Get the first arg

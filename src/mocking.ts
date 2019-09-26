@@ -113,33 +113,6 @@ export class MockBuilder<
   }
 
   /**
-   * Get the raw value defined for a member to return
-   *
-   * `NOTE`: **DO NOT** use this for testing purpose
-   * @param member - The member name
-   */
-  getReturns(member: keyof Members) {
-    return !!this.returnsKeeper ? this.returnsKeeper[member] : undefined;
-  }
-
-  /**
-   * Get the returned value of a member
-   * 
-   * `NOTE`: **DO NOT** use this for testing purpose
-   * @param member - The member name
-   */
-  getReturnsResult(member: keyof Members) {
-    const returns = this.getReturns(member);
-    if (returns === '*') {
-      return this;
-    } else if (returns instanceof Function) {
-      return (returns as Function)();
-    } else {
-      return returns;
-    }
-  }
-
-  /**
    * Get a list of args
    * @param member - The member name
    */
@@ -271,8 +244,7 @@ export class MockBuilder<
    */
   haveBeenCalledWith(member: keyof Members, ...args: any[]) {
     const methodArgs = this.getArgs(member);
-    const equalArgs = !methodArgs ? false : JSON.stringify(methodArgs) === JSON.stringify(args);
-    return equalArgs;
+    return !methodArgs ? false : JSON.stringify(methodArgs) === JSON.stringify(args);
   }
 
   /**
