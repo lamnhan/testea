@@ -178,9 +178,11 @@ These are the supported returns values.
 
 - `*`: returns `this` (the mocked instance)
 - `.`: returns the first argument
-- `.!`: async returns the first argument
+- `.$`: async returns the first argument
 - `...`: returns the list of arguments
-- `...!`: async returns the list of arguments
+- `...$`: async returns the list of arguments
+- `!`: throws an error, with custom message: `!=The message!`
+- `!$`: async reject, with custom message: `!$=The message!`
 - `Function`: returns the result of this function (with the same arguments as the original method)
 - `any`: returns as is: `string`, `number`, `boolean`, `{}`, `any[]`
 

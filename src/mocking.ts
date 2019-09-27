@@ -71,14 +71,18 @@ export class MockBuilder<
           // returns
           if (returns === '*') {
             return this;
-          } else if (returns === '.!') {
+          } else if (returns === '.$') {
             return Promise.resolve(args[0]);
           } else if (returns === '.') {
             return args[0];
-          } else if (returns === '...!') {
+          } else if (returns === '...$') {
             return Promise.resolve(args);
           } else if (returns === '...') {
             return args;
+          } else if (typeof returns === 'string' && returns.substr(0, 2) === '!$') {
+            return Promise.reject(returns.replace(/(\!\$)|(\!\$\=)/, '') || 'Error');
+          } else if (typeof returns === 'string' && returns.substr(0, 1) === '!') {
+            throw new Error(returns.replace(/(\!)|(\!\=)/, '') || 'Error');
           } else if (returns instanceof Function) {
             return (returns as Function)(...args);
           } else {
