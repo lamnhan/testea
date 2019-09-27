@@ -1,6 +1,6 @@
 # @lamnhan/testing
 
-Rewiring, mocking & helpers for testing modules in Node.
+Rewiring, mocking & stubbing for testing modules in Node.
 
 <!-- <block:header> -->
 
@@ -81,6 +81,27 @@ import { AnotherService } from './module2';
 ```
 
 A **mocked service** is a service that was created to replace the original service for testing purpose.
+
+### `Stubbing`
+
+**Stubbing** is an action that replace a **method** of a **server** with a mocked one. Stubbing is useful when a method depends on other methods within the same service.
+
+```ts
+class MyService {
+
+  a() {
+    return 1;
+  }
+
+  b() {
+    const useTheAMethod = this.a();
+    return 2;
+  }
+
+}
+```
+
+When testing the `b()` method, we can  set the `a()` method to returns whatever we want without actually calling it.
 
 ## API overview
 
