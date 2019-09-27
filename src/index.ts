@@ -11,6 +11,7 @@ import {
   ServiceRewiring,
 } from './rewiring';
 
+export { rewiremock } from './rewiremock';
 export { ModuleMocking, ServiceMocking, MockBuilder } from './mocking';
 export { ServiceStubing } from './rewiring';
 

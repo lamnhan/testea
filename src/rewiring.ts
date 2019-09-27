@@ -1,11 +1,9 @@
 // tslint:disable: no-any ban-ts-ignore
 import { resolve } from 'path';
-import rewiremock from 'rewiremock';
 import * as sinon from 'sinon';
 
+import { rewiremock } from './rewiremock';
 import { MockedValue } from './mocking';
-
-rewiremock.overrideEntryPoint(module);
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
