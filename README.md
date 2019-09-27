@@ -19,6 +19,7 @@ Rewiring, mocking & stubbing for testing modules in Node.
   - [The `MockBuilder`](#the-mockbuilder)
     - [Mocked returns](#mocked-returns)
     - [Instance methods](#instance-methods)
+  - [The `MockedResult`](#the-mockedresult)
 - [Rewiring](#rewiring)
   - [`rewireModule()`](#rewiremoduleinput-mockedmodules)
     - [The `ModuleRewiring`](#the-modulerewiring)
@@ -171,37 +172,46 @@ The [`MockBuilder`](#the-mockbuilder) create a mocked instance of any modules or
 
 These are the supported returns values.
 
-- `*`: returns `this`
+- `*`: returns `this` (the mocked instance)
 - `.`: returns the first argument
-- `*.`: async returns the first argument
+- `.!`: async returns the first argument
 - `...`: returns the list of arguments
-- `*...`: async returns the list of arguments
+- `...!`: async returns the list of arguments
 - `Function`: returns the result of this function (with the same arguments as the original method)
-- `any`: returns as is any other values: `string`, `number`, `boolean`, `{}`, `any[]`, ...
+- `any`: returns as is: `string`, `number`, `boolean`, `{}`, `any[]`
 
 #### Instance methods
 
 A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrieving testing data.
 
+- `getProp(prop)`: Get a mocked property value
+- `getResult(member)`: Get the result for a certain member, returns `MockedResult`](#the-mockedresult)
 - `getAllReturns()`: Get all the data holded by the Returns Keeper
 - `getAllArgs()`: Get all the data holded by the Args Keeper
 - `getAllStackedArgs()`: Get all the data holded by the StackedArgs Keeper
-- `getArgs(member)`: Get a list of args
-- `getArg(member, position)`: Get an arg by paramter position
-- `getArgFirst(member)`: Get the first arg
-- `getArgSecond(member)`: Get the second arg
-- `getArgThird(member)`: Get the third arg
-- `getArgLast(member)`: Get the last arg
-- `getStackedArgs(member)`: Get a list of stacked args
-- `getStackedArgsChild(member, execution)`: Get a list of args by execution order
-- `getStackedArgsFirst(member)`: Get a list of args of the first execution
-- `getStackedArgsSecond(member)`: Get a list of args of the second execution
-- `getStackedArgsThird(member)`: Get a list of args of the third execution
-- `getStackedArgsLast(member)`: Get a list of args of the last execution
-- `getArgInStack(member, execution, position)`: Get an arg by execution order and parameter position
-- `haveBeenCalled(member)`: See if a method have been called
-- `haveBeenCalledWith(member, ...args)`: See if a method have been called with certain args
-- `callCount(member)`: Get the number of call
+
+### The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html)
+
+The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html) constructor provide values and methods for testing a mocked method.
+
+- `getArgs()`: Get a list of args
+- `countArgs()`: Get the number of args
+- `getArg(position)`: Get an arg by paramter position
+- `getArgFirst()`: Get the first arg
+- `getArgSecond()`: Get the second arg
+- `getArgThird()`: Get the third arg
+- `getArgLast()`: Get the last arg
+- `getStackedArgs()`: Get a list of stacked args
+- `countStackedArgs()`: Get the number of stacked args (same as `callCount()`)
+- `getStackedArgsChild(execution)`: Get a list of args by execution order
+- `getStackedArgsFirst()`: Get a list of args of the first execution
+- `getStackedArgsSecond()`: Get a list of args of the second execution
+- `getStackedArgsThird()`: Get a list of args of the third execution
+- `getStackedArgsLast()`: Get a list of args of the last execution
+- `getArgInStack(execution, position)`: Get an arg by execution order and parameter position
+- `haveBeenCalled()`: See if a method have been called
+- `haveBeenCalledWith(...args)`: See if a method have been called with certain args
+- `callCount()`: Get the number of call
 
 ## Rewiring
 

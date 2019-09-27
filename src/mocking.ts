@@ -1,15 +1,15 @@
 // tslint:disable: no-any ban-ts-ignore
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
-export type MockedReturns = '*' | '*.' | '.' | '*...' | '...' | MockedValue;
+export type MockedReturns = '*' | '.!' | '.' | '...!' | '...' | MockedValue;
 
-export type ModuleMocking<Members> = {
+export type Mocking<Members> = {
   [member in keyof Members]?: MockedReturns;
-};
+}
 
-export type ServiceMocking<Members> = {
-  [member in keyof Members]?: MockedReturns;
-};
+export type ModuleMocking<Members> = Mocking<Members>;
+
+export type ServiceMocking<Members> = Mocking<Members>;
 
 type ReturnsKeeping<Members> = {
   [member in keyof Members]: MockedReturns;
@@ -73,11 +73,11 @@ export class MockBuilder<
           // returns
           if (returns === '*') {
             return this;
-          } else if (returns === '*.') {
+          } else if (returns === '.!') {
             return Promise.resolve(args[0]);
           } else if (returns === '.') {
             return args[0];
-          } else if (returns === '*...') {
+          } else if (returns === '...!') {
             return Promise.resolve(args);
           } else if (returns === '...') {
             return args;
@@ -89,6 +89,25 @@ export class MockBuilder<
         };
       }
     }
+  }
+
+  /**
+   * Get a mocked property value
+   * @param prop - The prop name
+   */
+  getProp(prop: string) {
+    // @ts-ignore
+    return this[prop];
+  }
+
+  /**
+   * Get the result for a certain member
+   */
+  getResult(member: keyof Members) {
+    const args = !!this.argsKeeper ? this.argsKeeper[member] : [];
+    const stackedArgs = !!this.stackedArgsKeeper ? this.stackedArgsKeeper[member] : [];
+    const called = this.calledKeeper[member] || 0;
+    return new MockedResult(args, stackedArgs, called);
   }
 
   /**
@@ -112,147 +131,151 @@ export class MockBuilder<
     return this.stackedArgsKeeper;
   }
 
+}
+
+export class MockedResult {
+
+  args: any[] = [];
+  stackedArgs: any[] = [[]];
+  called = 0;
+
+  constructor(args: any[], stackedArgs: any[], called: number) {
+    this.args = args || [];
+    this.stackedArgs = stackedArgs || [[]];
+    this.called = called || 0;
+  }
+
   /**
    * Get a list of args
-   * @param member - The member name
    */
-  getArgs(member: keyof Members) {
-    return !!this.argsKeeper ? this.argsKeeper[member] : [];
+  getArgs() {
+    return this.args;
+  }
+
+  /**
+   * Get the number of args
+   */
+  countArgs() {
+    return this.args.length;
   }
 
   /**
    * Get an arg by paramter position
-   * @param member - The member name
    * @param position - The param position
    */
-  getArg(member: keyof Members, position = 1) {
-    const args = this.getArgs(member);
+  getArg(position = 1) {
+    const args = this.getArgs();
     return args[position - 1];
   }
 
   /**
    * Get the first arg
-   * @param member - The member name
    */
-  getArgFirst(member: keyof Members) {
-    return this.getArg(member, 1);
+  getArgFirst() {
+    return this.getArg(1);
   }
   
   /**
    * Get the second arg
-   * @param member - The member name
    */
-  getArgSecond(member: keyof Members) {
-    return this.getArg(member, 2);
+  getArgSecond() {
+    return this.getArg(2);
   }
 
   /**
    * Get the third arg
-   * @param member - The member name
    */
-  getArgThird(member: keyof Members) {
-    return this.getArg(member, 3);
+  getArgThird() {
+    return this.getArg(3);
   }
 
   /**
    * Get the last arg
-   * @param member - The member name
    */
-  getArgLast(member: keyof Members) {
-    const args = this.getArgs(member);
-    return args[args.length - 1];
+  getArgLast() {
+    return this.args[this.countArgs() - 1];
   }
 
   /**
    * Get a list of stacked args
-   * @param member - The member name
    */
-  getStackedArgs(member: keyof Members) {
-    return !!this.stackedArgsKeeper ? this.stackedArgsKeeper[member] : [];
+  getStackedArgs() {
+    return this.stackedArgs;
+  }
+
+  /**
+   * Get the number of stacked args
+   */
+  countStackedArgs() {
+    return this.stackedArgs.length;
   }
 
   /**
    * Get a list of args by execution order
-   * @param member - The member name
    * @param execution - The execution order
    */
-  getStackedArgsChild(member: keyof Members, execution = 1) {
-    const stackedArgs = this.getStackedArgs(member);
-    return stackedArgs[execution - 1] || [];
+  getStackedArgsChild(execution = 1) {
+    return this.stackedArgs[execution - 1] || [];
   }
 
   /**
    * Get a list of args of the first execution
-   * @param member - The member name
    */
-  getStackedArgsFirst(member: keyof Members) {
-    return this.getStackedArgsChild(member, 1);
+  getStackedArgsFirst() {
+    return this.getStackedArgsChild(1);
   }
 
   /**
    * Get a list of args of the second execution
-   * @param member - The member name
    */
-  getStackedArgsSecond(member: keyof Members) {
-    return this.getStackedArgsChild(member, 2);
+  getStackedArgsSecond() {
+    return this.getStackedArgsChild(2);
   }
 
   /**
    * Get a list of args of the third execution
-   * @param member - The member name
    */
-  getStackedArgsThird(member: keyof Members) {
-    return this.getStackedArgsChild(member, 3);
+  getStackedArgsThird() {
+    return this.getStackedArgsChild(3);
   }
 
   /**
    * Get a list of args of the last execution
-   * @param member - The member name
    */
-  getStackedArgsLast(member: keyof Members) {
-    const stackedArgs = this.getStackedArgs(member);
-    return stackedArgs[stackedArgs.length - 1];
+  getStackedArgsLast() {
+    return this.stackedArgs[this.countStackedArgs() - 1];
   }
 
   /**
    * Get an arg by execution order and parameter position
-   * @param member - The member name
    * @param execution - The execution order
    * @param position - The param position
    */
-  getArgInStack(
-    member: keyof Members,
-    execution = 1,
-    position = 1,
-  ) {
-    const childArgs = this.getStackedArgsChild(member, execution);
+  getArgInStack(execution = 1, position = 1) {
+    const childArgs = this.getStackedArgsChild(execution);
     return childArgs[position - 1];
   }
 
   /**
    * See if a method have been called
-   * @param member - The member name
    */
-  haveBeenCalled(member: keyof Members) {
-    return !!this.calledKeeper[member];
+  haveBeenCalled() {
+    return !!this.called;
   }
 
   /**
    * See if a method have been called with certain args
-   * @param member - The member name
    * @param args - The list of arguments
    */
-  haveBeenCalledWith(member: keyof Members, ...args: any[]) {
-    const methodArgs = this.getArgs(member);
-    return !methodArgs ? false : JSON.stringify(methodArgs) === JSON.stringify(args);
+  haveBeenCalledWith(...args: any[]) {
+    return JSON.stringify(this.args) === JSON.stringify(args);
   }
 
   /**
    * Get the number of call
-   * @param member - The member name
    */
-  callCount(member: keyof Members) {
-    return this.calledKeeper[member] || 0;
+  callCount() {
+    return this.called;
   }
 
 }
