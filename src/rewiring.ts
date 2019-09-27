@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import * as sinon from 'sinon';
 
 import { rewiremock } from './rewiremock';
-import { MockedValue, ServiceMocking, MockBuilder } from './mocking';
+import { MockedValue, ServiceMocking, MockBuilder, ModuleMocking } from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -278,6 +278,15 @@ export class FullRewiringResult<
     return this.mockedModules[id];
   }
 
+  getModuleResult(
+    moduleId: keyof MockedModules,
+    method: keyof MockedModules[keyof MockedModules],
+  ) {
+    const mockedModule = this.getMockedModule(moduleId);
+    //@ts-ignore
+    return mockedModule.getResult(method);
+  }
+
   getServiceName() {
     return this.serviceName;
   }
@@ -292,6 +301,15 @@ export class FullRewiringResult<
 
   getMockedService(id: keyof MockedServices) {
     return this.mockedServices[id];
+  }
+
+  getServiceResult(
+    serviceId: keyof MockedServices,
+    method: keyof MockedServices[keyof MockedServices],
+  ) {
+    const mockedService = this.getMockedService(serviceId);
+    //@ts-ignore
+    return mockedService.getResult(method);
   }
 
   getService() {
