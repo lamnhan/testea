@@ -119,7 +119,9 @@ export class ServiceRewiring<
     }
     this.serviceInstance = new serviceConstructor(...mockedServicesAsArgs);
     // stubs
-    this.setStubs(withStubs);
+    if (!!withStubs && !!Object.keys(withStubs).length) {
+      this.setStubs(withStubs);
+    }
   }
 
   getInstance() {
@@ -143,7 +145,19 @@ export class ServiceRewiring<
 
   private setStubs(stubs: ServiceStubs) {
     const mockedService = new MockBuilder(stubs);
-    return Object.assign(this.serviceInstance, mockedService);
+    // rename conflict
+    const originalMembers: {[method in keyof Service]?: Service[keyof Service]} = {};
+    for (const method of Object.keys(mockedService)) {
+      const methodName = method as keyof Service;
+      if (
+        !stubs[methodName] && // not a stubbing method
+        !!this.serviceInstance[methodName] // exists in the service
+      ) {
+        originalMembers[('$' + method) as keyof Service] = this.serviceInstance[methodName];
+      }
+    }
+    // patch the service
+    return Object.assign(this.serviceInstance, mockedService, originalMembers);
   }
 
 }
