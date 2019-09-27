@@ -70,6 +70,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/fullrewiringresult.html" class="tsd-kind-icon">Full<wbr>Rewiring<wbr>Result</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/mockbuilder.html" class="tsd-kind-icon">Mock<wbr>Builder</a></li>
+								<li class="tsd-kind-class"><a href="classes/mockedresult.html" class="tsd-kind-icon">Mocked<wbr>Result</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/modulerewiring.html" class="tsd-kind-icon">Module<wbr>Rewiring</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/rewiring.html" class="tsd-kind-icon">Rewiring</a></li>
 								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/servicerewiring.html" class="tsd-kind-icon">Service<wbr>Rewiring</a></li>
@@ -85,13 +86,12 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias"><a href="index.html#mockedreturns" class="tsd-kind-icon">Mocked<wbr>Returns</a></li>
 								<li class="tsd-kind-type-alias"><a href="index.html#mockedvalue" class="tsd-kind-icon">Mocked<wbr>Value</a></li>
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#mocking" class="tsd-kind-icon">Mocking</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#moduleloader" class="tsd-kind-icon">Module<wbr>Loader</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#modulemocking" class="tsd-kind-icon">Module<wbr>Mocking</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#serviceconstructor" class="tsd-kind-icon">Service<wbr>Constructor</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#servicemocking" class="tsd-kind-icon">Service<wbr>Mocking</a></li>
-								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#servicestubed" class="tsd-kind-icon">Service<wbr>Stubed</a></li>
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="index.html#servicestubing" class="tsd-kind-icon">Service<wbr>Stubing</a></li>
 							</ul>
 						</section>
@@ -112,24 +112,35 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias">
-					<a name="mockedreturns" class="tsd-anchor"></a>
-					<h3>Mocked<wbr>Returns</h3>
-					<div class="tsd-signature tsd-kind-icon">Mocked<wbr>Returns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"*"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"*."</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"."</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"*..."</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"..."</span><span class="tsd-signature-symbol"> | </span><a href="index.html#mockedvalue" class="tsd-signature-type">MockedValue</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/mocking.ts#L4">mocking.ts:4</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias">
 					<a name="mockedvalue" class="tsd-anchor"></a>
 					<h3>Mocked<wbr>Value</h3>
 					<div class="tsd-signature tsd-kind-icon">Mocked<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">__type</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/mocking.ts#L2">mocking.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/mocking.ts#L2">mocking.ts:2</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="mocking" class="tsd-anchor"></a>
+					<h3>Mocking</h3>
+					<div class="tsd-signature tsd-kind-icon">Mocking&lt;Members&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/mocking.ts#L4">mocking.ts:4</a></li>
+						</ul>
+					</aside>
+					<h4 class="tsd-type-parameters-title">Type parameters</h4>
+					<ul class="tsd-type-parameters">
+						<li>
+							<h4>Members</h4>
+						</li>
+					</ul>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="moduleloader" class="tsd-anchor"></a>
@@ -137,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">Module<wbr>Loader&lt;Module&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L10">rewiring.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L8">rewiring.ts:8</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -165,10 +176,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="modulemocking" class="tsd-anchor"></a>
 					<h3>Module<wbr>Mocking</h3>
-					<div class="tsd-signature tsd-kind-icon">Module<wbr>Mocking&lt;Members&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">Module<wbr>Mocking&lt;Members&gt;<span class="tsd-signature-symbol">:</span> <a href="index.html#mocking" class="tsd-signature-type">Mocking</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/mocking.ts#L6">mocking.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/mocking.ts#L8">mocking.ts:8</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -177,11 +188,6 @@
 							<h4>Members</h4>
 						</li>
 					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="serviceconstructor" class="tsd-anchor"></a>
@@ -189,7 +195,7 @@
 					<div class="tsd-signature tsd-kind-icon">Service<wbr>Constructor&lt;Service&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L28">rewiring.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L18">rewiring.ts:18</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -207,10 +213,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="servicemocking" class="tsd-anchor"></a>
 					<h3>Service<wbr>Mocking</h3>
-					<div class="tsd-signature tsd-kind-icon">Service<wbr>Mocking&lt;Members&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<div class="tsd-signature tsd-kind-icon">Service<wbr>Mocking&lt;Members&gt;<span class="tsd-signature-symbol">:</span> <a href="index.html#mocking" class="tsd-signature-type">Mocking</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/mocking.ts#L10">mocking.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/mocking.ts#L10">mocking.ts:10</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -219,32 +225,6 @@
 							<h4>Members</h4>
 						</li>
 					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
-					<a name="servicestubed" class="tsd-anchor"></a>
-					<h3>Service<wbr>Stubed</h3>
-					<div class="tsd-signature tsd-kind-icon">Service<wbr>Stubed&lt;Service&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L24">rewiring.ts:24</a></li>
-						</ul>
-					</aside>
-					<h4 class="tsd-type-parameters-title">Type parameters</h4>
-					<ul class="tsd-type-parameters">
-						<li>
-							<h4>Service</h4>
-						</li>
-					</ul>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-						</ul>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 					<a name="servicestubing" class="tsd-anchor"></a>
@@ -252,7 +232,7 @@
 					<div class="tsd-signature tsd-kind-icon">Service<wbr>Stubing&lt;Service&gt;<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L20">rewiring.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L20">rewiring.ts:20</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -274,13 +254,13 @@
 					<a name="mockmodule" class="tsd-anchor"></a>
 					<h3>mock<wbr>Module</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">mock<wbr>Module&lt;Members&gt;<span class="tsd-signature-symbol">(</span>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">mock<wbr>Module&lt;Members&gt;<span class="tsd-signature-symbol">(</span>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L17">index.ts:17</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L18">index.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -295,7 +275,7 @@
 									<h5>members: <span class="tsd-signature-type">Members</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -303,13 +283,13 @@
 					<a name="mockservice" class="tsd-anchor"></a>
 					<h3>mock<wbr>Service</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">mock<wbr>Service&lt;Members&gt;<span class="tsd-signature-symbol">(</span>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">mock<wbr>Service&lt;Members&gt;<span class="tsd-signature-symbol">(</span>members<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L21">index.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L22">index.ts:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -324,7 +304,7 @@
 									<h5>members: <span class="tsd-signature-type">Members</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="classes/mockbuilder.html" class="tsd-signature-type">MockBuilder</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Members</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -338,7 +318,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L44">index.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L45">index.ts:45</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -367,13 +347,13 @@
 					<a name="rewirefull" class="tsd-anchor"></a>
 					<h3>rewire<wbr>Full</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">rewire<wbr>Full&lt;Module, MockedModules, Service, MockedServices, ServiceStubs&gt;<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#moduleloader" class="tsd-signature-type">ModuleLoader</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">&gt;</span>, mockedModules<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MockedModules</span>, serviceInterface<span class="tsd-signature-symbol">: </span><a href="index.html#serviceconstructor" class="tsd-signature-type">ServiceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">&gt;</span>, mockedServices<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MockedServices</span>, withStubs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="classes/fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">rewire<wbr>Full&lt;Module, MockedModules, Service, MockedServices, ServiceStubs&gt;<span class="tsd-signature-symbol">(</span>input<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="index.html#moduleloader" class="tsd-signature-type">ModuleLoader</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">&gt;</span>, mockedModules<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MockedModules</span>, serviceInterface<span class="tsd-signature-symbol">: </span><a href="index.html#serviceconstructor" class="tsd-signature-type">ServiceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">&gt;</span>, mockedServices<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">MockedServices</span>, withStubs<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="classes/fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L51">index.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L52">index.ts:52</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -412,7 +392,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> withStubs: <span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol"> =&nbsp;{} as ServiceStubs</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="classes/fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="classes/fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -426,7 +406,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L25">index.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L26">index.ts:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -461,7 +441,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/index.ts#L32">index.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/index.ts#L33">index.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -510,6 +490,9 @@
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/mockbuilder.html" class="tsd-kind-icon">Mock<wbr>Builder</a>
 					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/mockedresult.html" class="tsd-kind-icon">Mocked<wbr>Result</a>
+					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/modulerewiring.html" class="tsd-kind-icon">Module<wbr>Rewiring</a>
 					</li>
@@ -526,10 +509,10 @@
 						<a href="interfaces/servicemocks.html" class="tsd-kind-icon">Service<wbr>Mocks</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="index.html#mockedreturns" class="tsd-kind-icon">Mocked<wbr>Returns</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="index.html#mockedvalue" class="tsd-kind-icon">Mocked<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="index.html#mocking" class="tsd-kind-icon">Mocking</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="index.html#moduleloader" class="tsd-kind-icon">Module<wbr>Loader</a>
@@ -542,9 +525,6 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="index.html#servicemocking" class="tsd-kind-icon">Service<wbr>Mocking</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="index.html#servicestubed" class="tsd-kind-icon">Service<wbr>Stubed</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="index.html#servicestubing" class="tsd-kind-icon">Service<wbr>Stubing</a>

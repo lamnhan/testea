@@ -22,6 +22,7 @@ Rewiring, mocking & stubbing for testing modules in Node.
   - [The `MockedResult`](#the-mockedresult)
   - [Mocking example](#mocking-example)
 - [Rewiring](#rewiring)
+  - [`rewiremock`](#rewiremock)
   - [`rewireModule()`](#rewiremoduleinput-mockedmodules)
     - [The `ModuleRewiring`](#the-modulerewiring)
   - [`rewireService()`](#rewireserviceserviceconstructor-mockedservices-withstubs)
@@ -86,7 +87,7 @@ import { AnotherService } from './module2';
 
 A **mocked service** is a service that was created to replace the original service for testing purpose.
 
-### `Stubbing`
+### `Stub`
 
 **Stubbing** is an action that replace a **method** of a **server** with a mocked one. Stubbing is useful when a method depends on other methods within the same service.
 
@@ -261,6 +262,10 @@ A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
 - **Local**: the `id` is prefixed by a `@`:
   - `@src/xxx/abc` -> **./src/xxx/abc**
   - Or `@xxx/abc` -> **./src/xxx/abc**
+
+### `rewiremock`
+
+This package also exports a [`rewiremock`](https://github.com/theKashey/rewiremock) instance, so that you may rewire modules with the official interface. See more at: <https://github.com/theKashey/rewiremock>
 
 ### [`rewireModule(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewiremodule)
 

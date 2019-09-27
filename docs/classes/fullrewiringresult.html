@@ -57,7 +57,7 @@
 					<a href="fullrewiringresult.html">FullRewiringResult</a>
 				</li>
 			</ul>
-			<h1>Class FullRewiringResult&lt;Module, MockedModules, Service, MockedServices, ServiceStubs&gt;</h1>
+			<h1>Class FullRewiringResult&lt;Module, MockedModules, Service, MockedServices, ServiceStubs, StubbedService&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -81,6 +81,9 @@
 					</li>
 					<li>
 						<h4>ServiceStubs<span class="tsd-signature-symbol">: </span><a href="../index.html#servicestubing" class="tsd-signature-type">ServiceStubing</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+					<li>
+						<h4>StubbedService<span class="tsd-signature-symbol">: </span><a href="../index.html#servicemocking" class="tsd-signature-type">ServiceMocking</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -111,6 +114,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="fullrewiringresult.html#service" class="tsd-kind-icon">service</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="fullrewiringresult.html#servicename" class="tsd-kind-icon">service<wbr>Name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="fullrewiringresult.html#servicerewiring" class="tsd-kind-icon">service<wbr>Rewiring</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="fullrewiringresult.html#stubbedservice" class="tsd-kind-icon">stubbed<wbr>Service</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -120,10 +124,13 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getmockedmodules" class="tsd-kind-icon">get<wbr>Mocked<wbr>Modules</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getmockedservice" class="tsd-kind-icon">get<wbr>Mocked<wbr>Service</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getmockedservices" class="tsd-kind-icon">get<wbr>Mocked<wbr>Services</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getmoduleresult" class="tsd-kind-icon">get<wbr>Module<wbr>Result</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getmodulerewiring" class="tsd-kind-icon">get<wbr>Module<wbr>Rewiring</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getservice" class="tsd-kind-icon">get<wbr>Service</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getservicename" class="tsd-kind-icon">get<wbr>Service<wbr>Name</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getserviceresult" class="tsd-kind-icon">get<wbr>Service<wbr>Result</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getservicerewiring" class="tsd-kind-icon">get<wbr>Service<wbr>Rewiring</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="fullrewiringresult.html#getstubbedservice" class="tsd-kind-icon">get<wbr>Stubbed<wbr>Service</a></li>
 							</ul>
 						</section>
 					</div>
@@ -135,13 +142,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Full<wbr>Rewiring<wbr>Result<span class="tsd-signature-symbol">(</span>moduleRewiring<span class="tsd-signature-symbol">: </span><a href="modulerewiring.html" class="tsd-signature-type">ModuleRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">&gt;</span>, mockedModules<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MockedModules</span>, serviceName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof Module</span>, serviceRewiring<span class="tsd-signature-symbol">: </span><a href="servicerewiring.html" class="tsd-signature-type">ServiceRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span>, mockedServices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MockedServices</span>, service<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Full<wbr>Rewiring<wbr>Result<span class="tsd-signature-symbol">(</span>moduleRewiring<span class="tsd-signature-symbol">: </span><a href="modulerewiring.html" class="tsd-signature-type">ModuleRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">&gt;</span>, mockedModules<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MockedModules</span>, serviceName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof Module</span>, serviceRewiring<span class="tsd-signature-symbol">: </span><a href="servicerewiring.html" class="tsd-signature-type">ServiceRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span>, mockedServices<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MockedServices</span>, service<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Service</span>, stubbedService<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StubbedService</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L269">rewiring.ts:269</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L240">rewiring.ts:240</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -164,6 +171,9 @@
 								<li>
 									<h5>service: <span class="tsd-signature-type">Service</span></h5>
 								</li>
+								<li>
+									<h5>stubbedService: <span class="tsd-signature-type">StubbedService</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="fullrewiringresult.html" class="tsd-signature-type">FullRewiringResult</a></h4>
 						</li>
@@ -178,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">mocked<wbr>Modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MockedModules</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L264">rewiring.ts:264</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L234">rewiring.ts:234</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">mocked<wbr>Services<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">MockedServices</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L268">rewiring.ts:268</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L238">rewiring.ts:238</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -198,7 +208,7 @@
 					<div class="tsd-signature tsd-kind-icon">module<wbr>Rewiring<span class="tsd-signature-symbol">:</span> <a href="modulerewiring.html" class="tsd-signature-type">ModuleRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L263">rewiring.ts:263</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L233">rewiring.ts:233</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -208,7 +218,7 @@
 					<div class="tsd-signature tsd-kind-icon">service<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Service</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L269">rewiring.ts:269</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L239">rewiring.ts:239</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -218,7 +228,7 @@
 					<div class="tsd-signature tsd-kind-icon">service<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">keyof Module</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L266">rewiring.ts:266</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L236">rewiring.ts:236</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -228,7 +238,17 @@
 					<div class="tsd-signature tsd-kind-icon">service<wbr>Rewiring<span class="tsd-signature-symbol">:</span> <a href="servicerewiring.html" class="tsd-signature-type">ServiceRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L267">rewiring.ts:267</a></li>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L237">rewiring.ts:237</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="stubbedservice" class="tsd-anchor"></a>
+					<h3>stubbed<wbr>Service</h3>
+					<div class="tsd-signature tsd-kind-icon">stubbed<wbr>Service<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">StubbedService</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L240">rewiring.ts:240</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -245,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L299">rewiring.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L272">rewiring.ts:272</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -268,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L295">rewiring.ts:295</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L268">rewiring.ts:268</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MockedModules</span></h4>
@@ -285,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L315">rewiring.ts:315</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L297">rewiring.ts:297</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -308,10 +328,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L311">rewiring.ts:311</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L293">rewiring.ts:293</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MockedServices</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getmoduleresult" class="tsd-anchor"></a>
+					<h3>get<wbr>Module<wbr>Result</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Module<wbr>Result<span class="tsd-signature-symbol">(</span>moduleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof MockedModules</span>, method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof MockedModules[keyof MockedModules]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L276">rewiring.ts:276</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>moduleId: <span class="tsd-signature-type">keyof MockedModules</span></h5>
+								</li>
+								<li>
+									<h5>method: <span class="tsd-signature-type">keyof MockedModules[keyof MockedModules]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -325,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L291">rewiring.ts:291</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L264">rewiring.ts:264</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="modulerewiring.html" class="tsd-signature-type">ModuleRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Module</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedModules</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -342,7 +388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L319">rewiring.ts:319</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L310">rewiring.ts:310</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Service</span></h4>
@@ -359,10 +405,36 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L303">rewiring.ts:303</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L285">rewiring.ts:285</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">keyof Module</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getserviceresult" class="tsd-anchor"></a>
+					<h3>get<wbr>Service<wbr>Result</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Service<wbr>Result<span class="tsd-signature-symbol">(</span>serviceId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof MockedServices</span>, method<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">keyof MockedServices[keyof MockedServices]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L301">rewiring.ts:301</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>serviceId: <span class="tsd-signature-type">keyof MockedServices</span></h5>
+								</li>
+								<li>
+									<h5>method: <span class="tsd-signature-type">keyof MockedServices[keyof MockedServices]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -376,10 +448,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/803b6b1/src/rewiring.ts#L307">rewiring.ts:307</a></li>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L289">rewiring.ts:289</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="servicerewiring.html" class="tsd-signature-type">ServiceRewiring</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Service</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">MockedServices</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">ServiceStubs</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstubbedservice" class="tsd-anchor"></a>
+					<h3>get<wbr>Stubbed<wbr>Service</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Stubbed<wbr>Service<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StubbedService</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lamnhan/testing/blob/df41fd9/src/rewiring.ts#L314">rewiring.ts:314</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">StubbedService</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -421,6 +510,9 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="fullrewiringresult.html#servicerewiring" class="tsd-kind-icon">service<wbr>Rewiring</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="fullrewiringresult.html#stubbedservice" class="tsd-kind-icon">stubbed<wbr>Service</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="fullrewiringresult.html#getmockedmodule" class="tsd-kind-icon">get<wbr>Mocked<wbr>Module</a>
 							</li>
@@ -434,6 +526,9 @@
 								<a href="fullrewiringresult.html#getmockedservices" class="tsd-kind-icon">get<wbr>Mocked<wbr>Services</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="fullrewiringresult.html#getmoduleresult" class="tsd-kind-icon">get<wbr>Module<wbr>Result</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="fullrewiringresult.html#getmodulerewiring" class="tsd-kind-icon">get<wbr>Module<wbr>Rewiring</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -443,7 +538,13 @@
 								<a href="fullrewiringresult.html#getservicename" class="tsd-kind-icon">get<wbr>Service<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="fullrewiringresult.html#getserviceresult" class="tsd-kind-icon">get<wbr>Service<wbr>Result</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="fullrewiringresult.html#getservicerewiring" class="tsd-kind-icon">get<wbr>Service<wbr>Rewiring</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="fullrewiringresult.html#getstubbedservice" class="tsd-kind-icon">get<wbr>Stubbed<wbr>Service</a>
 							</li>
 						</ul>
 					</li>
@@ -451,6 +552,9 @@
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="mockbuilder.html" class="tsd-kind-icon">Mock<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="mockedresult.html" class="tsd-kind-icon">Mocked<wbr>Result</a>
 					</li>
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="modulerewiring.html" class="tsd-kind-icon">Module<wbr>Rewiring</a>
@@ -468,10 +572,10 @@
 						<a href="../interfaces/servicemocks.html" class="tsd-kind-icon">Service<wbr>Mocks</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="../index.html#mockedreturns" class="tsd-kind-icon">Mocked<wbr>Returns</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
 						<a href="../index.html#mockedvalue" class="tsd-kind-icon">Mocked<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="../index.html#mocking" class="tsd-kind-icon">Mocking</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../index.html#moduleloader" class="tsd-kind-icon">Module<wbr>Loader</a>
@@ -484,9 +588,6 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../index.html#servicemocking" class="tsd-kind-icon">Service<wbr>Mocking</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="../index.html#servicestubed" class="tsd-kind-icon">Service<wbr>Stubed</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../index.html#servicestubing" class="tsd-kind-icon">Service<wbr>Stubing</a>
