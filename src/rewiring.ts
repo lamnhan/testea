@@ -142,13 +142,8 @@ export class ServiceRewiring<
   }
 
   private setStubs(stubs: ServiceStubs) {
-    // create a mocked service
     const mockedService = new MockBuilder(stubs);
-    // patch the instance
-    return this.serviceInstance = {
-      ...this.serviceInstance,
-      ...mockedService,
-    };
+    return Object.assign(mockedService, this.serviceInstance);
   }
 
 }
