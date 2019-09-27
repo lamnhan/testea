@@ -6,13 +6,13 @@ import {
   ServiceMocks,
   ServiceStubing,
   ServiceConstructor,
-  Rewiring,
   ModuleRewiring,
   ServiceRewiring,
+  Rewiring,
 } from './rewiring';
 
 export { rewiremock } from './rewiremock';
-export { ModuleMocking, ServiceMocking, MockBuilder } from './mocking';
+export { MockedValue, ModuleMocking, ServiceMocking, MockBuilder, MockedResult } from './mocking';
 export { ServiceStubing } from './rewiring';
 
 export function mockModule<Members>(members: Members) {

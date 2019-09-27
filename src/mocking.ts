@@ -1,10 +1,8 @@
 // tslint:disable: no-any ban-ts-ignore
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
-export type MockedReturns = '*' | '.!' | '.' | '...!' | '...' | MockedValue;
-
 export type Mocking<Members> = {
-  [member in keyof Members]?: MockedReturns;
+  [member in keyof Members]?: MockedValue;
 }
 
 export type ModuleMocking<Members> = Mocking<Members>;
@@ -12,7 +10,7 @@ export type ModuleMocking<Members> = Mocking<Members>;
 export type ServiceMocking<Members> = Mocking<Members>;
 
 type ReturnsKeeping<Members> = {
-  [member in keyof Members]: MockedReturns;
+  [member in keyof Members]: MockedValue;
 }
 
 type ArgsKeeping<Members> = {

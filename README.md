@@ -20,6 +20,7 @@ Rewiring, mocking & stubbing for testing modules in Node.
     - [Mocked returns](#mocked-returns)
     - [Instance methods](#instance-methods)
   - [The `MockedResult`](#the-mockedresult)
+  - [Mocking example](#mocking-example)
 - [Rewiring](#rewiring)
   - [`rewireModule()`](#rewiremoduleinput-mockedmodules)
     - [The `ModuleRewiring`](#the-modulerewiring)
@@ -29,11 +30,11 @@ Rewiring, mocking & stubbing for testing modules in Node.
     - [The `Rewiring`](#the-rewiring)
   - [`rewireFull()`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs)
     - [The `FullRewiringResult`](#the-fullrewiringresult)
-- [Examples](#examples)
-  - [Mocking example](#mocking-example)
-  - [Rewire a module](#rewire-a-module)
-  - [Rewire a service](#rewire-a-service)
-  - [Fully rewiring](#fully-rewiring)
+  - [Rewiring examples](#rewiring-examples)
+    - [Rewire module](#rewire-module)
+    - [Rewire service](#rewire-service)
+    - [Fully rewiring](#fully-rewiring)
+- [Stubbing](#stubbing)
 - [API reference](https://lamnhan.com/testing)
 
 ## Install
@@ -106,8 +107,9 @@ When testing the `b()` method, we can  set the `a()` method to returns whatever 
 
 ## API overview
 
-| Methods | Returns type | Description |
+| Exports | Returns type | Description |
 | --- | --- | --- |
+| `rewiremock` | [`rewiremock`](https://github.com/theKashey/rewiremock) | The rewiremock instance (for manually rewiring) |
 | [`mockModule(members)`](#mockmodulemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock module |
 | [`mockService(members)`](#mockservicemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock service |
 | [`rewireModule(input, mockedModules)`](#rewiremoduleinput-mockedmodules) | [`ModuleRewiring`](#the-modulerewiring) | Rewire a service |
@@ -212,6 +214,35 @@ The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html) cons
 - `haveBeenCalled()`: See if a method have been called
 - `haveBeenCalledWith(...args)`: See if a method have been called with certain args
 - `callCount()`: Get the number of call
+
+### Mocking example
+
+An example of how to create a mocked version of a module or a service.
+
+**`./src/module1.ts`**
+
+```ts
+export function doSomething1() {
+  // do something
+  return 'something';
+}
+
+export async function doSomething2() {
+  // do somthing else
+  return 'nothing at all';
+}
+```
+
+**`./test/module1.spec.ts`**
+
+```ts
+const mockedModule = mockModule({
+  doSomething1: 'any mocked returns value',
+  doSomething2: async () => 'any mocked returns value',
+});
+
+// start using the mocked module
+```
 
 ## Rewiring
 
@@ -352,40 +383,11 @@ A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.
 | `getService()` | `object` | Get the rewired service instance |
 | `getStubbedService()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbed service instance |
 
-## Examples
+### Rewiring examples
 
 All testing examples is using [mocha](https://mochajs.org/) as test runner and [chai](https://www.chaijs.com/) as assertion tool.
 
-### Mocking example
-
-An example of how to create a mocked version of a module or a service.
-
-**`./src/module1.ts`**
-
-```ts
-export function doSomething1() {
-  // do something
-  return 'something';
-}
-
-export async function doSomething2() {
-  // do somthing else
-  return 'nothing at all';
-}
-```
-
-**`./test/module1.spec.ts`**
-
-```ts
-const mockedModule = mockModule({
-  doSomething1: 'any mocked returns value',
-  doSomething2: async () => 'any mocked returns value',
-});
-
-// start using the mocked module
-```
-
-### Rewire a module
+#### Rewire module
 
 An example of how to rewire a module.
 
@@ -437,7 +439,7 @@ describe('Test module1', () => {
 
 ```
 
-### Rewire a service
+#### Rewire service
 
 An example of how to rewire a service.
 
@@ -633,6 +635,50 @@ describe('Test MyService', () => {
   });
 
 });
+```
+
+## Stubbing
+
+You can either stubbing a service method manually with [sinon](https://sinonjs.org) or automatically using the [`withStubs`](#rewireserviceserviceconstructor-mockedservices-withstubs) param.
+
+To stub methods, you need to retrieve a [`ServiceRewiring`](#the-servicerewiring) using [`rewireService`](#rewireserviceserviceconstructor-mockedservices-withstubs) or [`rewireFull`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs) first.
+
+### Manually stubbing
+
+```ts
+// rewire the service
+const serviceRewiring = rewireService(MyService);
+// stub a method
+const doSomethingStub = serviceRewiring.stub('doSomething').returns('anything');
+const doMoreStub = serviceRewiring.stub('doMore').callsFake('do more');
+```
+
+See more about sinon stubbing at: <https://sinonjs.org/releases/latest/stubs/>
+
+### Auto stubbing
+
+With the `withStubs` param, you can provide multiple stubbing methods and be able to get the stubed result a [`MockBuilder`](#the-mockbuilder) instance.
+
+A stub can [returns](#mocked-returns) any value same as a mocking member.
+
+```ts
+// rewire the service
+const serviceRewiring = rewireService(
+  MyService,
+  {}, // no dependencies
+  {
+    doSomething: 'anything',
+    doMore: async () => 'do more',
+    // more stubs
+  }
+);
+// get service & stubbed
+const service = serviceRewiring.getInstance();
+const stubbedService = serviceRewiring.getStubbedInstance();
+// testing
+const result = service.doNothing();
+const doSomethingArgs = stubbedService.getResult('doSomething').getArgs();
+// do assertion
 ```
 
 ## License
