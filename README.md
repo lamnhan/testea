@@ -35,6 +35,8 @@ Rewiring, mocking & stubbing for testing modules in Node.
     - [Rewire service](#rewire-service)
     - [Fully rewiring](#fully-rewiring)
 - [Stubbing](#stubbing)
+  - [Manually stubbing](#manually-stubbing)
+  - [Auto stubbing](#auto-stubbing)
 - [API reference](https://lamnhan.com/testing)
 
 ## Install
