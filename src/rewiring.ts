@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import * as sinon from 'sinon';
 
 import { rewiremock } from './rewiremock';
-import { MockedValue, ServiceMocking, MockBuilder, ModuleMocking } from './mocking';
+import { MockedValue, ServiceMocking, MockBuilder } from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -15,8 +15,15 @@ export interface ServiceMocks {
   [serviceId: string]: {}; // a mocked service
 }
 
+type StubValue = MockedValue; // a async function or a value
+
+interface StubAlias {
+  as: string;
+  value: StubValue;
+}
+
 export type ServiceStubing<Service> = {
-  [method in keyof Service]?: MockedValue; // a async function or a value
+  [method in keyof Service]?: StubValue | StubAlias;
 }
 
 export type ServiceStubed<Service> = {
@@ -142,8 +149,25 @@ export class ServiceRewiring<
   }
 
   private setStubs(stubs: ServiceStubs) {
-    const mockedService = new MockBuilder(stubs);
-    return Object.assign(mockedService, this.serviceInstance);
+    // prepare
+    const mockMembers: ServiceMocking<ServiceStubs> = {};
+    const aliasStubs: {[method: string]: Service[keyof Service]} = {};
+    // process stubbing data
+    for (const method of Object.keys(stubs)) {
+      const methodName = method as keyof Service;
+      const data = stubs[methodName];
+      // alias stubbing
+      if (data instanceof Object && !!(data as StubAlias).as) {
+        const { as, value } = data as StubAlias;
+        aliasStubs[as] = this.serviceInstance[methodName]; // save the original method
+        mockMembers[methodName] = value as StubValue;
+      } else {
+        mockMembers[methodName] = data as StubValue;
+      }
+    }
+    // stubbing
+    const mockedService = new MockBuilder(mockMembers);
+    return Object.assign(this.serviceInstance, mockedService, aliasStubs);
   }
 
 }
