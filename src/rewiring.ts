@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import * as sinon from 'sinon';
 
 import { rewiremock } from './rewiremock';
-import { MockedValue } from './mocking';
+import { MockedValue, ServiceMocking, MockBuilder } from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -72,7 +72,7 @@ export class ModuleRewiring<
     return rewiredModule[name];
   }
 
-  getMocked() {
+  getMockedModules() {
     return this.mockedModules;
   }
 
@@ -126,7 +126,11 @@ export class ServiceRewiring<
     return this.serviceInstance;
   }
 
-  getMocked() {
+  getStubbedInstance() {
+    return this as ServiceMocking<ServiceStubs>;
+  }
+
+  getMockedServices() {
     return this.mockedServices;
   }
 
@@ -137,44 +141,14 @@ export class ServiceRewiring<
     return this.stubedMethods[method] as sinon.SinonStub;
   }
 
-  setStubs(stubs: ServiceStubs) {
-    for (const method of Object.keys(stubs)) {
-      const methodName = method as keyof Service;
-      this.setStub(methodName, stubs[methodName]);
-    }
-    return this;
-  }
-
-  setStub(method: keyof Service, stubed: any) {
-    const stub = this.stub(method);
-    if (stubed instanceof Function) {
-      stub.callsFake(stubed);
-    } else {
-      stub.returns(stubed);
-    }
-    return this;
-  }
-
-  getStubs() {
-    return this.stubedMethods;
-  }
-
-  getStub(method: keyof Service) {
-    return this.stubedMethods[method];
-  }
-
-  restoreStubs() {
-    for (const method of Object.keys(this.stubedMethods)) {
-      this.restoreStub(method as keyof Service);
-    }
-    return this;
-  }
-
-  restoreStub(method: keyof Service) {
-    if (!!this.stubedMethods[method]) {
-      (this.stubedMethods[method] as sinon.SinonStub).restore();
-    }
-    return this;
+  private setStubs(stubs: ServiceStubs) {
+    // create a mocked service
+    const mockedService = new MockBuilder(stubs);
+    // patch the instance
+    return this.serviceInstance = {
+      ...this.serviceInstance,
+      ...mockedService,
+    };
   }
 
 }
@@ -222,7 +196,7 @@ export class Rewiring<
   ) {
     // rewire module
     const moduleRewiring = new ModuleRewiring(this.input, this.mockedModules);
-    const mockedModulesOutput = moduleRewiring.getMocked();
+    const mockedModulesOutput = moduleRewiring.getMockedModules();
     // rewire service
     const serviceName = serviceInterface.name as keyof Module;
     // @ts-ignore
@@ -232,8 +206,9 @@ export class Rewiring<
       mockedServices,
       withStubs,
     );
-    const mockedServicesOutput = serviceRewiring.getMocked();
+    const mockedServicesOutput = serviceRewiring.getMockedServices();
     const service = serviceRewiring.getInstance() as Service;
+    const stubbedService = serviceRewiring.getStubbedInstance();
     // return all data
     return new FullRewiringResult(
       // module
@@ -244,6 +219,7 @@ export class Rewiring<
       serviceRewiring,
       mockedServicesOutput,
       service,
+      stubbedService,
     );
   }
 
@@ -254,7 +230,8 @@ export class FullRewiringResult<
   MockedModules extends ModuleMocks,
   Service,
   MockedServices extends ServiceMocks,
-  ServiceStubs extends ServiceStubing<Service>
+  ServiceStubs extends ServiceStubing<Service>,
+  StubbedService extends ServiceMocking<ServiceStubs>,
 > {
 
   // module
@@ -265,6 +242,7 @@ export class FullRewiringResult<
   serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>;
   mockedServices: MockedServices;
   service: Service;
+  stubbedService: StubbedService;
 
   constructor(
     // module
@@ -275,6 +253,7 @@ export class FullRewiringResult<
     serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>,
     mockedServices: MockedServices,
     service: Service,
+    stubbedService: StubbedService,
   ) {
     // module
     this.moduleRewiring = moduleRewiring;
@@ -284,6 +263,7 @@ export class FullRewiringResult<
     this.serviceRewiring = serviceRewiring;
     this.mockedServices = mockedServices;
     this.service = service;
+    this.stubbedService = stubbedService;
   }
 
   getModuleRewiring() {
@@ -316,6 +296,10 @@ export class FullRewiringResult<
 
   getService() {
     return this.service;
+  }
+
+  getStubbedService() {
+    return this.stubbedService;
   }
 
 }

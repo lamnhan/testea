@@ -251,9 +251,9 @@ it('ok', async () => {
 
 | Method | Returns type | Description |
 | --- | --- | --- |
-| `getMocked()` | `object` | Get all mocked dependencies |
 | `getModule()` | `Promise<object>` | Get the rewired module |
 | `getService(name)` | `Promise<class>` | Get a service constructor of the mocked module |
+| `getMockedModules()` | `object` | Get all mocked dependencies |
 
 ### [`rewireService(serviceConstructor, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewireservice)
 
@@ -295,14 +295,9 @@ it('ok', async () => {
 | Method | Returns type | Description |
 | --- | --- | --- |
 | `getInstance()` | `object` | Get a instance of the rewired service |
-| `getMocked()` | `object` | Get all mocked dependencies |
-| `stub(method)` | `sinon.SinonStub` | Stub a method of the service |
-| `setStubs(stubs)` | [`ServiceRewiring`](#the-servicerewiring) | Stub multiple methods |
-| `setStub(method, stubed)` | [`ServiceRewiring`](#the-servicerewiring) | Stub a method |
-| `getStubs()` | `object` | Get all stubbed methods |
-| `getStub(method)` | `sinon.SinonStub` | Get a stubbed method |
-| `restoreStubs()` | [`ServiceRewiring`](#the-servicerewiring) | Restore all stubbed methods |
-| `restoreStub(method)` | [`ServiceRewiring`](#the-servicerewiring) | Restore a stubbed method |
+| `getStubbedInstance()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbing result |
+| `getMockedServices()` | `object` | Get all mocked dependencies |
+| `stub(method)` | [`sinon.SinonStub`](https://sinonjs.org/releases/latest/stubs/) | Stub a method of the service |
 
 ### [`rewire(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewire)
 
@@ -336,6 +331,7 @@ A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.
 | `serviceRewiring` | [`ServiceRewiring`](#the-servicerewiring) | The service rewiring instance |
 | `mockedServices` | `object` | All mocked services |
 | `service` | `object` | The rewired service instance |
+| `stubbedService` | [`MockBuilder`](#the-mockbuilder) | The the stubbed service instance |
 | `getModuleRewiring()` | [`ModuleRewiring`](#the-modulerewiring) | Get the module rewiring instance |
 | `getMockedModules()` | `object` | Get all mocked modules |
 | `getMockedModule(id)` | `object` | Get a mocked module |
@@ -343,7 +339,8 @@ A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.
 | `getServiceRewiring()` | [`ServiceRewiring`](#the-servicerewiring) | Get the service rewiring instance |
 | `getMockedServices()` | `object` | Get all mocked services |
 | `getMockedService(id)` | `object` | Get a mocked service |
-| `getService` | `object` | Get the rewired service instance |
+| `getService()` | `object` | Get the rewired service instance |
+| `getStubbedService()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbed service instance |
 
 ## Examples
 
