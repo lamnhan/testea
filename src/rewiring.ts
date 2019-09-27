@@ -273,7 +273,7 @@ export class FullRewiringResult<
     return this.mockedModules[id];
   }
 
-  getModuleResult(
+  getMockedModuleResult(
     moduleId: keyof MockedModules,
     method: keyof MockedModules[keyof MockedModules],
   ) {
@@ -298,7 +298,7 @@ export class FullRewiringResult<
     return this.mockedServices[id];
   }
 
-  getServiceResult(
+  getMockedServiceResult(
     serviceId: keyof MockedServices,
     method: keyof MockedServices[keyof MockedServices],
   ) {

@@ -385,10 +385,12 @@ A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.
 | `getModuleRewiring()` | [`ModuleRewiring`](#the-modulerewiring) | Get the module rewiring instance |
 | `getMockedModules()` | `object` | Get all mocked modules |
 | `getMockedModule(id)` | `object` | Get a mocked module |
+| `getMockedModuleResult(id, method)` | [`MockedResult`](#the-mockedresult) | Get a method mocked result |
 | `getServiceName()` | `string` | Get the rewired service name |
 | `getServiceRewiring()` | [`ServiceRewiring`](#the-servicerewiring) | Get the service rewiring instance |
 | `getMockedServices()` | `object` | Get all mocked services |
 | `getMockedService(id)` | `object` | Get a mocked service |
+| `getMockedServiceResult(id, method)` | [`MockedResult`](#the-mockedresult) | Get a method mocked result |
 | `getService()` | `object` | Get the rewired service instance |
 | `getStubbedService()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbed service instance |
 
