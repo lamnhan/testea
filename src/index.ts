@@ -1,4 +1,5 @@
 // tslint:disable: no-any
+import * as sinon from 'sinon';
 import { MockBuilder } from './mocking';
 import {
   ModuleLoader,
@@ -12,6 +13,7 @@ import {
 } from './rewiring';
 
 export { rewiremock } from './rewiremock';
+export { sinon };
 export { MockedValue, ModuleMocking, ServiceMocking, MockBuilder, MockedResult } from './mocking';
 export { ServiceStubing } from './rewiring';
 

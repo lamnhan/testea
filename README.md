@@ -216,8 +216,8 @@ The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html) cons
 - `getStackedArgsThird()`: Get a list of args of the third execution
 - `getStackedArgsLast()`: Get a list of args of the last execution
 - `getArgInStack(execution, position)`: Get an arg by execution order and parameter position
-- `haveBeenCalled()`: See if a method have been called
-- `haveBeenCalledWith(...args)`: See if a method have been called with certain args
+- `hasBeenCalled()`: See if a method has been called
+- `hasBeenCalledWith(...args)`: See if a method has been called with certain args
 - `callCount()`: Get the number of call
 
 ### Mocking example

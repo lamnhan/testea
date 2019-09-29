@@ -1,6 +1,18 @@
 // tslint:disable: no-any ban-ts-ignore
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
+export type Mocked<Members> = MockBuilder<
+  Members,
+  ReturnsKeeping<Members>,
+  ArgsKeeping<Members>,
+  StackedArgsKeeping<Members>,
+  CalledKeeping<Members>
+>;
+
+export type MockedModule<Members> = Mocked<Members>;
+
+export type MockedService<Members> = Mocked<Members>;
+
 export type Mocking<Members> = {
   [member in keyof Members]?: MockedValue;
 }
@@ -259,17 +271,17 @@ export class MockedResult {
   }
 
   /**
-   * See if a method have been called
+   * See if a method has been called
    */
-  haveBeenCalled() {
+  hasBeenCalled() {
     return !!this.called;
   }
 
   /**
-   * See if a method have been called with certain args
+   * See if a method has been called with certain args
    * @param args - The list of arguments
    */
-  haveBeenCalledWith(...args: any[]) {
+  hasBeenCalledWith(...args: any[]) {
     return JSON.stringify(this.args) === JSON.stringify(args);
   }
 

@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import * as sinon from 'sinon';
 
 import { rewiremock } from './rewiremock';
-import { MockedValue, ServiceMocking, MockBuilder } from './mocking';
+import { MockedValue, ServiceMocking, MockedService, MockBuilder } from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -129,7 +129,8 @@ export class ServiceRewiring<
   }
 
   getStubbedInstance() {
-    return this as ServiceMocking<ServiceStubs>;
+    const stubbedService: any = this.serviceInstance;
+    return stubbedService as MockedService<ServiceStubs>;
   }
 
   getMockedServices() {
@@ -144,20 +145,29 @@ export class ServiceRewiring<
   }
 
   private setStubs(stubs: ServiceStubs) {
+    const stubbingMethods = Object.keys(stubs);
+    // create a mocked service
     const mockedService = new MockBuilder(stubs);
-    // rename conflict
-    const originalMembers: {[method in keyof Service]?: Service[keyof Service]} = {};
-    for (const method of Object.keys(mockedService)) {
-      const methodName = method as keyof Service;
-      if (
-        !stubs[methodName] && // not a stubbing method
-        !!this.serviceInstance[methodName] // exists in the service
-      ) {
-        originalMembers[('$' + method) as keyof Service] = this.serviceInstance[methodName];
-      }
-    }
     // patch the service
-    return Object.assign(this.serviceInstance, mockedService, originalMembers);
+    const props = Object.keys(mockedService).concat(
+      Object.getOwnPropertyNames(
+        // @ts-ignore
+        mockedService.__proto__
+      ).filter(x => x !== 'constructor'),
+    );
+    for (const prop of props) {
+      const propName = prop as keyof Service;
+      // rename conflict props
+      if (
+        stubbingMethods.indexOf(prop) === -1 && // not a stubbing prop
+        !!this.serviceInstance[propName] // exists in the service
+      ) {
+        this.serviceInstance[('$' + prop) as keyof Service] = this.serviceInstance[propName];
+      }
+      // patching
+      // @ts-ignore
+      this.serviceInstance[propName] = mockedService[prop];
+    }
   }
 
 }
