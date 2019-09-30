@@ -41,6 +41,13 @@ export class ModuleRewiring<
     this.mockedModules = mockedModules;
   }
 
+  async getResult() {
+    const moduleRewiring = this as ModuleRewiring<Module, MockedModules>;
+    const mockedModules = this.getMockedModules();
+    const module = await this.getModule();
+    return { moduleRewiring, mockedModules, module };
+  }
+
   async getModule() {
     const loader: ModuleLoader<Module> = (
       this.input instanceof Function ?
@@ -99,6 +106,7 @@ export class ServiceRewiring<
   ServiceStubs extends ServiceStubing<Service>
 > {
 
+  private serviceName: string;
   private serviceInstance: Service;
   private mockedServices: MockedServices;
   private stubedMethods: ServiceStubed<Service> = {};
@@ -110,6 +118,8 @@ export class ServiceRewiring<
   ) {
     // save mocked services
     this.mockedServices = mockedServices;
+    // get name
+    this.serviceName = serviceConstructor.name;
     // init instance
     const mockedServicesAsArgs: any[] = [];
     if (!!mockedServices) {
@@ -122,6 +132,18 @@ export class ServiceRewiring<
     if (!!withStubs && !!Object.keys(withStubs).length) {
       this.setStubs(withStubs);
     }
+  }
+
+  getResult() {
+    const serviceRewiring = this as ServiceRewiring<Service, MockedServices, ServiceStubs>;
+    const mockedServices = this.getMockedServices();
+    const service = this.getInstance();
+    const serviceTesting = this.getStubbedInstance();
+    return { serviceRewiring, mockedServices, service, serviceTesting };
+  }
+
+  getName() {
+    return this.serviceName;
   }
 
   getInstance() {
@@ -172,171 +194,72 @@ export class ServiceRewiring<
 
 }
 
-export class Rewiring<
+export class FullRewiring<
   Module,
   MockedModules extends ModuleMocks,
+  Service,
+  MockedServices extends ServiceMocks,
+  ServiceStubs extends ServiceStubing<Service>
 > {
-
-  private input: string | ModuleLoader<Module>;
-  private mockedModules: MockedModules = {} as MockedModules;
+  
+  private moduleRewiring: ModuleRewiring<Module, MockedModules>;
+  private serviceInterface: ServiceConstructor<Service>;
+  private mockedServices: MockedServices;
+  private withStubs: ServiceStubs;
 
   constructor(
     input: string | ModuleLoader<Module>,
     mockedModules: MockedModules = {} as MockedModules,
-  ) {
-    this.input = input;
-    this.mockedModules = mockedModules;
-  }
-
-  rewireModule() {
-    return new ModuleRewiring(this.input, this.mockedModules);
-  }
-
-  rewireService<
-    Service,
-    MockedServices extends ServiceMocks,
-    ServiceStubs extends ServiceStubing<Service>
-  >(
-    serviceInterface: ServiceConstructor<Service>,
-    mockedServices: MockedServices = {} as MockedServices,
-    withStubs: ServiceStubs = {} as ServiceStubs,
-  ) {
-    return new ServiceRewiring(serviceInterface, mockedServices, withStubs);
-  }
-
-  async rewireFull<
-    Service,
-    MockedServices extends ServiceMocks,
-    ServiceStubs extends ServiceStubing<Service>
-  >(
     serviceInterface: ServiceConstructor<Service>,
     mockedServices: MockedServices = {} as MockedServices,
     withStubs: ServiceStubs = {} as ServiceStubs,
   ) {
     // rewire module
-    const moduleRewiring = new ModuleRewiring(this.input, this.mockedModules);
-    const mockedModulesOutput = moduleRewiring.getMockedModules();
+    this.moduleRewiring = new ModuleRewiring(input, mockedModules);
+    // save service info
+    this.serviceInterface = serviceInterface;
+    this.mockedServices = mockedServices;
+    this.withStubs = withStubs;
+  }
+
+  async getResult() {
+    // rewire module
+    const moduleRewiring = this.rewireModule();
+    const mockedModules = moduleRewiring.getMockedModules();
+    const module = await moduleRewiring.getModule();
     // rewire service
-    const serviceName = serviceInterface.name as keyof Module;
-    // @ts-ignore
-    const serviceConstructor: ServiceConstructor<Service> = await moduleRewiring.getService(serviceName);
-    const serviceRewiring = new ServiceRewiring(
-      serviceConstructor,
-      mockedServices,
-      withStubs,
-    );
-    const mockedServicesOutput = serviceRewiring.getMockedServices();
+    const serviceRewiring = await this.rewireService();
+    const mockedServices = serviceRewiring.getMockedServices();
     const service = serviceRewiring.getInstance() as Service;
     const stubbedService = serviceRewiring.getStubbedInstance();
-    // return all data
-    return new FullRewiringResult(
+    // return result
+    return {
       // module
       moduleRewiring,
-      mockedModulesOutput,
+      mockedModules,
+      module,
       // service
-      serviceName,
       serviceRewiring,
-      mockedServicesOutput,
+      mockedServices,
       service,
       stubbedService,
-    );
+    };
   }
 
-}
-
-export class FullRewiringResult<
-  Module,
-  MockedModules extends ModuleMocks,
-  Service,
-  MockedServices extends ServiceMocks,
-  ServiceStubs extends ServiceStubing<Service>,
-  StubbedService extends ServiceMocking<ServiceStubs>,
-> {
-
-  // module
-  moduleRewiring: ModuleRewiring<Module, MockedModules>;
-  mockedModules: MockedModules;
-  // service
-  serviceName: keyof Module;
-  serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>;
-  mockedServices: MockedServices;
-  service: Service;
-  stubbedService: StubbedService;
-
-  constructor(
-    // module
-    moduleRewiring: ModuleRewiring<Module, MockedModules>,
-    mockedModules: MockedModules,
-    // service
-    serviceName: keyof Module,
-    serviceRewiring: ServiceRewiring<Service, MockedServices, ServiceStubs>,
-    mockedServices: MockedServices,
-    service: Service,
-    stubbedService: StubbedService,
-  ) {
-    // module
-    this.moduleRewiring = moduleRewiring;
-    this.mockedModules = mockedModules;
-    // service
-    this.serviceName = serviceName;
-    this.serviceRewiring = serviceRewiring;
-    this.mockedServices = mockedServices;
-    this.service = service;
-    this.stubbedService = stubbedService;
-  }
-
-  getModuleRewiring() {
+  rewireModule() {
     return this.moduleRewiring;
   }
 
-  getMockedModules() {
-    return this.mockedModules;
-  }
-
-  getMockedModule(id: keyof MockedModules) {
-    return this.mockedModules[id];
-  }
-
-  getMockedModuleResult(
-    moduleId: keyof MockedModules,
-    method: keyof MockedModules[keyof MockedModules],
-  ) {
-    const mockedModule = this.getMockedModule(moduleId);
-    //@ts-ignore
-    return mockedModule.getResult(method);
-  }
-
-  getServiceName() {
-    return this.serviceName;
-  }
-
-  getServiceRewiring() {
-    return this.serviceRewiring;
-  }
-  
-  getMockedServices() {
-    return this.mockedServices;
-  }
-
-  getMockedService(id: keyof MockedServices) {
-    return this.mockedServices[id];
-  }
-
-  getMockedServiceResult(
-    serviceId: keyof MockedServices,
-    method: keyof MockedServices[keyof MockedServices],
-  ) {
-    const mockedService = this.getMockedService(serviceId);
-    //@ts-ignore
-    return mockedService.getResult(method);
-  }
-
-  getService() {
-    return this.service;
-  }
-
-  getStubbedService() {
-    return this.stubbedService;
+  async rewireService() {
+    const serviceConstructor = await this.moduleRewiring.getService(
+      this.serviceInterface.name as keyof Module,
+    );
+    return new ServiceRewiring(
+      // @ts-ignore
+      serviceConstructor as ServiceConstructor<Service>,
+      this.mockedServices,
+      this.withStubs,
+    );
   }
 
 }

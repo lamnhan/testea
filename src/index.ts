@@ -9,12 +9,20 @@ import {
   ServiceConstructor,
   ModuleRewiring,
   ServiceRewiring,
-  Rewiring,
+  FullRewiring,
 } from './rewiring';
 
 export { rewiremock } from './rewiremock';
 export { sinon };
-export { MockedValue, ModuleMocking, ServiceMocking, MockBuilder, MockedResult } from './mocking';
+export {
+  MockedValue,
+  ModuleMocking,
+  ServiceMocking,
+  MockedModule,
+  MockedService,
+  MockedResult,
+  MockBuilder,
+} from './mocking';
 export { ServiceStubing } from './rewiring';
 
 export function mockModule<Members>(members: Members) {
@@ -25,7 +33,10 @@ export function mockService<Members>(members: Members) {
   return new MockBuilder(members);
 }
 
-export function rewireModule<Module, MockedModules extends ModuleMocks>(
+export function rewireModule<
+  Module,
+  MockedModules extends ModuleMocks
+>(
   input: string | ModuleLoader<Module>,
   mockedModules?: MockedModules
 ) {
@@ -44,14 +55,7 @@ export function rewireService<
   return new ServiceRewiring(serviceConstructor, mockedServices, withStubs);
 }
 
-export function rewire<Module, MockedModules extends ModuleMocks>(
-  input: string | ModuleLoader<Module>,
-  mockedModules?: MockedModules
-) {
-  return new Rewiring(input, mockedModules);
-}
-
-export async function rewireFull<
+export function rewireFull<
   Module,
   MockedModules extends ModuleMocks,
   Service,
@@ -64,7 +68,9 @@ export async function rewireFull<
   mockedServices: MockedServices = {} as MockedServices,
   withStubs: ServiceStubs = {} as ServiceStubs
 ) {
-  return new Rewiring(input, mockedModules).rewireFull(
+  return new FullRewiring(
+    input,
+    mockedModules,
     serviceInterface,
     mockedServices,
     withStubs

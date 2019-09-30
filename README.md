@@ -27,10 +27,8 @@ Rewiring, mocking & stubbing for testing modules in Node.
     - [The `ModuleRewiring`](#the-modulerewiring)
   - [`rewireService()`](#rewireserviceserviceconstructor-mockedservices-withstubs)
     - [The `ServiceRewiring`](#the-servicerewiring)
-  - [`rewire()`](#rewireinput-mockedmodules)
-    - [The `Rewiring`](#the-rewiring)
   - [`rewireFull()`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs)
-    - [The `FullRewiringResult`](#the-fullrewiringresult)
+    - [The `FullRewiring`](#the-fullrewiring)
   - [Rewiring examples](#rewiring-examples)
     - [Rewire module](#rewire-module)
     - [Rewire service](#rewire-service)
@@ -117,8 +115,7 @@ When testing the `b()` method, we can  set the `a()` method to returns whatever 
 | [`mockService(members)`](#mockservicemembers) | [`MockBuilder`](#the-mockbuilder) | Create a mock service |
 | [`rewireModule(input, mockedModules)`](#rewiremoduleinput-mockedmodules) | [`ModuleRewiring`](#the-modulerewiring) | Rewire a service |
 | [`rewireService(serviceConstructor, mockedServices, withStubs)`](#rewireserviceserviceconstructor-mockedservices-withstubs) | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
-| [`rewire(input, mockedModules)`](#rewireinput-mockedmodules) | [`Rewiring`](#the-rewiring) | Unify api for rewiring both module & service |
-| [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs) | [`FullRewiringResult`](#the-fullrewiringresult) | Shortcut to [`rewire(...).rewireFull(...)`](#rewireinput-mockedmodules) |
+| [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs) | [`FullRewiring`](#the-fullrewiring) | Rewiring both module & service |
 
 ## Mocking
 
@@ -304,6 +301,7 @@ it('ok', async () => {
 | `getModule()` | `Promise<object>` | Get the rewired module |
 | `getService(name)` | `Promise<class>` | Get a service constructor of the mocked module |
 | `getMockedModules()` | `object` | Get all mocked dependencies |
+| `getResult()` | `Promise<object>` | Get all data |
 
 ### [`rewireService(serviceConstructor, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewireservice)
 
@@ -348,51 +346,22 @@ it('ok', async () => {
 | `getStubbedInstance()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbing result |
 | `getMockedServices()` | `object` | Get all mocked dependencies |
 | `stub(method)` | [`sinon.SinonStub`](https://sinonjs.org/releases/latest/stubs/) | Stub a method of the service |
-
-### [`rewire(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewire)
-
-Unify api for rewiring both module & service.
-
-#### The [`Rewiring`](https://lamnhan.com/testing/classes/rewiring.html)
-
-[`Rewiring`](https://lamnhan.com/testing/classes/rewiring.html) is the constructor of `rewire`, see `rewire` for the list of parameters.
-
-See `rewireModule()`, `rewireService(...)` and `rewireFull(...)` for more detail.
-
-| Method | Returns type | Description |
-| --- | --- | --- |
-| `rewireModule()` | [`ModuleRewiring`](#the-modulerewiring) | Rewire a module |
-| `rewireService(serviceInterface, mockedServices, withStubs)` | [`ServiceRewiring`](#the-servicerewiring) | Rewire a service |
-| `rewireFull(serviceInterface, mockedServices, withStubs)` | [`Promise<FullRewiringResult>`](#the-fullrewiringresult) | Rewire module and service and return all data |
+| `getName()` | `string` | Get the name of the service |
+| `getResult()` | `object` | Get all data |
 
 ### [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewirefull)
 
-The shortcut to [`rewire(...).rewireFull(...)`](#rewireinput-mockedmodules), resulting is a [`FullRewiringResult`](#the-fullrewiringresult) instance.
+Rewire both module & service.
 
-#### The [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html)
+#### The [`FullRewiring`](https://lamnhan.com/testing/classes/fullrewiring.html)
 
-A [`FullRewiringResult`](https://lamnhan.com/testing/classes/fullrewiringresult.html) instance provides properties/methods to retrieve data for testing.
+A [`FullRewiring`](https://lamnhan.com/testing/classes/fullrewiring.html) instance provides properties/methods to retrieve data for testing.
 
-| Prop/method | Returns type | Description |
+| method | Returns type | Description |
 | --- | --- | --- |
-| `moduleRewiring` | [`ModuleRewiring`](#the-modulerewiring) | The module rewiring instance |
-| `mockedModules` | `object` | All mocked modules |
-| `serviceName` | `string` | The rewired service name |
-| `serviceRewiring` | [`ServiceRewiring`](#the-servicerewiring) | The service rewiring instance |
-| `mockedServices` | `object` | All mocked services |
-| `service` | `object` | The rewired service instance |
-| `stubbedService` | [`MockBuilder`](#the-mockbuilder) | The the stubbed service instance |
-| `getModuleRewiring()` | [`ModuleRewiring`](#the-modulerewiring) | Get the module rewiring instance |
-| `getMockedModules()` | `object` | Get all mocked modules |
-| `getMockedModule(id)` | `object` | Get a mocked module |
-| `getMockedModuleResult(id, method)` | [`MockedResult`](#the-mockedresult) | Get a method mocked result |
-| `getServiceName()` | `string` | Get the rewired service name |
-| `getServiceRewiring()` | [`ServiceRewiring`](#the-servicerewiring) | Get the service rewiring instance |
-| `getMockedServices()` | `object` | Get all mocked services |
-| `getMockedService(id)` | `object` | Get a mocked service |
-| `getMockedServiceResult(id, method)` | [`MockedResult`](#the-mockedresult) | Get a method mocked result |
-| `getService()` | `object` | Get the rewired service instance |
-| `getStubbedService()` | [`MockBuilder`](#the-mockbuilder) | Get the stubbed service instance |
+| `rewireModule()` | [`ModuleRewiring`](#the-modulerewiring) | The module rewiring instance |
+| `rewireService()` | [`Promise<ServiceRewiring>`](#the-servicerewiring) | The service rewiring instance |
+| `getResult()` | `Promise<object>` | Get all data |
 
 ### Rewiring examples
 
