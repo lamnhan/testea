@@ -489,7 +489,7 @@ describe('Test Service2', () => {
     const service2Rewiring = getService();
     const rewiredService2 = await service2Rewiring.getInstance();
     // retrieve a mocked servics for passed argument testing
-    const { '@src/module1': mockedModule1 } = service2Rewiring.getMocked();
+    const { '@src/module1': mockedModule1 } = service2Rewiring.getMockedServices();
 
     // test a module member
     const result = rewiredService2.doSomething();
@@ -571,7 +571,8 @@ async function setup(
       },
     },
     stubs,
-  );
+  )
+  .getResult();
 }
 
 // start testing
