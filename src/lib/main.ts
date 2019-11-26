@@ -20,7 +20,9 @@ export class Main {
       this.ayedocsModule.Parse
     );
     this.templateService = new TemplateService();
-    this.renderService = new RenderService();
+    this.renderService = new RenderService(
+      this.templateService
+    );
   }
 
   get Parse() {

@@ -19,6 +19,7 @@ export class Cli {
     this.testingModule = new TestingModule();
     this.generateCommand = new GenerateCommand(
       this.testingModule.Parse,
+      this.testingModule.Render,
     );
   }
 
