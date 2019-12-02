@@ -4,14 +4,21 @@ import { readFile, pathExistsSync } from 'fs-extra';
 import * as recursiveReaddir from 'recursive-readdir';
 import { ParseService as AyedocsParseService, Declaration } from '@lamnhan/ayedocs';
 
-export interface ParsedItem extends ParsedData {
+export interface ParsedItem extends ParsedData, ParsedFlags {
   path: string;
   content: string;
 }
 
 export interface ParsedData {
   imports: ParsedImport[];
+  moduleImports: ParsedImport[];
+  serviceImports: ParsedImport[];
   classes: ParsedClass[];
+}
+
+export interface ParsedFlags {
+  hasModuleMocks?: boolean;
+  hasServiceMocks?: boolean;
 }
 
 export interface ParsedImport {
@@ -20,14 +27,22 @@ export interface ParsedImport {
   value: string | string[];
   from: string;
   source: ImportSource;
+  id: string;
 }
 
 export interface ParsedClass {
   name: string;
   declaration: Declaration;
   properties: Declaration[];
-  constructorParams: Array<{ name: string, type: string }>;
   methods: Declaration[];
+  constructorParams: ClassParam[];
+  parameters: ClassParam[];
+  injectedServices: ClassParam[];
+}
+
+export interface ClassParam {
+  name: string;
+  type: string;
 }
 
 export type ImportType = 'default' | 'name' | 'full';
@@ -37,7 +52,7 @@ export type ImportSource = 'local' | 'node' | 'global';
 export class ParseService {
 
   constructor (
-    private parseService: AyedocsParseService
+    private ayedocsParseService: AyedocsParseService
   ) {}
 
   async parse(source = 'src') {
@@ -62,12 +77,13 @@ export class ParseService {
   }
 
   private extractData(content: string) {
-    const classMatched = content.match(/export\ class\ .*\ {/g);
+    const classMatched = content.match(/export\ class\ .*[<|( {)]/g);
     // no class
     if (!classMatched) {
       return null;
     }
     // get imports
+    const aliasNameImports: {[name: string]: string} = {};
     const imports = (content.match(/import\ .*\ from\ .*;/g) || [])
       .map(item => {
         const [, value, path] = ((/import\ (.*)\ from\ (.*);/).exec(item) || []);
@@ -82,7 +98,27 @@ export class ParseService {
           importValue = value
             .replace(/\{|\}/g, '')
             .split(',')
-            .map(x => x.trim().replace(/\ as\ .*/g, ''));
+            .map(x => {
+              const [name, alias] = x.split(' as ').map(x2 => x2.trim());
+              if (!!alias) {
+                aliasNameImports[alias] = name;
+              }
+              return name;
+            })
+            .filter(name => {
+              let declaration: undefined | Declaration;
+              try {
+                declaration = this.ayedocsParseService.parse(name);
+              } catch (error) {
+                // no declaration
+              }
+              // must be a var/function/class
+              return !declaration || (
+                declaration.isKind('Variable')
+                || declaration.isKind('Function')
+                || declaration.isKind('Class')
+              );
+            });
         } else {
           importType = 'default';
           importValue = value.trim();
@@ -98,44 +134,101 @@ export class ParseService {
         } else {
           importSource = 'global';
         }
+        // id
+        const id = (importFrom.split('/').pop() as string).replace(/[^a-zA-Z]/g, '');
         // result
         return {
           statement: item,
           type: importType,
           value: importValue,
           from: importFrom,
-          source: importSource
+          source: importSource,
+          id
         } as ParsedImport;
-      });
-    
+      })
+      .filter(({ value }) => !!value.length);
     // get classes
+    const allInjectedServices: {[name: string]: boolean} = {};
     const classes = classMatched
       .map(item => {
-        const name = ((/export\ class\ (.*)\ {/).exec(item) || []).pop() as string;
-        const declaration = this.parseService.parse(name);
+        const name = (
+          (((/export\ class\ (.*)[<|( {)]/).exec(item) || []).pop() as string)
+          .split('<')
+          .shift() as string
+        ).trim();
+        const declaration = this.ayedocsParseService.parse(name);
         const properties = declaration.getVariablesOrProperties();
         const methods = declaration.getFunctionsOrMethods();
         // constructor params
-        const {
-          REFLECTION: constructorReflection
-        } = declaration.getChild('constructor');
-        const constructorSignature = (constructorReflection as any)['signatures'][0];
+        const { REFLECTION: cstReflection } = declaration.getChild('constructor');
+        const constructorSignature = (cstReflection as any)['signatures'][0];
+        const injectedServices: ClassParam[] = [];
+        const parameters: ClassParam[] = [];
         const constructorParams = (constructorSignature.parameters || [])
-          .map((param: any) => ({
-            name: param.name,
-            type: param.type.toString()
-          }));
+          .map((parameter: any) => {
+            const type = parameter.type.toString();
+            const originalType = aliasNameImports[type];
+            const param = {
+              name: parameter.name,
+              type: originalType || type,
+            };
+            const isService = (
+              parameter.type.type === 'reference' &&
+              (
+                !parameter.type.reflection ||
+                parameter.type.reflection.kindString === 'Class'
+              )
+            );
+            // injected service
+            if (isService) {
+              injectedServices.push(param);
+              allInjectedServices[param.type] = true;
+            }
+            // normal parameter
+            else {
+              parameters.push(param);
+            }
+            // return
+            return param;
+          });
         // result
         return {
           name,
           declaration,
           properties,
-          constructorParams,
           methods,
+          constructorParams,
+          injectedServices,
+          parameters
         } as ParsedClass;
       });
+    // further process imports
+    const moduleImports: ParsedImport[] = [];
+    const serviceImports: ParsedImport[] = [];
+    imports.forEach(imp => {
+      if (imp.value instanceof Array) {
+        const groupValue: string[] = [];
+        imp.value.forEach(val => {
+          if (!!allInjectedServices[val]) {
+            serviceImports.push({ ...imp, value: [val] });
+          } else {
+            groupValue.push(val);
+          }
+        });
+        moduleImports.push({ ...imp, value: groupValue });
+      } else {
+        moduleImports.push(imp);
+      }
+    });
     // result
-    return { imports, classes } as ParsedData;
+    return {
+      imports,
+      moduleImports,
+      serviceImports,
+      classes,
+      hasModuleMocks: !!moduleImports.length,
+      hasServiceMocks: !!serviceImports.length,
+    } as ParsedData;
   }
 
 }

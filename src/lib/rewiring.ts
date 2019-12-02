@@ -85,14 +85,16 @@ export class ModuleRewiring<
 
   private resolvePath(path: string) {
     // xxx => native module
+    // ~xxx => ./node_modules/xxx
     if (path.substr(0, 1) === '~') {
-      // ~xxx => ./node_modules/xxx
       path = resolve('.', 'node_modules', path.replace('~', ''));
-    } else if (path.substr(0, 5) === '@src/') {
-      // @src/xxx/abc => ./src/xxx/abc
+    }
+    // @src/xxx/abc => ./src/xxx/abc
+    else if (path.substr(0, 5) === '@src/') {
       path = resolve('.', path.replace('@src/', 'src/'));
-    } else if (path.substr(0, 1) === '@') {
-      // @xxx/abc => ./src/xxx/abc
+    }
+    // @xxx/abc => ./src/xxx/abc
+    else if (path.substr(0, 1) === '@') {
       path = resolve('.', path.replace('@', 'src/'));
     }
     return path;

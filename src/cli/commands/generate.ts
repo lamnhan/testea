@@ -1,6 +1,6 @@
 import { resolve } from 'path';
-import { outputFile } from 'fs-extra';
-import { green } from 'chalk';
+import { outputFile, pathExists } from 'fs-extra';
+import { green, blue } from 'chalk';
 
 import { ParseService, RenderService } from '../../public-api';
 
@@ -21,11 +21,17 @@ export class GenerateCommand {
         .replace('.ts', '.spec.ts')
         .split('src')
         .pop() as string;
-      // content
-      const content = await this.renderService.render(item);
-      // save file
-      await outputFile(resolve(path), content);
-      console.log('Spec file saved at ' + green(path));
+      const fullPath = resolve(path);
+      // save content
+      if (await pathExists(fullPath)) {
+        console.log('Spec file exists at ' + blue(path));
+      } else {
+        // render content
+        const content = await this.renderService.render(item);
+        // save file
+        await outputFile(fullPath, content);
+        console.log('Spec file saved at ' + green(path));
+      }
     }
   }
 
