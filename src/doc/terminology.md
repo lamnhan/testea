@@ -1,4 +1,4 @@
-### `Module` and `mocked module`
+## `Module` and `mocked module`
 
 A **module** is a dependency or a file that is imported by your code. Example: `path` module, `module1` module, ...
 
@@ -15,7 +15,7 @@ There are 3 kinds of module:
 
 A **mocked module** is a module that was created to replace the original module for testing purpose.
 
-### `Service` and `mocked service`
+## `Service` and `mocked service`
 
 A **service** is an exported member of a **module**, usually an exported `class` in a module. Example: `MyService` service, `AnotherService` service, ...
 
@@ -26,7 +26,7 @@ import { AnotherService } from './module2';
 
 A **mocked service** is a service that was created to replace the original service for testing purpose.
 
-### `Stub`
+## `Stub`
 
 **Stubbing** is an action that replace a **method** of a **server** with a mocked one. Stubbing is useful when a method depends on other methods within the same service.
 

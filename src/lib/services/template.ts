@@ -66,6 +66,7 @@ export class TemplateService {
             // whitelist class surfix
             || val.substr(-7) === 'Service'
             || val.substr(-7) === 'Command'
+            || val.substr(-6) === 'Module'
           );
         })
         .map(val => `  ${val}: '',`);

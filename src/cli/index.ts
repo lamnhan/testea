@@ -9,7 +9,7 @@ export class Cli {
 
   private generateCommand: GenerateCommand;
 
-  commander = ['testing', 'Rewiring, mocking & stubbing for testing modules in Node.'];
+  commander = ['testing', 'Spec file generate, ...'];
 
   generateCommandDef: CommandDef = [
     'generate', 'Generate spec files.'
