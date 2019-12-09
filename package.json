@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/testea",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Rewiring, mocking & stubbing for testea modules in Node.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
@@ -38,7 +38,7 @@
     "url": "https://github.com/lamnhan/testea/issues"
   },
   "dependencies": {
-    "@lamnhan/ayedocs": "file:../ayedocs/lamnhan-ayedocs-0.0.6.tgz",
+    "@lamnhan/ayedocs": "0.0.6",
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
