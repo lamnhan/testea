@@ -13,7 +13,7 @@ There are 3 kinds of module:
 - **Installed**: installed `node_modules/` dependencies
 - **Local**: any files in the `src/` folder
 
-A **mocked module** is a module that was created to replace the original module for testing purpose.
+A **mocked module** is a module that was created to replace the original module for testea purpose.
 
 ## `Service` and `mocked service`
 
@@ -24,7 +24,7 @@ import { MyService } from './module1';
 import { AnotherService } from './module2';
 ```
 
-A **mocked service** is a service that was created to replace the original service for testing purpose.
+A **mocked service** is a service that was created to replace the original service for testea purpose.
 
 ## `Stub`
 
@@ -45,4 +45,4 @@ class MyService {
 }
 ```
 
-When testing the `b()` method, we can  set the `a()` method to returns whatever we want without actually calling it.
+When testea the `b()` method, we can  set the `a()` method to returns whatever we want without actually calling it.

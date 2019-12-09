@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'https://lamnhan.com/testing',
+  url: 'https://lamnhan.com/testea',
   typedocConfigs: {
     readme: 'none',
   },

@@ -1,8 +1,8 @@
 <section id="head" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
 
-# @lamnhan/testing
+# @lamnhan/testea
 
-**Rewiring, mocking & stubbing for testing modules in Node.**
+**Rewiring, mocking & stubbing for testea modules in Node.**
 
 </section>
 
@@ -11,7 +11,7 @@
 [![License][license_badge]][license_url] [![Support me on Patreon][patreon_badge]][patreon_url] [![PayPal][paypal_donate_badge]][paypal_donate_url] [![Ask me anything][ask_me_badge]][ask_me_url]
 
 [license_badge]: https://img.shields.io/github/license/mashape/apistatus.svg
-[license_url]: https://github.com/lamnhan/testing/blob/master/LICENSE
+[license_url]: https://github.com/lamnhan/testea/blob/master/LICENSE
 [patreon_badge]: https://lamnhan.github.io/assets/images/badges/patreon.svg
 [patreon_url]: https://www.patreon.com/lamnhan
 [paypal_donate_badge]: https://lamnhan.github.io/assets/images/badges/paypal_donate.svg
@@ -25,16 +25,16 @@
 
 Install globaly, as a CLI:
 
-`npm install -g @lamnhan/testing`
+`npm install -g @lamnhan/testea`
 
 Or localy:
 
-`npm install --save-dev @lamnhan/testing`
+`npm install --save-dev @lamnhan/testea`
 
 Use the library:
 
 ```ts
-import { mockService } from "@lamnhan/testing";
+import { mockService } from "@lamnhan/testea";
 
 const mocked = mockService({
   a: () => 1,
@@ -48,7 +48,7 @@ const mocked = mockService({
 
 <section id="docs">
 
-See the documentation at: <http://lamnhan.com/testing>
+See the documentation at: <http://lamnhan.com/testea>
 
 </section>
 
@@ -56,6 +56,6 @@ See the documentation at: <http://lamnhan.com/testing>
 
 ## License
 
-**@lamnhan/testing** is released under the [MIT](https://github.com/lamnhan/testing/blob/master/LICENSE) license.
+**@lamnhan/testea** is released under the [MIT](https://github.com/lamnhan/testea/blob/master/LICENSE) license.
 
 </section>

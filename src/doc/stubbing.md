@@ -35,7 +35,7 @@ const serviceRewiring = rewireService(
 // get service & stubbed
 const service = serviceRewiring.getInstance();
 const stubbedService = serviceRewiring.getStubbedInstance();
-// testing
+// testea
 const result = service.doNothing();
 const doSomethingArgs = stubbedService.getResult('doSomething').getArgs();
 // do assertion

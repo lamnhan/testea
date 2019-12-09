@@ -1,6 +1,6 @@
-## [`mockModule(members)`](https://lamnhan.com/testing/index.html#mockmodule)
+## [`mockModule(members)`](https://lamnhan.com/testea/index.html#mockmodule)
 
-Create a mock module for testing purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder).
+Create a mock module for testea purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder).
 
 The original module, for example:
 
@@ -29,13 +29,13 @@ const mockedModule = mockModule({
 // start using the mocked module
 ```
 
-## [`mockService(members)`](https://lamnhan.com/testing/index.html#mockservice)
+## [`mockService(members)`](https://lamnhan.com/testea/index.html#mockservice)
 
-Create a mock service for testing purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder). See [`mockModule`](#mockmodulemembers) for usage info.
+Create a mock service for testea purpose, this method is a proxy to the [`MockBuilder`](#the-mockbuilder). See [`mockModule`](#mockmodulemembers) for usage info.
 
-## The [`MockBuilder`](https://lamnhan.com/testing/classes/mockbuilder.html)
+## The [`MockBuilder`](https://lamnhan.com/testea/classes/mockbuilder.html)
 
-The [`MockBuilder`](https://lamnhan.com/testing/classes/mockbuilder.html) constructor create a mocked object for mocking modules and services.
+The [`MockBuilder`](https://lamnhan.com/testea/classes/mockbuilder.html) constructor create a mocked object for mocking modules and services.
 
 ```ts
 const mocked = new MockBuilder({
@@ -65,7 +65,7 @@ These are the supported returns values.
 
 ### Instance methods
 
-A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrieving testing data.
+A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrieving testea data.
 
 - `getProp(prop)`: Get a mocked property value
 - `getResult(member)`: Get the result for a certain member, returns `MockedResult`](#the-mockedresult)
@@ -73,9 +73,9 @@ A [`MockBuilder`](#the-mockbuilder) instance provides these methods for retrievi
 - `getAllArgs()`: Get all the data holded by the Args Keeper
 - `getAllStackedArgs()`: Get all the data holded by the StackedArgs Keeper
 
-## The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html)
+## The [`MockedResult`](https://lamnhan.com/testea/classes/mockedresult.html)
 
-The [`MockedResult`](https://lamnhan.com/testing/classes/mockedresult.html) constructor provide values and methods for testing a mocked method.
+The [`MockedResult`](https://lamnhan.com/testea/classes/mockedresult.html) constructor provide values and methods for testea a mocked method.
 
 - `getArgs()`: Get a list of args
 - `countArgs()`: Get the number of args

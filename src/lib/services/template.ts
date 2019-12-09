@@ -15,23 +15,23 @@ export class TemplateService {
     hasModuleMocks = false,
     hasServiceMocks = false,
   ) {
-    const testingImports: string[] = [];
+    const testeaImports: string[] = [];
     // general & main methods
-    testingImports.push('ServiceStubing');
-    testingImports.push(hasModuleMocks ? 'rewireFull' : 'rewireService');
+    testeaImports.push('ServiceStubing');
+    testeaImports.push(hasModuleMocks ? 'rewireFull' : 'rewireService');
     // has module mocks
     if (hasModuleMocks) {
-      testingImports.push('ModuleMocking', 'mockModule');
+      testeaImports.push('ModuleMocking', 'mockModule');
     }
     // has service mocks
     if (hasServiceMocks) {
-      testingImports.push('ServiceMocking', 'mockService');
+      testeaImports.push('ServiceMocking', 'mockService');
     }
     // result
     return this.toText([
       `// tslint:disable: no-any ban-ts-ignore ban`,
       `import\ { expect } from 'chai';`,
-      `import\ { ${ testingImports.join(', ') } } from '@lamnhan/testing';`
+      `import\ { ${ testeaImports.join(', ') } } from '@lamnhan/testea';`
     ]);
   }
 

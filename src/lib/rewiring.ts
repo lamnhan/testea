@@ -140,8 +140,8 @@ export class ServiceRewiring<
     const serviceRewiring = this as ServiceRewiring<Service, MockedServices, ServiceStubs>;
     const mockedServices = this.getMockedServices();
     const service = this.getInstance();
-    const serviceTesting = this.getStubbedInstance();
-    return { serviceRewiring, mockedServices, service, serviceTesting };
+    const serviceTestea = this.getStubbedInstance();
+    return { serviceRewiring, mockedServices, service, serviceTestea };
   }
 
   getName() {

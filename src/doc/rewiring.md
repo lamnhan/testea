@@ -15,7 +15,7 @@ A rewiring dependency is resolved by an `ID`, depending on the kind of a module:
 
 This package also exports a [`rewiremock`](https://github.com/theKashey/rewiremock) instance, so that you may rewire modules with the official interface. See more at: <https://github.com/theKashey/rewiremock>
 
-## [`rewireModule(input, mockedModules)`](https://lamnhan.com/testing/index.html#rewiremodule)
+## [`rewireModule(input, mockedModules)`](https://lamnhan.com/testea/index.html#rewiremodule)
 
 Load a module with mocked dependencies.
 
@@ -43,9 +43,9 @@ it('ok', async () => {
 });
 ```
 
-### The [`ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html)
+### The [`ModuleRewiring`](https://lamnhan.com/testea/classes/modulerewiring.html)
 
-[`ModuleRewiring`](https://lamnhan.com/testing/classes/modulerewiring.html) is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
+[`ModuleRewiring`](https://lamnhan.com/testea/classes/modulerewiring.html) is the constructor of `rewireModule`, see `rewireModule` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
@@ -54,7 +54,7 @@ it('ok', async () => {
 | `getMockedModules()` | `object` | Get all mocked dependencies |
 | `getResult()` | `Promise<object>` | Get all data |
 
-## [`rewireService(serviceConstructor, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewireservice)
+## [`rewireService(serviceConstructor, mockedServices, withStubs)`](https://lamnhan.com/testea/index.html#rewireservice)
 
 Load a service with mocked dependencies and stubing methods.
 
@@ -87,9 +87,9 @@ it('ok', async () => {
 });
 ```
 
-### The [`ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html)
+### The [`ServiceRewiring`](https://lamnhan.com/testea/classes/servicerewiring.html)
 
-[`ServiceRewiring`](https://lamnhan.com/testing/classes/servicerewiring.html) is the constructor of `rewireService`, see `rewireService` for the list of parameters.
+[`ServiceRewiring`](https://lamnhan.com/testea/classes/servicerewiring.html) is the constructor of `rewireService`, see `rewireService` for the list of parameters.
 
 | Method | Returns type | Description |
 | --- | --- | --- |
@@ -100,13 +100,13 @@ it('ok', async () => {
 | `getName()` | `string` | Get the name of the service |
 | `getResult()` | `object` | Get all data |
 
-## [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testing/index.html#rewirefull)
+## [`rewireFull(input, mockedModules, serviceInterface, mockedServices, withStubs)`](https://lamnhan.com/testea/index.html#rewirefull)
 
 Rewire both module & service.
 
-### The [`FullRewiring`](https://lamnhan.com/testing/classes/fullrewiring.html)
+### The [`FullRewiring`](https://lamnhan.com/testea/classes/fullrewiring.html)
 
-A [`FullRewiring`](https://lamnhan.com/testing/classes/fullrewiring.html) instance provides properties/methods to retrieve data for testing.
+A [`FullRewiring`](https://lamnhan.com/testea/classes/fullrewiring.html) instance provides properties/methods to retrieve data for testea.
 
 | method | Returns type | Description |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ A [`FullRewiring`](https://lamnhan.com/testing/classes/fullrewiring.html) instan
 
 ## Rewiring examples
 
-All testing examples is using [mocha](https://mochajs.org/) as test runner and [chai](https://www.chaijs.com/) as assertion tool.
+All testea examples is using [mocha](https://mochajs.org/) as test runner and [chai](https://www.chaijs.com/) as assertion tool.
 
 ### Rewire module
 
@@ -136,7 +136,7 @@ export function doSomething() {
 **`./test/module1.spec.ts`**
 
 ```ts
-import { rewireModule } from '@lamnhan/testing';
+import { rewireModule } from '@lamnhan/testea';
 
 // setup
 function getModule() {
@@ -153,7 +153,7 @@ function getModule() {
   );
 }
 
-// start testing
+// start testea
 describe('Test module1', () => {
 
   it('#doSomething', async () => {
@@ -213,7 +213,7 @@ export class Service2 {
 **`./test/module2.spec.ts`**
 
 ```ts
-import { rewireService } from '@lamnhan/testing';
+import { rewireService } from '@lamnhan/testea';
 
 import { Service2 } from '../src/module2';
 
@@ -232,14 +232,14 @@ function getService() {
   );
 }
 
-// start testing
+// start testea
 describe('Test Service2', () => {
 
   it('#doSomething2', async () => {
     // retrieve the rewired service
     const service2Rewiring = getService();
     const rewiredService2 = await service2Rewiring.getInstance();
-    // retrieve a mocked servics for passed argument testing
+    // retrieve a mocked servics for passed argument testea
     const { '@src/module1': mockedModule1 } = service2Rewiring.getMockedServices();
 
     // test a module member
@@ -291,7 +291,7 @@ export class MyService {
 **`./test/module1.spec.ts`**
 
 ```ts
-import { rewireFull } from '@lamnhan/testing';
+import { rewireFull } from '@lamnhan/testea';
 
 import { MyService } from '../src/module1';
 
@@ -326,7 +326,7 @@ async function setup(
   .getResult();
 }
 
-// start testing
+// start testea
 describe('Test MyService', () => {
 
   it('#doSomething', async () => {
@@ -334,11 +334,11 @@ describe('Test MyService', () => {
     const {
       service,
       mockedModules: {
-        'path': mockedPathModuleTesting,
-        '~fs-extra': mockedFSExtraModuleTesting,
+        'path': mockedPathModuleTestea,
+        '~fs-extra': mockedFSExtraModuleTestea,
       },
       mockedServices: {
-        '@src/service2': mockedService2Testing,
+        '@src/service2': mockedService2Testea,
       }
     } = await setup();
 
@@ -346,9 +346,9 @@ describe('Test MyService', () => {
     const result = service.doSomething();
     expect(result).equal('...');
     // do more assertions about passed arguments
-    const resolveArgs = mockedPathModuleTesting.getArgFirst('resolve');
-    const readFileArg = mockedFSExtraModuleTesting.getArgFirst('readFile');
-    const doSomethingArg = mockedService2Testing.getArgFirst('doSomething');
+    const resolveArgs = mockedPathModuleTestea.getArgFirst('resolve');
+    const readFileArg = mockedFSExtraModuleTestea.getArgFirst('readFile');
+    const doSomethingArg = mockedService2Testea.getArgFirst('doSomething');
     expect(resolveArg).equal('xxx');
     expect(readFileArg).equal('xxx.txt');
     expect(doSomethingArg).equal('xxx');

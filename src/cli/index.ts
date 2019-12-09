@@ -1,25 +1,25 @@
 import { red } from 'chalk';
 import * as commander from 'commander';
-import { TestingModule } from '../public-api';
+import { TesteaModule } from '../public-api';
 
 import { GenerateCommand } from './commands/generate';
 
 export class Cli {
-  private testingModule: TestingModule;
+  private testeaModule: TesteaModule;
 
   private generateCommand: GenerateCommand;
 
-  commander = ['testing', 'Spec file generate, ...'];
+  commander = ['testea', 'Spec file generate, ...'];
 
   generateCommandDef: CommandDef = [
     'generate', 'Generate spec files.'
   ];
 
   constructor() {
-    this.testingModule = new TestingModule();
+    this.testeaModule = new TesteaModule();
     this.generateCommand = new GenerateCommand(
-      this.testingModule.Parse,
-      this.testingModule.Render,
+      this.testeaModule.Parse,
+      this.testeaModule.Render,
     );
   }
 

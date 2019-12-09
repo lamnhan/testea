@@ -1,14 +1,14 @@
 {
-  "name": "@lamnhan/testing",
+  "name": "@lamnhan/testea",
   "version": "0.0.5",
-  "description": "Rewiring, mocking & stubbing for testing modules in Node.",
+  "description": "Rewiring, mocking & stubbing for testea modules in Node.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
   "license": "MIT",
   "main": "./src/public-api.js",
   "typings": "./src/public-api.d.ts",
   "bin": {
-    "testing": "./src/index.js"
+    "testea": "./src/index.js"
   },
   "files": [
     "src",
@@ -25,20 +25,20 @@
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls"
   },
   "keywords": [
-    "testing",
+    "testea",
     "rewire",
     "mock",
     "NodeJS"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/lamnhan/testing.git"
+    "url": "https://github.com/lamnhan/testea.git"
   },
   "bugs": {
-    "url": "https://github.com/lamnhan/testing/issues"
+    "url": "https://github.com/lamnhan/testea/issues"
   },
   "dependencies": {
-    "@lamnhan/ayedocs": "0.0.5",
+    "@lamnhan/ayedocs": "file:../ayedocs/lamnhan-ayedocs-0.0.6.tgz",
     "chalk": "^3.0.0",
     "commander": "^4.0.1",
     "fs-extra": "^8.1.0",
