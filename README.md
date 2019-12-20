@@ -46,7 +46,7 @@ const mocked = mockService({
 
 </section>
 
-<section id="docs">
+<section id="main">
 
 See the documentation at: <http://lamnhan.com/testea>
 
@@ -57,5 +57,13 @@ See the documentation at: <http://lamnhan.com/testea>
 ## License
 
 **@lamnhan/testea** is released under the [MIT](https://github.com/lamnhan/testea/blob/master/LICENSE) license.
+
+</section>
+
+<section id="attr">
+
+---
+
+⚡️ This document is generated automatically using [@lamnhan/ayedocs](https://github.com/lamnhan/ayedocs).
 
 </section>

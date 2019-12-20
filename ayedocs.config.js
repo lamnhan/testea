@@ -1,8 +1,5 @@
 module.exports = {
   url: 'https://lamnhan.com/testea',
-  typedocConfigs: {
-    readme: 'none',
-  },
   cleanOutput: true,
   fileRender: {
     'README.md': {
@@ -47,7 +44,7 @@ module.exports = {
         autoTOC: true,
       },
       'the-cli.html': {
-        pageTitle: 'Use the CLI',
+        pageTitle: 'The CLI',
         topSecs: { toc: true },
         template: 'cli',
       }
