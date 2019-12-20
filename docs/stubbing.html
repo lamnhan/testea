@@ -82,7 +82,7 @@
               >
             </li>
             <li>
-              <a href="https://lamnhan.com/testea/the-cli.html">Use the CLI</a>
+              <a href="https://lamnhan.com/testea/the-cli.html">The CLI</a>
             </li>
           </ul>
         </aside>
@@ -128,33 +128,19 @@
               >
               first.
             </p>
-
-            <a
-              href="#manually-stubbing"
-              id="manually-stubbing"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Manually stubbing</h2>
-            </a>
-            <pre><code class="language-ts"><span class="hljs-comment">// rewire the service</span>
-<span class="hljs-keyword">const</span> serviceRewiring = rewireService(MyService);
-<span class="hljs-comment">// stub a method</span>
-<span class="hljs-keyword">const</span> doSomethingStub = serviceRewiring.stub(<span class="hljs-string">"doSomething"</span>).returns(<span class="hljs-string">"anything"</span>);
-<span class="hljs-keyword">const</span> doMoreStub = serviceRewiring.stub(<span class="hljs-string">"doMore"</span>).callsFake(<span class="hljs-string">"do more"</span>);</code></pre>
+            <h2 id="manually-stubbing">Manually stubbing</h2>
+            <pre><code class="language-ts">// rewire the service
+const serviceRewiring = rewireService(MyService);
+// stub a method
+const doSomethingStub = serviceRewiring.stub(&quot;doSomething&quot;).returns(&quot;anything&quot;);
+const doMoreStub = serviceRewiring.stub(&quot;doMore&quot;).callsFake(&quot;do more&quot;);</code></pre>
             <p>
               See more about sinon stubbing at:
               <a href="https://sinonjs.org/releases/latest/stubs/"
                 >https://sinonjs.org/releases/latest/stubs/</a
               >
             </p>
-
-            <a
-              href="#auto-stubbing"
-              id="auto-stubbing"
-              style="color: inherit; text-decoration: none;"
-            >
-              <h2>Auto stubbing</h2>
-            </a>
+            <h2 id="auto-stubbing">Auto stubbing</h2>
             <p>
               With the <code>withStubs</code> param, you can provide multiple
               stubbing methods and be able to get the stubed result a
@@ -164,23 +150,23 @@
               A stub can <a href="#mocked-returns">returns</a> any value same as
               a mocking member.
             </p>
-            <pre><code class="language-ts"><span class="hljs-comment">// rewire the service</span>
-<span class="hljs-keyword">const</span> serviceRewiring = rewireService(
+            <pre><code class="language-ts">// rewire the service
+const serviceRewiring = rewireService(
   MyService,
-  {}, <span class="hljs-comment">// no dependencies</span>
+  {}, // no dependencies
   {
-    doSomething: <span class="hljs-string">"anything"</span>,
-    doMore: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">"do more"</span>
-    <span class="hljs-comment">// more stubs</span>
+    doSomething: &quot;anything&quot;,
+    doMore: async () =&gt; &quot;do more&quot;
+    // more stubs
   }
 );
-<span class="hljs-comment">// get service &amp; stubbed</span>
-<span class="hljs-keyword">const</span> service = serviceRewiring.getInstance();
-<span class="hljs-keyword">const</span> stubbedService = serviceRewiring.getStubbedInstance();
-<span class="hljs-comment">// testea</span>
-<span class="hljs-keyword">const</span> result = service.doNothing();
-<span class="hljs-keyword">const</span> doSomethingArgs = stubbedService.getResult(<span class="hljs-string">"doSomething"</span>).getArgs();
-<span class="hljs-comment">// do assertion</span></code></pre>
+// get service &amp; stubbed
+const service = serviceRewiring.getInstance();
+const stubbedService = serviceRewiring.getStubbedInstance();
+// testea
+const result = service.doNothing();
+const doSomethingArgs = stubbedService.getResult(&quot;doSomething&quot;).getArgs();
+// do assertion</code></pre>
           </section>
         </article>
       </div>
