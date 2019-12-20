@@ -7,19 +7,17 @@ import { GenerateCommand } from './commands/generate';
 export class Cli {
   private testeaModule: TesteaModule;
 
-  private generateCommand: GenerateCommand;
+  generateCommand: GenerateCommand;
 
   commander = ['testea', 'Spec file generate, ...'];
 
-  generateCommandDef: CommandDef = [
-    'generate', 'Generate spec files.'
-  ];
+  generateCommandDef: CommandDef = ['generate', 'Generate spec files.'];
 
   constructor() {
     this.testeaModule = new TesteaModule();
     this.generateCommand = new GenerateCommand(
-      this.testeaModule.Parse,
-      this.testeaModule.Render,
+      this.testeaModule.parseService,
+      this.testeaModule.renderService
     );
   }
 
@@ -32,7 +30,7 @@ export class Cli {
 
     // generate
     (() => {
-      const [ command, description ] = this.generateCommandDef;
+      const [command, description] = this.generateCommandDef;
       commander
         .command(command)
         .description(description)
@@ -49,13 +47,10 @@ export class Cli {
     commander
       .command('*')
       .description('Any other command is not supported.')
-      .action((cmd: string) =>
-        console.error(red(`Unknown command '${cmd}'`))
-      );
+      .action((cmd: string) => console.error(red(`Unknown command '${cmd}'`)));
 
     return commander;
   }
-
 }
 
 type CommandDef = [string, string, ...Array<[string, string]>];

@@ -15,7 +15,7 @@ export type MockedService<Members> = Mocked<Members>;
 
 export type Mocking<Members> = {
   [member in keyof Members]?: MockedValue;
-}
+};
 
 export type ModuleMocking<Members> = Mocking<Members>;
 
@@ -23,19 +23,19 @@ export type ServiceMocking<Members> = Mocking<Members>;
 
 type ReturnsKeeping<Members> = {
   [member in keyof Members]: MockedValue;
-}
+};
 
 type ArgsKeeping<Members> = {
   [member in keyof Members]: any[];
-}
+};
 
 type StackedArgsKeeping<Members> = {
   [member in keyof Members]: any[][];
-}
+};
 
 type CalledKeeping<Members> = {
   [member in keyof Members]: number;
-}
+};
 
 export class MockBuilder<
   Members,
@@ -44,7 +44,6 @@ export class MockBuilder<
   StackedArgsKeeper extends StackedArgsKeeping<Members>,
   CalledKeeper extends CalledKeeping<Members>
 > {
-
   private returnsKeeper: ReturnsKeeper;
   private argsKeeper: ArgsKeeper = {} as ArgsKeeper;
   private stackedArgsKeeper: StackedArgsKeeper = {} as StackedArgsKeeper;
@@ -91,9 +90,17 @@ export class MockBuilder<
             return Promise.resolve(args);
           } else if (returns === '...') {
             return args;
-          } else if (typeof returns === 'string' && returns.substr(0, 2) === '!$') {
-            return Promise.reject(returns.replace(/(\!\$)|(\!\$\=)/, '') || 'Error');
-          } else if (typeof returns === 'string' && returns.substr(0, 1) === '!') {
+          } else if (
+            typeof returns === 'string' &&
+            returns.substr(0, 2) === '!$'
+          ) {
+            return Promise.reject(
+              returns.replace(/(\!\$)|(\!\$\=)/, '') || 'Error'
+            );
+          } else if (
+            typeof returns === 'string' &&
+            returns.substr(0, 1) === '!'
+          ) {
             throw new Error(returns.replace(/(\!)|(\!\=)/, '') || 'Error');
           } else if (returns instanceof Function) {
             return (returns as Function)(...args);
@@ -119,7 +126,9 @@ export class MockBuilder<
    */
   getResult(member: keyof Members) {
     const args = !!this.argsKeeper ? this.argsKeeper[member] : [];
-    const stackedArgs = !!this.stackedArgsKeeper ? this.stackedArgsKeeper[member] : [];
+    const stackedArgs = !!this.stackedArgsKeeper
+      ? this.stackedArgsKeeper[member]
+      : [];
     const called = this.calledKeeper[member] || 0;
     return new MockedResult(args, stackedArgs, called);
   }
@@ -129,7 +138,7 @@ export class MockBuilder<
    */
   getAllReturns() {
     return this.returnsKeeper;
-  }  
+  }
 
   /**
    * Get all the data holded by the Args Keeper
@@ -144,11 +153,9 @@ export class MockBuilder<
   getAllStackedArgs() {
     return this.stackedArgsKeeper;
   }
-
 }
 
 export class MockedResult {
-
   args: any[] = [];
   stackedArgs: any[] = [[]];
   called = 0;
@@ -188,7 +195,7 @@ export class MockedResult {
   getArgFirst() {
     return this.getArg(1);
   }
-  
+
   /**
    * Get the second arg
    */
@@ -291,5 +298,4 @@ export class MockedResult {
   callCount() {
     return this.called;
   }
-
 }

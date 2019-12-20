@@ -33,10 +33,7 @@ export function mockService<Members>(members: Members) {
   return new MockBuilder(members);
 }
 
-export function rewireModule<
-  Module,
-  MockedModules extends ModuleMocks
->(
+export function rewireModule<Module, MockedModules extends ModuleMocks>(
   input: string | ModuleLoader<Module>,
   mockedModules?: MockedModules
 ) {

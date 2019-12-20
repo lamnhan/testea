@@ -2,7 +2,10 @@
 import { resolve } from 'path';
 import { readFile, pathExistsSync } from 'fs-extra';
 import * as recursiveReaddir from 'recursive-readdir';
-import { ParseService as AyedocsParseService, Declaration } from '@lamnhan/ayedocs';
+import {
+  ParseService as AyedocsParseService,
+  Declaration,
+} from '@lamnhan/ayedocs';
 
 export interface ParsedItem extends ParsedData, ParsedFlags {
   path: string;
@@ -50,10 +53,7 @@ export type ImportType = 'default' | 'name' | 'full';
 export type ImportSource = 'local' | 'node' | 'global';
 
 export class ParseService {
-
-  constructor (
-    private ayedocsParseService: AyedocsParseService
-  ) {}
+  constructor(private ayedocsParseService: AyedocsParseService) {}
 
   async parse(source = 'src') {
     const result: ParsedItem[] = [];
@@ -83,10 +83,10 @@ export class ParseService {
       return null;
     }
     // get imports
-    const aliasNameImports: {[name: string]: string} = {};
+    const aliasNameImports: { [name: string]: string } = {};
     const imports = (content.match(/import\ .*\ from\ .*;/g) || [])
       .map(item => {
-        const [, value, path] = ((/import\ (.*)\ from\ (.*);/).exec(item) || []);
+        const [, value, path] = /import\ (.*)\ from\ (.*);/.exec(item) || [];
         // get type & values
         let importType: ImportType;
         let importValue: string | string[];
@@ -113,10 +113,11 @@ export class ParseService {
                 // no declaration
               }
               // must be a var/function/class
-              return !declaration || (
-                declaration.isKind('Variable')
-                || declaration.isKind('Function')
-                || declaration.isKind('Class')
+              return (
+                !declaration ||
+                declaration.isKind('Variable') ||
+                  declaration.isKind('Function') ||
+                  declaration.isKind('Class')
               );
             });
         } else {
@@ -127,7 +128,10 @@ export class ParseService {
         const importFrom = path.replace(/\'|\"/g, '');
         // path type
         let importSource: ImportSource;
-        if (importFrom.indexOf('./') !== -1 || importFrom.indexOf('../') !== -1) {
+        if (
+          importFrom.indexOf('./') !== -1 ||
+          importFrom.indexOf('../') !== -1
+        ) {
           importSource = 'local';
         } else if (pathExistsSync(resolve('node_modules', importFrom))) {
           importSource = 'node';
@@ -135,7 +139,10 @@ export class ParseService {
           importSource = 'global';
         }
         // id
-        const id = (importFrom.split('/').pop() as string).replace(/[^a-zA-Z]/g, '');
+        const id = (importFrom.split('/').pop() as string).replace(
+          /[^a-zA-Z]/g,
+          ''
+        );
         // result
         return {
           statement: item,
@@ -143,65 +150,62 @@ export class ParseService {
           value: importValue,
           from: importFrom,
           source: importSource,
-          id
+          id,
         } as ParsedImport;
       })
       .filter(({ value }) => !!value.length);
     // get classes
-    const allInjectedServices: {[name: string]: boolean} = {};
-    const classes = classMatched
-      .map(item => {
-        const name = (
-          (((/export\ class\ (.*)[<|( {)]/).exec(item) || []).pop() as string)
-          .split('<')
-          .shift() as string
-        ).trim();
-        const declaration = this.ayedocsParseService.parse(name);
-        const properties = declaration.getVariablesOrProperties();
-        const methods = declaration.getFunctionsOrMethods();
-        // constructor params
-        const { REFLECTION: cstReflection } = declaration.getChild('constructor');
-        const constructorSignature = (cstReflection as any)['signatures'][0];
-        const injectedServices: ClassParam[] = [];
-        const parameters: ClassParam[] = [];
-        const constructorParams = (constructorSignature.parameters || [])
-          .map((parameter: any) => {
-            const type = parameter.type.toString();
-            const originalType = aliasNameImports[type];
-            const param = {
-              name: parameter.name,
-              type: originalType || type,
-            };
-            const isService = (
-              parameter.type.type === 'reference' &&
-              (
-                !parameter.type.reflection ||
-                parameter.type.reflection.kindString === 'Class'
-              )
-            );
-            // injected service
-            if (isService) {
-              injectedServices.push(param);
-              allInjectedServices[param.type] = true;
-            }
-            // normal parameter
-            else {
-              parameters.push(param);
-            }
-            // return
-            return param;
-          });
-        // result
-        return {
-          name,
-          declaration,
-          properties,
-          methods,
-          constructorParams,
-          injectedServices,
-          parameters
-        } as ParsedClass;
-      });
+    const allInjectedServices: { [name: string]: boolean } = {};
+    const classes = classMatched.map(item => {
+      const name = (((
+        /export\ class\ (.*)[<|( {)]/.exec(item) || []
+      ).pop() as string)
+        .split('<')
+        .shift() as string).trim();
+      const declaration = this.ayedocsParseService.parse(name);
+      const properties = declaration.getVariablesOrProperties();
+      const methods = declaration.getFunctionsOrMethods();
+      // constructor params
+      const { REFLECTION: cstReflection } = declaration.getChild('constructor');
+      const constructorSignature = (cstReflection as any)['signatures'][0];
+      const injectedServices: ClassParam[] = [];
+      const parameters: ClassParam[] = [];
+      const constructorParams = (constructorSignature.parameters || []).map(
+        (parameter: any) => {
+          const type = parameter.type.toString();
+          const originalType = aliasNameImports[type];
+          const param = {
+            name: parameter.name,
+            type: originalType || type,
+          };
+          const isService =
+            parameter.type.type === 'reference' &&
+            (!parameter.type.reflection ||
+              parameter.type.reflection.kindString === 'Class');
+          // injected service
+          if (isService) {
+            injectedServices.push(param);
+            allInjectedServices[param.type] = true;
+          }
+          // normal parameter
+          else {
+            parameters.push(param);
+          }
+          // return
+          return param;
+        }
+      );
+      // result
+      return {
+        name,
+        declaration,
+        properties,
+        methods,
+        constructorParams,
+        injectedServices,
+        parameters,
+      } as ParsedClass;
+    });
     // further process imports
     const moduleImports: ParsedImport[] = [];
     const serviceImports: ParsedImport[] = [];
@@ -230,5 +234,4 @@ export class ParseService {
       hasServiceMocks: !!serviceImports.length,
     } as ParsedData;
   }
-
 }

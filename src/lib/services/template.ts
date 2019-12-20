@@ -4,17 +4,13 @@ import { ReflectionData } from '@lamnhan/ayedocs';
 import { ParsedImport, ParsedClass } from './parse';
 
 export class TemplateService {
-
-  constructor () {}
+  constructor() {}
 
   toText(strArr: string[]) {
     return strArr.join('\n');
   }
 
-  getMetaImports(
-    hasModuleMocks = false,
-    hasServiceMocks = false,
-  ) {
+  getMetaImports(hasModuleMocks = false, hasServiceMocks = false) {
     const testeaImports: string[] = [];
     // general & main methods
     testeaImports.push('ServiceStubing');
@@ -31,12 +27,12 @@ export class TemplateService {
     return this.toText([
       `// tslint:disable: no-any ban-ts-ignore ban`,
       `import\ { expect } from 'chai';`,
-      `import\ { ${ testeaImports.join(', ') } } from '@lamnhan/testea';`
+      `import\ { ${testeaImports.join(', ')} } from '@lamnhan/testea';`,
     ]);
   }
 
   getMainInport(items: string[], path: string) {
-    return `import\ { ${ items.join(', ') } } from '${path}';`;
+    return `import\ { ${items.join(', ')} } from '${path}';`;
   }
 
   getModuleMock(imp: ParsedImport) {
@@ -47,14 +43,14 @@ export class TemplateService {
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = () => {`,
         `  return '';`,
-        `};`
+        `};`,
       ];
     } else if (type === 'full') {
       content = [
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = {`,
         `  // members`,
-        `};`
+        `};`,
       ];
     } else {
       const members = (value as string[])
@@ -62,11 +58,11 @@ export class TemplateService {
           const firstChar = val.charAt(0);
           return (
             // not a class
-            firstChar !== firstChar.toUpperCase()
+            firstChar !== firstChar.toUpperCase() ||
             // whitelist class surfix
-            || val.substr(-7) === 'Service'
-            || val.substr(-7) === 'Command'
-            || val.substr(-6) === 'Module'
+            val.substr(-7) === 'Service' ||
+            val.substr(-7) === 'Command' ||
+            val.substr(-6) === 'Module'
           );
         })
         .map(val => `  ${val}: '',`);
@@ -77,7 +73,7 @@ export class TemplateService {
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = {`,
         ...members,
-        `};`
+        `};`,
       ];
     }
     return this.toText(content);
@@ -85,26 +81,30 @@ export class TemplateService {
 
   getServiceMock(imp: ParsedImport) {
     const { statement, value } = imp;
-    let name = value instanceof Array
-      ? value[0]
-      : value;
+    let name = value instanceof Array ? value[0] : value;
     name = name.charAt(0).toLowerCase() + name.substr(1);
     return this.toText([
       `// ${statement}`,
       `const ${name}DefaultMock = {`,
       `  // members`,
-      `};`
+      `};`,
     ]);
   }
 
   getSetup(path: string, cls: ParsedClass, moduleImports?: ParsedImport[]) {
     const { name, injectedServices, parameters } = cls;
-    const folderPath = path.replace(/\\/g, '/').split('/'); folderPath.pop();
-    const getShortPath = (p: string) => '@' + (p.replace(/\\/g, '/').replace('.ts', '').split('/src/').pop() as string);
+    const folderPath = path.replace(/\\/g, '/').split('/');
+    folderPath.pop();
+    const getShortPath = (p: string) =>
+      '@' +
+      (p
+        .replace(/\\/g, '/')
+        .replace('.ts', '')
+        .split('/src/')
+        .pop() as string);
     // TODO: support parameters
     const parametersArgs: string[] = [];
     if (!!parameters.length) {
-
     }
     // module
     const moduleMocksType: string[] = [];
@@ -124,18 +124,18 @@ export class TemplateService {
         const constName = `${name}ModuleMock`;
         const modulePath =
           source === 'local'
-          ? getShortPath(resolve(...folderPath, from))
-          : source === 'node'
-          ? '~' + from
-          : from;
+            ? getShortPath(resolve(...folderPath, from))
+            : source === 'node'
+            ? '~' + from
+            : from;
         moduleMocksType.push(
-          `  ${typeName} extends ModuleMocking<typeof ${mockName}>,`);
-        moduleMocksParam.push(
-          `    ${constName}?: ${typeName};`);
-        moduleMocksConst.push(
-          `    ${constName} = {},`);
+          `  ${typeName} extends ModuleMocking<typeof ${mockName}>,`
+        );
+        moduleMocksParam.push(`    ${constName}?: ${typeName};`);
+        moduleMocksConst.push(`    ${constName} = {},`);
         moduleMocksArg.push(
-          `      '${modulePath}': mockModule({ ...${mockName}, ...${constName} }),`);
+          `      '${modulePath}': mockModule({ ...${mockName}, ...${constName} }),`
+        );
       });
       moduleMocksParam.push(`  } = {},`);
       moduleMocksConst.push(`  } = moduleMocks;`);
@@ -145,7 +145,7 @@ export class TemplateService {
       moduleMockArgs.push(
         `    // rewire the module`,
         `    '${selfPath}',`,
-        ...moduleMocksArg,
+        ...moduleMocksArg
       );
     }
     // services
@@ -164,13 +164,13 @@ export class TemplateService {
         const typeName = `${titleName}Mock`;
         const constName = `${name}Mock`;
         serviceMocksType.push(
-          `  ${typeName} extends ServiceMocking<typeof ${mockName}>,`);
-        serviceMocksParam.push(
-          `    ${constName}?: ${typeName};`);
-        serviceMocksConst.push(
-          `    ${constName} = {},`);
+          `  ${typeName} extends ServiceMocking<typeof ${mockName}>,`
+        );
+        serviceMocksParam.push(`    ${constName}?: ${typeName};`);
+        serviceMocksConst.push(`    ${constName} = {},`);
         serviceMocksArg.push(
-          `      ${constName}: mockService({ ...${mockName}, ...${constName} }),`);
+          `      ${constName}: mockService({ ...${mockName}, ...${constName} }),`
+        );
       });
       serviceMocksParam.push(`  } = {},`);
       serviceMocksConst.push(`  } = serviceMocks;`);
@@ -192,25 +192,19 @@ export class TemplateService {
       `) {`,
       ...serviceMocksConst,
       ...moduleMocksConst,
-      `  return ${ isFull ? 'rewireFull': 'rewireService' }(`,
+      `  return ${isFull ? 'rewireFull' : 'rewireService'}(`,
       ...moduleMockArgs,
       '    // rewire the service',
       `    ${name},`,
       ...serviceMocksArg,
       `    selfStubing,`,
       `  ).getResult();`,
-      `}`
+      `}`,
     ]);
   }
 
   getSuite(name: string, cases: string) {
-    return this.toText([
-      '',
-      `describe('${name}', () => {`,
-      cases,
-      '',
-      `});`
-    ]);
+    return this.toText(['', `describe('${name}', () => {`, cases, '', `});`]);
   }
 
   getCaseForProperty(name: string, className: string) {
@@ -225,18 +219,20 @@ export class TemplateService {
     // closing
     result.push(`});`);
     // result
-    return this.toText(
-      result.map(line => '  ' + line)
-    );
+    return this.toText(result.map(line => '  ' + line));
   }
 
-  getCaseForMethod(name: string, params: ReflectionData[] = [], className: string) {
+  getCaseForMethod(
+    name: string,
+    params: ReflectionData[] = [],
+    className: string
+  ) {
     const result: string[] = [];
     // opening
     result.push('', `it.skip('${name}()', async () => {`);
     // params
     const paramList = params
-      .map(({ isOptional, name }) => isOptional ? name + '?': name)
+      .map(({ isOptional, name }) => (isOptional ? name + '?' : name))
       .join(', ');
     // content
     result.push(
@@ -247,9 +243,6 @@ export class TemplateService {
     // closing
     result.push(`});`);
     // result
-    return this.toText(
-      result.map(line => '  ' + line)
-    );
+    return this.toText(result.map(line => '  ' + line));
   }
-
 }

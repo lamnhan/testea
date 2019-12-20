@@ -1,11 +1,9 @@
 import { resolve } from 'path';
 import { outputFile, pathExists } from 'fs-extra';
 import { green, blue } from 'chalk';
-
 import { ParseService, RenderService } from '../../public-api';
 
 export class GenerateCommand {
-
   constructor(
     private parseService: ParseService,
     private renderService: RenderService
@@ -16,11 +14,12 @@ export class GenerateCommand {
     for (let i = 0; i < parsedItems.length; i++) {
       const item = parsedItems[i];
       // path
-      const path = 'test' + item.path
-        .replace(/\\/g, '/')
-        .replace('.ts', '.spec.ts')
-        .split('src')
-        .pop() as string;
+      const path = ('test' +
+        item.path
+          .replace(/\\/g, '/')
+          .replace('.ts', '.spec.ts')
+          .split('src')
+          .pop()) as string;
       const fullPath = resolve(path);
       // save content
       if (await pathExists(fullPath)) {
@@ -34,5 +33,4 @@ export class GenerateCommand {
       }
     }
   }
-
 }

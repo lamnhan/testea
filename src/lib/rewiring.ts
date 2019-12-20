@@ -3,7 +3,12 @@ import { resolve } from 'path';
 import * as sinon from 'sinon';
 
 import { rewiremock } from './rewiremock';
-import { MockedValue, ServiceMocking, MockedService, MockBuilder } from './mocking';
+import {
+  MockedValue,
+  ServiceMocking,
+  MockedService,
+  MockBuilder,
+} from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -19,23 +24,19 @@ export type ServiceConstructor<Service> = new (...args: any[]) => Service;
 
 export type ServiceStubing<Service> = {
   [method in keyof Service]?: MockedValue; // a async function or a value
-}
+};
 
 type ServiceStubed<Service> = {
   [method in keyof Service]?: sinon.SinonStub;
 };
 
-export class ModuleRewiring<
-  Module,
-  MockedModules extends ModuleMocks
-> {
-
+export class ModuleRewiring<Module, MockedModules extends ModuleMocks> {
   private input: string | ModuleLoader<Module>;
   private mockedModules: MockedModules = {} as MockedModules;
 
   constructor(
     input: string | ModuleLoader<Module>,
-    mockedModules: MockedModules = {} as MockedModules,
+    mockedModules: MockedModules = {} as MockedModules
   ) {
     this.input = input;
     this.mockedModules = mockedModules;
@@ -49,13 +50,10 @@ export class ModuleRewiring<
   }
 
   async getModule() {
-    const loader: ModuleLoader<Module> = (
-      this.input instanceof Function ?
-      this.input :
-      () => import(
-        this.resolvePath(this.input as string)
-      )
-    );
+    const loader: ModuleLoader<Module> =
+      this.input instanceof Function
+        ? this.input
+        : () => import(this.resolvePath(this.input as string));
     return rewiremock.around(loader, mock => {
       if (!!this.mockedModules) {
         // rewire all dependencies
@@ -99,7 +97,6 @@ export class ModuleRewiring<
     }
     return path;
   }
-
 }
 
 export class ServiceRewiring<
@@ -107,7 +104,6 @@ export class ServiceRewiring<
   MockedServices extends ServiceMocks,
   ServiceStubs extends ServiceStubing<Service>
 > {
-
   private serviceName: string;
   private serviceInstance: Service;
   private mockedServices: MockedServices;
@@ -116,7 +112,7 @@ export class ServiceRewiring<
   constructor(
     serviceConstructor: ServiceConstructor<Service>,
     mockedServices: MockedServices = {} as MockedServices,
-    withStubs: ServiceStubs = {} as ServiceStubs,
+    withStubs: ServiceStubs = {} as ServiceStubs
   ) {
     // save mocked services
     this.mockedServices = mockedServices;
@@ -137,7 +133,11 @@ export class ServiceRewiring<
   }
 
   getResult() {
-    const serviceRewiring = this as ServiceRewiring<Service, MockedServices, ServiceStubs>;
+    const serviceRewiring = this as ServiceRewiring<
+      Service,
+      MockedServices,
+      ServiceStubs
+    >;
     const mockedServices = this.getMockedServices();
     const service = this.getInstance();
     const serviceTestea = this.getStubbedInstance();
@@ -177,7 +177,7 @@ export class ServiceRewiring<
       Object.getOwnPropertyNames(
         // @ts-ignore
         mockedService.__proto__
-      ).filter(x => x !== 'constructor'),
+      ).filter(x => x !== 'constructor')
     );
     for (const prop of props) {
       const propName = prop as keyof Service;
@@ -186,14 +186,15 @@ export class ServiceRewiring<
         stubbingMethods.indexOf(prop) === -1 && // not a stubbing prop
         !!this.serviceInstance[propName] // exists in the service
       ) {
-        this.serviceInstance[('$' + prop) as keyof Service] = this.serviceInstance[propName];
+        this.serviceInstance[
+          ('$' + prop) as keyof Service
+        ] = this.serviceInstance[propName];
       }
       // patching
       // @ts-ignore
       this.serviceInstance[propName] = mockedService[prop];
     }
   }
-
 }
 
 export class FullRewiring<
@@ -203,7 +204,6 @@ export class FullRewiring<
   MockedServices extends ServiceMocks,
   ServiceStubs extends ServiceStubing<Service>
 > {
-  
   private moduleRewiring: ModuleRewiring<Module, MockedModules>;
   private serviceInterface: ServiceConstructor<Service>;
   private mockedServices: MockedServices;
@@ -214,7 +214,7 @@ export class FullRewiring<
     mockedModules: MockedModules = {} as MockedModules,
     serviceInterface: ServiceConstructor<Service>,
     mockedServices: MockedServices = {} as MockedServices,
-    withStubs: ServiceStubs = {} as ServiceStubs,
+    withStubs: ServiceStubs = {} as ServiceStubs
   ) {
     // rewire module
     this.moduleRewiring = new ModuleRewiring(input, mockedModules);
@@ -254,14 +254,13 @@ export class FullRewiring<
 
   async rewireService() {
     const serviceConstructor = await this.moduleRewiring.getService(
-      this.serviceInterface.name as keyof Module,
+      this.serviceInterface.name as keyof Module
     );
     return new ServiceRewiring(
       // @ts-ignore
       serviceConstructor as ServiceConstructor<Service>,
       this.mockedServices,
-      this.withStubs,
+      this.withStubs
     );
   }
-
 }

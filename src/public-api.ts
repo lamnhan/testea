@@ -1,5 +1,5 @@
-export { Main as TesteaModule } from './lib/main';
-export { main as testea } from './lib/index';
+export { Main as TesteaModule } from './lib/index';
+export { Cli as TesteaCliModule } from './cli/index';
 export * from './lib/index-2nd';
 
 export * from './lib/services/parse';
