@@ -1,14 +1,10 @@
-// tslint:disable: no-any ban-ts-ignore
-import { resolve } from 'path';
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {resolve} from 'path';
 import * as sinon from 'sinon';
 
-import { rewiremock } from './rewiremock';
-import {
-  MockedValue,
-  ServiceMocking,
-  MockedService,
-  MockBuilder,
-} from './mocking';
+import {rewiremock} from './rewiremock';
+import {MockedValue, MockedService, MockBuilder} from './mocking';
 
 export type ModuleLoader<Module> = () => Promise<Module>;
 
@@ -46,7 +42,7 @@ export class ModuleRewiring<Module, MockedModules extends ModuleMocks> {
     const moduleRewiring = this as ModuleRewiring<Module, MockedModules>;
     const mockedModules = this.getMockedModules();
     const module = await this.getModule();
-    return { moduleRewiring, mockedModules, module };
+    return {moduleRewiring, mockedModules, module};
   }
 
   async getModule() {
@@ -55,7 +51,7 @@ export class ModuleRewiring<Module, MockedModules extends ModuleMocks> {
         ? this.input
         : () => import(this.resolvePath(this.input as string));
     return rewiremock.around(loader, mock => {
-      if (!!this.mockedModules) {
+      if (this.mockedModules) {
         // rewire all dependencies
         for (let path of Object.keys(this.mockedModules)) {
           const mocked = this.mockedModules[path];
@@ -120,7 +116,7 @@ export class ServiceRewiring<
     this.serviceName = serviceConstructor.name;
     // init instance
     const mockedServicesAsArgs: any[] = [];
-    if (!!mockedServices) {
+    if (mockedServices) {
       for (const name of Object.keys(mockedServices)) {
         mockedServicesAsArgs.push(mockedServices[name]);
       }
@@ -141,7 +137,7 @@ export class ServiceRewiring<
     const mockedServices = this.getMockedServices();
     const service = this.getInstance();
     const serviceTestea = this.getStubbedInstance();
-    return { serviceRewiring, mockedServices, service, serviceTestea };
+    return {serviceRewiring, mockedServices, service, serviceTestea};
   }
 
   getName() {

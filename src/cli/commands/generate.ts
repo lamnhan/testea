@@ -1,7 +1,7 @@
-import { resolve } from 'path';
-import { outputFile, pathExists } from 'fs-extra';
-import { green, blue } from 'chalk';
-import { ParseService, RenderService } from '../../public-api';
+import {resolve} from 'path';
+import {outputFile, pathExists} from 'fs-extra';
+import {green, blue} from 'chalk';
+import {ParseService, RenderService} from '../../public-api';
 
 export class GenerateCommand {
   constructor(

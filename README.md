@@ -8,10 +8,14 @@
 
 <section id="header">
 
-[![License][license_badge]][license_url] [![Support me on Patreon][patreon_badge]][patreon_url] [![PayPal][paypal_donate_badge]][paypal_donate_url] [![Ask me anything][ask_me_badge]][ask_me_url]
+[![License][license_badge]][license_url]
+[![Code Style: Google](https://img.shields.io/badge/code%20style-google-blueviolet.svg)](https://github.com/google/gts)
+[![Support me on Patreon][patreon_badge]][patreon_url]
+[![PayPal][paypal_donate_badge]][paypal_donate_url]
+[![Ask me anything][ask_me_badge]][ask_me_url]
 
 [license_badge]: https://img.shields.io/github/license/mashape/apistatus.svg
-[license_url]: https://github.com/lamnhan/testea/blob/master/LICENSE
+[license_url]: https://github.com/lamnhan/seminjecto/blob/master/LICENSE
 [patreon_badge]: https://lamnhan.github.io/assets/images/badges/patreon.svg
 [patreon_url]: https://www.patreon.com/lamnhan
 [paypal_donate_badge]: https://lamnhan.github.io/assets/images/badges/paypal_donate.svg

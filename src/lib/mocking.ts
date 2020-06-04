@@ -1,4 +1,5 @@
-// tslint:disable: no-any ban-ts-ignore
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
 export type Mocked<Members> = MockBuilder<
@@ -95,13 +96,13 @@ export class MockBuilder<
             returns.substr(0, 2) === '!$'
           ) {
             return Promise.reject(
-              returns.replace(/(\!\$)|(\!\$\=)/, '') || 'Error'
+              returns.replace(/(!\$)|(!\$=)/, '') || 'Error'
             );
           } else if (
             typeof returns === 'string' &&
             returns.substr(0, 1) === '!'
           ) {
-            throw new Error(returns.replace(/(\!)|(\!\=)/, '') || 'Error');
+            throw new Error(returns.replace(/(!)|(!=)/, '') || 'Error');
           } else if (returns instanceof Function) {
             return (returns as Function)(...args);
           } else {
@@ -125,8 +126,8 @@ export class MockBuilder<
    * Get the result for a certain member
    */
   getResult(member: keyof Members) {
-    const args = !!this.argsKeeper ? this.argsKeeper[member] : [];
-    const stackedArgs = !!this.stackedArgsKeeper
+    const args = this.argsKeeper ? this.argsKeeper[member] : [];
+    const stackedArgs = this.stackedArgsKeeper
       ? this.stackedArgsKeeper[member]
       : [];
     const called = this.calledKeeper[member] || 0;

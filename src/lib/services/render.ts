@@ -1,5 +1,5 @@
-import { ParsedItem } from './parse';
-import { TemplateService } from './template';
+import {ParsedItem} from './parse';
+import {TemplateService} from './template';
 
 export class RenderService {
   constructor(private templateService: TemplateService) {}
@@ -45,7 +45,7 @@ export class RenderService {
       // setup
       result.push('', this.templateService.getSetup(path, cls, moduleImports));
       // suite
-      const { name, properties = [], methods = [] } = cls;
+      const {name, properties = [], methods = []} = cls;
       const propertyCases = properties.map(prop =>
         this.templateService.getCaseForProperty(prop.NAME, cls.name)
       );

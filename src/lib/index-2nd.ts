@@ -1,6 +1,5 @@
-// tslint:disable: no-any
 import * as sinon from 'sinon';
-import { MockBuilder } from './mocking';
+import {MockBuilder} from './mocking';
 import {
   ModuleLoader,
   ModuleMocks,
@@ -12,8 +11,8 @@ import {
   FullRewiring,
 } from './rewiring';
 
-export { rewiremock } from './rewiremock';
-export { sinon };
+export {rewiremock} from './rewiremock';
+export {sinon};
 export {
   MockedValue,
   ModuleMocking,
@@ -23,7 +22,7 @@ export {
   MockedResult,
   MockBuilder,
 } from './mocking';
-export { ServiceStubing } from './rewiring';
+export {ServiceStubing} from './rewiring';
 
 export function mockModule<Members>(members: Members) {
   return new MockBuilder(members);

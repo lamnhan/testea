@@ -1,12 +1,11 @@
-import { AyedocsModule } from '@lamnhan/ayedocs';
+import {AyedocsModule} from '@lamnhan/ayedocs';
 
-import { ParseService } from './services/parse';
-import { TemplateService } from './services/template';
-import { RenderService } from './services/render';
+import {ParseService} from './services/parse';
+import {TemplateService} from './services/template';
+import {RenderService} from './services/render';
 
-export class Main {
+export class Lib {
   private ayedocsModule: AyedocsModule;
-
   parseService: ParseService;
   templateService: TemplateService;
   renderService: RenderService;

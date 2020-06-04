@@ -1,6 +1,6 @@
-// tslint:disable: no-any
-import { resolve } from 'path';
-import { readFile, pathExistsSync } from 'fs-extra';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {resolve} from 'path';
+import {readFile, pathExistsSync} from 'fs-extra';
 import * as recursiveReaddir from 'recursive-readdir';
 import {
   ParseService as AyedocsParseService,
@@ -64,8 +64,8 @@ export class ParseService {
       const path = files[i];
       const content = await readFile(resolve(path), 'utf8');
       const data = this.extractData(content);
-      if (!!data) {
-        result.push({ path, content, ...data });
+      if (data) {
+        result.push({path, content, ...data});
       }
     }
     // result
@@ -77,16 +77,16 @@ export class ParseService {
   }
 
   private extractData(content: string) {
-    const classMatched = content.match(/export\ class\ .*[<|( {)]/g);
+    const classMatched = content.match(/export class .*[<|( {)]/g);
     // no class
     if (!classMatched) {
       return null;
     }
     // get imports
-    const aliasNameImports: { [name: string]: string } = {};
-    const imports = (content.match(/import\ .*\ from\ .*;/g) || [])
+    const aliasNameImports: {[name: string]: string} = {};
+    const imports = (content.match(/import .* from .*;/g) || [])
       .map(item => {
-        const [, value, path] = /import\ (.*)\ from\ (.*);/.exec(item) || [];
+        const [, value, path] = /import (.*) from (.*);/.exec(item) || [];
         // get type & values
         let importType: ImportType;
         let importValue: string | string[];
@@ -100,7 +100,7 @@ export class ParseService {
             .split(',')
             .map(x => {
               const [name, alias] = x.split(' as ').map(x2 => x2.trim());
-              if (!!alias) {
+              if (alias) {
                 aliasNameImports[alias] = name;
               }
               return name;
@@ -116,8 +116,8 @@ export class ParseService {
               return (
                 !declaration ||
                 declaration.isKind('Variable') ||
-                  declaration.isKind('Function') ||
-                  declaration.isKind('Class')
+                declaration.isKind('Function') ||
+                declaration.isKind('Class')
               );
             });
         } else {
@@ -125,7 +125,7 @@ export class ParseService {
           importValue = value.trim();
         }
         // get path
-        const importFrom = path.replace(/\'|\"/g, '');
+        const importFrom = path.replace(/'|"/g, '');
         // path type
         let importSource: ImportSource;
         if (
@@ -153,12 +153,12 @@ export class ParseService {
           id,
         } as ParsedImport;
       })
-      .filter(({ value }) => !!value.length);
+      .filter(({value}) => !!value.length);
     // get classes
-    const allInjectedServices: { [name: string]: boolean } = {};
+    const allInjectedServices: {[name: string]: boolean} = {};
     const classes = classMatched.map(item => {
       const name = (((
-        /export\ class\ (.*)[<|( {)]/.exec(item) || []
+        /export class (.*)[<|( {)]/.exec(item) || []
       ).pop() as string)
         .split('<')
         .shift() as string).trim();
@@ -166,7 +166,7 @@ export class ParseService {
       const properties = declaration.getVariablesOrProperties();
       const methods = declaration.getFunctionsOrMethods();
       // constructor params
-      const { REFLECTION: cstReflection } = declaration.getChild('constructor');
+      const {REFLECTION: cstReflection} = declaration.getChild('constructor');
       const constructorSignature = (cstReflection as any)['signatures'][0];
       const injectedServices: ClassParam[] = [];
       const parameters: ClassParam[] = [];
@@ -213,13 +213,13 @@ export class ParseService {
       if (imp.value instanceof Array) {
         const groupValue: string[] = [];
         imp.value.forEach(val => {
-          if (!!allInjectedServices[val]) {
-            serviceImports.push({ ...imp, value: [val] });
+          if (allInjectedServices[val]) {
+            serviceImports.push({...imp, value: [val]});
           } else {
             groupValue.push(val);
           }
         });
-        moduleImports.push({ ...imp, value: groupValue });
+        moduleImports.push({...imp, value: groupValue});
       } else {
         moduleImports.push(imp);
       }

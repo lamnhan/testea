@@ -1,7 +1,7 @@
-import { resolve } from 'path';
-import { ReflectionData } from '@lamnhan/ayedocs';
+import {resolve} from 'path';
+import {ReflectionData} from '@lamnhan/ayedocs';
 
-import { ParsedImport, ParsedClass } from './parse';
+import {ParsedImport, ParsedClass} from './parse';
 
 export class TemplateService {
   constructor() {}
@@ -25,32 +25,32 @@ export class TemplateService {
     }
     // result
     return this.toText([
-      `// tslint:disable: no-any ban-ts-ignore ban`,
-      `import\ { expect } from 'chai';`,
-      `import\ { ${testeaImports.join(', ')} } from '@lamnhan/testea';`,
+      '// tslint:disable: no-any ban-ts-ignore ban',
+      "import { expect } from 'chai';",
+      `import { ${testeaImports.join(', ')} } from '@lamnhan/testea';`,
     ]);
   }
 
   getMainInport(items: string[], path: string) {
-    return `import\ { ${items.join(', ')} } from '${path}';`;
+    return `import { ${items.join(', ')} } from '${path}';`;
   }
 
   getModuleMock(imp: ParsedImport) {
-    const { type, value, statement, id } = imp;
+    const {type, value, statement, id} = imp;
     let content: string[] = [];
     if (type === 'default') {
       content = [
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = () => {`,
-        `  return '';`,
-        `};`,
+        "  return '';",
+        '};',
       ];
     } else if (type === 'full') {
       content = [
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = {`,
-        `  // members`,
-        `};`,
+        '  // members',
+        '};',
       ];
     } else {
       const members = (value as string[])
@@ -67,32 +67,32 @@ export class TemplateService {
         })
         .map(val => `  ${val}: '',`);
       if (!members.length) {
-        members.push(`  // members`);
+        members.push('  // members');
       }
       content = [
         `// ${statement}`,
         `const ${id}ModuleDefaultMock = {`,
         ...members,
-        `};`,
+        '};',
       ];
     }
     return this.toText(content);
   }
 
   getServiceMock(imp: ParsedImport) {
-    const { statement, value } = imp;
+    const {statement, value} = imp;
     let name = value instanceof Array ? value[0] : value;
     name = name.charAt(0).toLowerCase() + name.substr(1);
     return this.toText([
       `// ${statement}`,
       `const ${name}DefaultMock = {`,
-      `  // members`,
-      `};`,
+      '  // members',
+      '};',
     ]);
   }
 
   getSetup(path: string, cls: ParsedClass, moduleImports?: ParsedImport[]) {
-    const { name, injectedServices, parameters } = cls;
+    const {name, injectedServices /*parameters*/} = cls;
     const folderPath = path.replace(/\\/g, '/').split('/');
     folderPath.pop();
     const getShortPath = (p: string) =>
@@ -103,9 +103,9 @@ export class TemplateService {
         .split('/src/')
         .pop() as string);
     // TODO: support parameters
-    const parametersArgs: string[] = [];
-    if (!!parameters.length) {
-    }
+    // const parametersArgs: string[] = [];
+    // if (parameters.length) {
+    // }
     // module
     const moduleMocksType: string[] = [];
     const moduleMocksParam: string[] = [];
@@ -113,11 +113,11 @@ export class TemplateService {
     const moduleMocksArg: string[] = [];
     const moduleMockArgs: string[] = [];
     if (!!moduleImports && !!moduleImports.length) {
-      moduleMocksParam.push(`  moduleMocks: {`);
-      moduleMocksConst.push(`  const {`);
-      moduleMocksArg.push(`    {`);
+      moduleMocksParam.push('  moduleMocks: {');
+      moduleMocksConst.push('  const {');
+      moduleMocksArg.push('    {');
       moduleImports.forEach(imp => {
-        const { source, from, id: name } = imp;
+        const {source, from, id: name} = imp;
         const titleName = name.charAt(0).toUpperCase() + name.substr(1);
         const mockName = `${name}ModuleDefaultMock`;
         const typeName = `${titleName}ModuleMock`;
@@ -137,13 +137,13 @@ export class TemplateService {
           `      '${modulePath}': mockModule({ ...${mockName}, ...${constName} }),`
         );
       });
-      moduleMocksParam.push(`  } = {},`);
-      moduleMocksConst.push(`  } = moduleMocks;`);
-      moduleMocksArg.push(`    },`);
+      moduleMocksParam.push('  } = {},');
+      moduleMocksConst.push('  } = moduleMocks;');
+      moduleMocksArg.push('    },');
       // module args
       const selfPath = getShortPath(path);
       moduleMockArgs.push(
-        `    // rewire the module`,
+        '    // rewire the module',
         `    '${selfPath}',`,
         ...moduleMocksArg
       );
@@ -153,12 +153,12 @@ export class TemplateService {
     const serviceMocksParam: string[] = [];
     const serviceMocksConst: string[] = [];
     const serviceMocksArg: string[] = [];
-    if (!!injectedServices.length) {
-      serviceMocksParam.push(`  serviceMocks: {`);
-      serviceMocksConst.push(`  const {`);
-      serviceMocksArg.push(`    {`);
+    if (injectedServices.length) {
+      serviceMocksParam.push('  serviceMocks: {');
+      serviceMocksConst.push('  const {');
+      serviceMocksArg.push('    {');
       injectedServices.forEach(param => {
-        const { type: titleName } = param;
+        const {type: titleName} = param;
         const name = titleName.charAt(0).toLowerCase() + titleName.substr(1);
         const mockName = `${name}DefaultMock`;
         const typeName = `${titleName}Mock`;
@@ -172,11 +172,11 @@ export class TemplateService {
           `      ${constName}: mockService({ ...${mockName}, ...${constName} }),`
         );
       });
-      serviceMocksParam.push(`  } = {},`);
-      serviceMocksConst.push(`  } = serviceMocks;`);
-      serviceMocksArg.push(`    },`);
+      serviceMocksParam.push('  } = {},');
+      serviceMocksConst.push('  } = serviceMocks;');
+      serviceMocksArg.push('    },');
     } else {
-      serviceMocksArg.push(`    undefined,`);
+      serviceMocksArg.push('    undefined,');
     }
     // result
     const isFull = !!moduleImports && !!moduleImports.length;
@@ -185,11 +185,11 @@ export class TemplateService {
       `  SelfStubing extends ServiceStubing<${name}>,`,
       ...serviceMocksType,
       ...moduleMocksType,
-      `>(`,
-      `  selfStubing?: SelfStubing,`,
+      '>(',
+      '  selfStubing?: SelfStubing,',
       ...serviceMocksParam,
       ...moduleMocksParam,
-      `) {`,
+      ') {',
       ...serviceMocksConst,
       ...moduleMocksConst,
       `  return ${isFull ? 'rewireFull' : 'rewireService'}(`,
@@ -197,14 +197,14 @@ export class TemplateService {
       '    // rewire the service',
       `    ${name},`,
       ...serviceMocksArg,
-      `    selfStubing,`,
-      `  ).getResult();`,
-      `}`,
+      '    selfStubing,',
+      '  ).getResult();',
+      '}',
     ]);
   }
 
   getSuite(name: string, cases: string) {
-    return this.toText(['', `describe('${name}', () => {`, cases, '', `});`]);
+    return this.toText(['', `describe('${name}', () => {`, cases, '', '});']);
   }
 
   getCaseForProperty(name: string, className: string) {
@@ -217,7 +217,7 @@ export class TemplateService {
       `  // expect(service.${name}).equal('...');`
     );
     // closing
-    result.push(`});`);
+    result.push('});');
     // result
     return this.toText(result.map(line => '  ' + line));
   }
@@ -232,16 +232,16 @@ export class TemplateService {
     result.push('', `it.skip('${name}()', async () => {`);
     // params
     const paramList = params
-      .map(({ isOptional, name }) => (isOptional ? name + '?' : name))
+      .map(({isOptional, name}) => (isOptional ? name + '?' : name))
       .join(', ');
     // content
     result.push(
       `  // const { service } = await setup${className}();`,
       `  // const result = service.${name}(${paramList});`,
-      `  // expect(result).equal('...');`
+      "  // expect(result).equal('...');"
     );
     // closing
-    result.push(`});`);
+    result.push('});');
     // result
     return this.toText(result.map(line => '  ' + line));
   }
