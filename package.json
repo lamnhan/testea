@@ -23,10 +23,7 @@
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls",
     "check": "gts check",
     "fix": "gts fix",
-    "clean": "gts clean",
-    "prepare": "npm.cmd run compile",
-    "pretest": "npm.cmd run compile",
-    "posttest": "npm.cmd run check"
+    "clean": "gts clean"
   },
   "keywords": [
     "testea",
@@ -42,7 +39,7 @@
     "url": "https://github.com/lamnhan/testea/issues"
   },
   "dependencies": {
-    "@lamnhan/ayedocs": "1.0.0-beta1",
+    "@lamnhan/ayedocs": "1.0.0-beta4",
     "@types/marked": "^0.7.4",
     "chalk": "^4.0.0",
     "commander": "^5.1.0",

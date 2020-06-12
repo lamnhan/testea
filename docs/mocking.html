@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mocking</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css"
+    />
+
+    <link rel="stylesheet" href="https://lamnhan.com/testea/assets/main.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="https://lamnhan.com/testea"
+        >@lamnhan/testea documentation</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://lamnhan.com">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lamnhan/testea"
+              >Github</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+      <div class="row">
+        <aside class="col-3 menu">
+          <div><strong>Table of content</strong></div>
+          <ul>
+            <li>
+              <a href="https://lamnhan.com/testea/terminology.html"
+                >Terminology</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/installation.html"
+                >Installation</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/overview.html"
+                >API Overview</a
+              >
+            </li>
+            <li>
+              <a class="active" href="https://lamnhan.com/testea/mocking.html"
+                >Mocking</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/rewiring.html">Rewiring</a>
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/stubbing.html">Stubbing</a>
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/the-cli.html">The CLI</a>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="col-9 content">
+          <div class="title"><h1>Mocking</h1></div>
+
+          <section
+            id="toc"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <ul>
+              <li>
+                <a
+                  href="#-mockmodule-members-https-lamnhan-com-testea-index-html-mockmodule"
+                  ><a href="https://lamnhan.com/testea/index.html#mockmodule"
+                    ><code>mockModule(members)</code></a
+                  ></a
+                >
+              </li>
+              <li>
+                <a
+                  href="#-mockservice-members-https-lamnhan-com-testea-index-html-mockservice"
+                  ><a href="https://lamnhan.com/testea/index.html#mockservice"
+                    ><code>mockService(members)</code></a
+                  ></a
+                >
+              </li>
+              <li>
+                <a
+                  href="#the-mockbuilder-https-lamnhan-com-testea-classes-mockbuilder-html"
+                  >The
+                  <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
+                    ><code>MockBuilder</code></a
+                  ></a
+                >
+                <ul>
+                  <li><a href="#mocked-returns">Mocked returns</a></li>
+                  <li><a href="#instance-methods">Instance methods</a></li>
+                </ul>
+              </li>
+              <li>
+                <a
+                  href="#the-mockedresult-https-lamnhan-com-testea-classes-mockedresult-html"
+                  >The
+                  <a href="https://lamnhan.com/testea/classes/mockedresult.html"
+                    ><code>MockedResult</code></a
+                  ></a
+                >
+              </li>
+              <li><a href="#mocking-example">Mocking example</a></li>
+            </ul>
+          </section>
+
+          <section
+            id="content"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2 id="mockmodulemembers">
+              <a href="https://lamnhan.com/testea/index.html#mockmodule"
+                ><code>mockModule(members)</code></a
+              >
+            </h2>
+            <p>
+              Create a mock module for testea purpose, this method is a proxy to
+              the <a href="#the-mockbuilder"><code>MockBuilder</code></a
+              >.
+            </p>
+            <p>The original module, for example:</p>
+            <pre><code class="language-ts">function a() {
+  // do something
+  return &quot;something&quot;;
+}
+
+async function b() {
+  // do somthing else
+  return &quot;nothing at all&quot;;
+}
+
+export { a, b };</code></pre>
+            <p>Create a mocked version of the original module:</p>
+            <pre><code class="language-ts">const mockedModule = mockModule({
+  a: () =&gt; &quot;something else&quot;,
+  b: async () =&gt; &quot;never&quot;,
+});
+
+// start using the mocked module</code></pre>
+            <h2 id="mockservicemembers">
+              <a href="https://lamnhan.com/testea/index.html#mockservice"
+                ><code>mockService(members)</code></a
+              >
+            </h2>
+            <p>
+              Create a mock service for testea purpose, this method is a proxy
+              to the <a href="#the-mockbuilder"><code>MockBuilder</code></a
+              >. See
+              <a href="#mockmodulemembers"><code>mockModule</code></a> for usage
+              info.
+            </p>
+            <h2 id="the-mockbuilder">
+              The
+              <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
+                ><code>MockBuilder</code></a
+              >
+            </h2>
+            <p>
+              The
+              <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
+                ><code>MockBuilder</code></a
+              >
+              constructor create a mocked object for mocking modules and
+              services.
+            </p>
+            <pre><code class="language-ts">const mocked = new MockBuilder({
+  &quot;.A&quot;: 0, // prop &#39;A&#39; contains a value of 0
+  a: () =&gt; 1, // method &#39;a&#39; returns 1
+  b: async () =&gt; 2, // method &#39;b&#39; async returns 2
+});</code></pre>
+            <p>
+              The <a href="#the-mockbuilder"><code>MockBuilder</code></a> create
+              a mocked instance of any modules or services with every method
+              defined in the <code>members</code> param. When a method is
+              called, the mocked instance record all arguments and returns a
+              value that defined by the <code>members</code> param.
+            </p>
+            <p>
+              <strong>Note</strong>: To mock a property, just add a
+              <code>.</code> before the property name.
+            </p>
+            <h3 id="mocked-returns">Mocked returns</h3>
+            <p>These are the supported returns values.</p>
+            <ul>
+              <li>
+                <code>*</code>: returns <code>this</code> (the mocked instance)
+              </li>
+              <li><code>.</code>: returns the first argument</li>
+              <li><code>.$</code>: async returns the first argument</li>
+              <li><code>...</code>: returns the list of arguments</li>
+              <li><code>...$</code>: async returns the list of arguments</li>
+              <li>
+                <code>!</code>: throws an error, with custom message:
+                <code>!=The message!</code>
+              </li>
+              <li>
+                <code>!$</code>: async reject, with custom message:
+                <code>!$=The message!</code>
+              </li>
+              <li>
+                <code>Function</code>: returns the result of this function (with
+                the same arguments as the original method)
+              </li>
+              <li>
+                <code>any</code>: returns as is: <code>string</code>,
+                <code>number</code>, <code>boolean</code>, <code>{}</code>,
+                <code>any[]</code>
+              </li>
+            </ul>
+            <h3 id="instance-methods">Instance methods</h3>
+            <p>
+              A <a href="#the-mockbuilder"><code>MockBuilder</code></a> instance
+              provides these methods for retrieving testea data.
+            </p>
+            <ul>
+              <li><code>getProp(prop)</code>: Get a mocked property value</li>
+              <li>
+                <code>getResult(member)</code>: Get the result for a certain
+                member, returns <code>MockedResult</code>](#the-mockedresult)
+              </li>
+              <li>
+                <code>getAllReturns()</code>: Get all the data holded by the
+                Returns Keeper
+              </li>
+              <li>
+                <code>getAllArgs()</code>: Get all the data holded by the Args
+                Keeper
+              </li>
+              <li>
+                <code>getAllStackedArgs()</code>: Get all the data holded by the
+                StackedArgs Keeper
+              </li>
+            </ul>
+            <h2 id="the-mockedresult">
+              The
+              <a href="https://lamnhan.com/testea/classes/mockedresult.html"
+                ><code>MockedResult</code></a
+              >
+            </h2>
+            <p>
+              The
+              <a href="https://lamnhan.com/testea/classes/mockedresult.html"
+                ><code>MockedResult</code></a
+              >
+              constructor provide values and methods for testea a mocked method.
+            </p>
+            <ul>
+              <li><code>getArgs()</code>: Get a list of args</li>
+              <li><code>countArgs()</code>: Get the number of args</li>
+              <li>
+                <code>getArg(position)</code>: Get an arg by paramter position
+              </li>
+              <li><code>getArgFirst()</code>: Get the first arg</li>
+              <li><code>getArgSecond()</code>: Get the second arg</li>
+              <li><code>getArgThird()</code>: Get the third arg</li>
+              <li><code>getArgLast()</code>: Get the last arg</li>
+              <li><code>getStackedArgs()</code>: Get a list of stacked args</li>
+              <li>
+                <code>countStackedArgs()</code>: Get the number of stacked args
+                (same as <code>callCount()</code>)
+              </li>
+              <li>
+                <code>getStackedArgsChild(execution)</code>: Get a list of args
+                by execution order
+              </li>
+              <li>
+                <code>getStackedArgsFirst()</code>: Get a list of args of the
+                first execution
+              </li>
+              <li>
+                <code>getStackedArgsSecond()</code>: Get a list of args of the
+                second execution
+              </li>
+              <li>
+                <code>getStackedArgsThird()</code>: Get a list of args of the
+                third execution
+              </li>
+              <li>
+                <code>getStackedArgsLast()</code>: Get a list of args of the
+                last execution
+              </li>
+              <li>
+                <code>getArgInStack(execution, position)</code>: Get an arg by
+                execution order and parameter position
+              </li>
+              <li>
+                <code>hasBeenCalled()</code>: See if a method has been called
+              </li>
+              <li>
+                <code>hasBeenCalledWith(...args)</code>: See if a method has
+                been called with certain args
+              </li>
+              <li><code>callCount()</code>: Get the number of call</li>
+            </ul>
+            <h2 id="mocking-example">Mocking example</h2>
+            <p>
+              An example of how to create a mocked version of a module or a
+              service.
+            </p>
+            <p>
+              <strong><code>./src/module1.ts</code></strong>
+            </p>
+            <pre><code class="language-ts">export function doSomething1() {
+  // do something
+  return &quot;something&quot;;
+}
+
+export async function doSomething2() {
+  // do somthing else
+  return &quot;nothing at all&quot;;
+}</code></pre>
+            <p>
+              <strong><code>./test/module1.spec.ts</code></strong>
+            </p>
+            <pre><code class="language-ts">const mockedModule = mockModule({
+  doSomething1: &quot;any mocked returns value&quot;,
+  doSomething2: async () =&gt; &quot;any mocked returns value&quot;,
+});
+
+// start using the mocked module</code></pre>
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            ⚡️ This document is generated automatically using
+            <a href="https://github.com/lamnhan/ayedocs" target="_blank"
+              >@lamnhan/ayedocs</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-css-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-json.min.js"></script>
+  </body>
+</html>

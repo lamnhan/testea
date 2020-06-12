@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Terminology</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism.min.css"
+    />
+
+    <link rel="stylesheet" href="https://lamnhan.com/testea/assets/main.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="https://lamnhan.com/testea"
+        >@lamnhan/testea documentation</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="https://lamnhan.com">Homepage</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/lamnhan/testea"
+              >Github</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container-fluid main">
+      <div class="row">
+        <aside class="col-3 menu">
+          <div><strong>Table of content</strong></div>
+          <ul>
+            <li>
+              <a
+                class="active"
+                href="https://lamnhan.com/testea/terminology.html"
+                >Terminology</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/installation.html"
+                >Installation</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/overview.html"
+                >API Overview</a
+              >
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/mocking.html">Mocking</a>
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/rewiring.html">Rewiring</a>
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/stubbing.html">Stubbing</a>
+            </li>
+            <li>
+              <a href="https://lamnhan.com/testea/the-cli.html">The CLI</a>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="col-9 content">
+          <div class="title"><h1>Terminology</h1></div>
+
+          <section
+            id="toc"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <ul>
+              <li>
+                <a href="#-module-and-mocked-module"
+                  ><code>Module</code> and <code>mocked module</code></a
+                >
+              </li>
+              <li>
+                <a href="#-service-and-mocked-service"
+                  ><code>Service</code> and <code>mocked service</code></a
+                >
+              </li>
+              <li>
+                <a href="#-stub"><code>Stub</code></a>
+              </li>
+            </ul>
+          </section>
+
+          <section
+            id="content"
+            data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
+          >
+            <h2 id="module-and-mocked-module">
+              <code>Module</code> and <code>mocked module</code>
+            </h2>
+            <p>
+              A <strong>module</strong> is a dependency or a file that is
+              imported by your code. Example: <code>path</code> module,
+              <code>module1</code> module, ...
+            </p>
+            <pre><code class="language-ts">import { resolve } from &quot;path&quot;;
+import { something } from &quot;./module1&quot;;</code></pre>
+            <p>There are 3 kinds of module:</p>
+            <ul>
+              <li><strong>Native</strong>: Node builtin modules</li>
+              <li>
+                <strong>Installed</strong>: installed
+                <code>node_modules/</code> dependencies
+              </li>
+              <li>
+                <strong>Local</strong>: any files in the
+                <code>src/</code> folder
+              </li>
+            </ul>
+            <p>
+              A <strong>mocked module</strong> is a module that was created to
+              replace the original module for testea purpose.
+            </p>
+            <h2 id="service-and-mocked-service">
+              <code>Service</code> and <code>mocked service</code>
+            </h2>
+            <p>
+              A <strong>service</strong> is an exported member of a
+              <strong>module</strong>, usually an exported <code>class</code> in
+              a module. Example: <code>MyService</code> service,
+              <code>AnotherService</code> service, ...
+            </p>
+            <pre><code class="language-ts">import { MyService } from &quot;./module1&quot;;
+import { AnotherService } from &quot;./module2&quot;;</code></pre>
+            <p>
+              A <strong>mocked service</strong> is a service that was created to
+              replace the original service for testea purpose.
+            </p>
+            <h2 id="stub"><code>Stub</code></h2>
+            <p>
+              <strong>Stubbing</strong> is an action that replace a
+              <strong>method</strong> of a <strong>server</strong> with a mocked
+              one. Stubbing is useful when a method depends on other methods
+              within the same service.
+            </p>
+            <pre><code class="language-ts">class MyService {
+  a() {
+    return 1;
+  }
+
+  b() {
+    const useTheAMethod = this.a();
+    return 2;
+  }
+}</code></pre>
+            <p>
+              When testea the <code>b()</code> method, we can set the
+              <code>a()</code> method to returns whatever we want without
+              actually calling it.
+            </p>
+          </section>
+        </article>
+      </div>
+    </div>
+
+    <div class="container-fluid footer">
+      <div class="row">
+        <div class="col-12">
+          <p>
+            ⚡️ This document is generated automatically using
+            <a href="https://github.com/lamnhan/ayedocs" target="_blank"
+              >@lamnhan/ayedocs</a
+            >.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-css-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-typescript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-powershell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-json.min.js"></script>
+  </body>
+</html>

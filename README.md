@@ -42,7 +42,7 @@ import { mockService } from "@lamnhan/testea";
 
 const mocked = mockService({
   a: () => 1,
-  b: async () => 2
+  b: async () => 2,
 });
 
 // test begins
