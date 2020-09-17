@@ -97,11 +97,7 @@ export class TemplateService {
     folderPath.pop();
     const getShortPath = (p: string) =>
       '@' +
-      (p
-        .replace(/\\/g, '/')
-        .replace('.ts', '')
-        .split('/src/')
-        .pop() as string);
+      (p.replace(/\\/g, '/').replace('.ts', '').split('/src/').pop() as string);
     // TODO: support parameters
     // const parametersArgs: string[] = [];
     // if (parameters.length) {
