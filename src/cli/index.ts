@@ -1,8 +1,8 @@
 import {red} from 'chalk';
 import {Command} from 'commander';
-import {TesteaModule} from '../public-api';
 
-import {GenerateCommand} from './commands/generate';
+import {Lib as TesteaModule} from '../lib/index';
+import {GenerateCommand} from './commands/generate.command';
 
 export class Cli {
   private testeaModule: TesteaModule;

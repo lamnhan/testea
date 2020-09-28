@@ -104,14 +104,14 @@
             <p>Or localy:</p>
             <p><code>npm install --save-dev @lamnhan/testea</code></p>
             <p>Use the library:</p>
-            <pre><code class="language-ts">import { mockService } from &quot;@lamnhan/testea&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { mockService } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@lamnhan/testea&quot;</span>;
 
-const mocked = mockService({
-  a: () =&gt; 1,
-  b: async () =&gt; 2,
+<span class="hljs-keyword">const</span> mocked = mockService({
+  a: <span class="hljs-function">() =&gt;</span> <span class="hljs-number">1</span>,
+  b: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-number">2</span>,
 });
 
-// test begins</code></pre>
+<span class="hljs-comment">// test begins</span></code></pre>
           </section>
         </article>
       </div>

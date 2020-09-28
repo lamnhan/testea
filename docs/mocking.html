@@ -141,40 +141,53 @@
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <h2 id="mockmodulemembers">
-              <a href="https://lamnhan.com/testea/index.html#mockmodule"
-                ><code>mockModule(members)</code></a
-              >
-            </h2>
+            <a
+              href="#mockmodulemembers"
+              id="mockmodulemembers"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                <a href="https://lamnhan.com/testea/index.html#mockmodule"
+                  ><code>mockModule(members)</code></a
+                >
+              </h2>
+            </a>
             <p>
               Create a mock module for testea purpose, this method is a proxy to
               the <a href="#the-mockbuilder"><code>MockBuilder</code></a
               >.
             </p>
             <p>The original module, for example:</p>
-            <pre><code class="language-ts">function a() {
-  // do something
-  return &quot;something&quot;;
+            <pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">a</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do something</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
 }
 
-async function b() {
-  // do somthing else
-  return &quot;nothing at all&quot;;
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">b</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do somthing else</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nothing at all&quot;</span>;
 }
 
-export { a, b };</code></pre>
+<span class="hljs-keyword">export</span> { a, b };</code></pre>
             <p>Create a mocked version of the original module:</p>
-            <pre><code class="language-ts">const mockedModule = mockModule({
-  a: () =&gt; &quot;something else&quot;,
-  b: async () =&gt; &quot;never&quot;,
+            <pre><code class="language-ts"><span class="hljs-keyword">const</span> mockedModule = mockModule({
+  a: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&quot;something else&quot;</span>,
+  b: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;never&quot;</span>,
 });
 
-// start using the mocked module</code></pre>
-            <h2 id="mockservicemembers">
-              <a href="https://lamnhan.com/testea/index.html#mockservice"
-                ><code>mockService(members)</code></a
-              >
-            </h2>
+<span class="hljs-comment">// start using the mocked module</span></code></pre>
+
+            <a
+              href="#mockservicemembers"
+              id="mockservicemembers"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                <a href="https://lamnhan.com/testea/index.html#mockservice"
+                  ><code>mockService(members)</code></a
+                >
+              </h2>
+            </a>
             <p>
               Create a mock service for testea purpose, this method is a proxy
               to the <a href="#the-mockbuilder"><code>MockBuilder</code></a
@@ -182,12 +195,19 @@ export { a, b };</code></pre>
               <a href="#mockmodulemembers"><code>mockModule</code></a> for usage
               info.
             </p>
-            <h2 id="the-mockbuilder">
-              The
-              <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
-                ><code>MockBuilder</code></a
-              >
-            </h2>
+
+            <a
+              href="#the-mockbuilder"
+              id="the-mockbuilder"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                The
+                <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
+                  ><code>MockBuilder</code></a
+                >
+              </h2>
+            </a>
             <p>
               The
               <a href="https://lamnhan.com/testea/classes/mockbuilder.html"
@@ -196,10 +216,10 @@ export { a, b };</code></pre>
               constructor create a mocked object for mocking modules and
               services.
             </p>
-            <pre><code class="language-ts">const mocked = new MockBuilder({
-  &quot;.A&quot;: 0, // prop &#39;A&#39; contains a value of 0
-  a: () =&gt; 1, // method &#39;a&#39; returns 1
-  b: async () =&gt; 2, // method &#39;b&#39; async returns 2
+            <pre><code class="language-ts"><span class="hljs-keyword">const</span> mocked = <span class="hljs-keyword">new</span> MockBuilder({
+  <span class="hljs-string">&quot;.A&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// prop &#x27;A&#x27; contains a value of 0</span>
+  a: <span class="hljs-function">() =&gt;</span> <span class="hljs-number">1</span>, <span class="hljs-comment">// method &#x27;a&#x27; returns 1</span>
+  b: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-number">2</span>, <span class="hljs-comment">// method &#x27;b&#x27; async returns 2</span>
 });</code></pre>
             <p>
               The <a href="#the-mockbuilder"><code>MockBuilder</code></a> create
@@ -212,7 +232,14 @@ export { a, b };</code></pre>
               <strong>Note</strong>: To mock a property, just add a
               <code>.</code> before the property name.
             </p>
-            <h3 id="mocked-returns">Mocked returns</h3>
+
+            <a
+              href="#mocked-returns"
+              id="mocked-returns"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Mocked returns</h3>
+            </a>
             <p>These are the supported returns values.</p>
             <ul>
               <li>
@@ -240,7 +267,14 @@ export { a, b };</code></pre>
                 <code>any[]</code>
               </li>
             </ul>
-            <h3 id="instance-methods">Instance methods</h3>
+
+            <a
+              href="#instance-methods"
+              id="instance-methods"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Instance methods</h3>
+            </a>
             <p>
               A <a href="#the-mockbuilder"><code>MockBuilder</code></a> instance
               provides these methods for retrieving testea data.
@@ -264,12 +298,19 @@ export { a, b };</code></pre>
                 StackedArgs Keeper
               </li>
             </ul>
-            <h2 id="the-mockedresult">
-              The
-              <a href="https://lamnhan.com/testea/classes/mockedresult.html"
-                ><code>MockedResult</code></a
-              >
-            </h2>
+
+            <a
+              href="#the-mockedresult"
+              id="the-mockedresult"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                The
+                <a href="https://lamnhan.com/testea/classes/mockedresult.html"
+                  ><code>MockedResult</code></a
+                >
+              </h2>
+            </a>
             <p>
               The
               <a href="https://lamnhan.com/testea/classes/mockedresult.html"
@@ -325,7 +366,14 @@ export { a, b };</code></pre>
               </li>
               <li><code>callCount()</code>: Get the number of call</li>
             </ul>
-            <h2 id="mocking-example">Mocking example</h2>
+
+            <a
+              href="#mocking-example"
+              id="mocking-example"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>Mocking example</h2>
+            </a>
             <p>
               An example of how to create a mocked version of a module or a
               service.
@@ -333,24 +381,24 @@ export { a, b };</code></pre>
             <p>
               <strong><code>./src/module1.ts</code></strong>
             </p>
-            <pre><code class="language-ts">export function doSomething1() {
-  // do something
-  return &quot;something&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething1</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do something</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
 }
 
-export async function doSomething2() {
-  // do somthing else
-  return &quot;nothing at all&quot;;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething2</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do somthing else</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nothing at all&quot;</span>;
 }</code></pre>
             <p>
               <strong><code>./test/module1.spec.ts</code></strong>
             </p>
-            <pre><code class="language-ts">const mockedModule = mockModule({
-  doSomething1: &quot;any mocked returns value&quot;,
-  doSomething2: async () =&gt; &quot;any mocked returns value&quot;,
+            <pre><code class="language-ts"><span class="hljs-keyword">const</span> mockedModule = mockModule({
+  doSomething1: <span class="hljs-string">&quot;any mocked returns value&quot;</span>,
+  doSomething2: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;any mocked returns value&quot;</span>,
 });
 
-// start using the mocked module</code></pre>
+<span class="hljs-comment">// start using the mocked module</span></code></pre>
           </section>
         </article>
       </div>

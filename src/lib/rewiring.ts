@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {resolve} from 'path';
 import * as sinon from 'sinon';
 

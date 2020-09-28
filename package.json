@@ -1,6 +1,6 @@
 {
   "name": "@lamnhan/testea",
-  "version": "1.0.0-beta3",
+  "version": "1.0.0",
   "description": "Rewiring, mocking & stubbing for testea modules in Node.",
   "author": "Lam Nhan",
   "homepage": "https://lamnhan.com",
@@ -17,9 +17,9 @@
   ],
   "scripts": {
     "compile": "tsc",
-    "build": "npm.cmd run compile && npm.cmd i -g",
+    "build": "npm run compile && npm i -g",
     "docs": "ayedocs generate",
-    "test": "npm.cmd run compile && nyc --cache false mocha test/**/*.js",
+    "test": "npm run compile && nyc --cache false mocha test/**/*.js",
     "coverage": "nyc --cache false report --reporter=text-lcov | coveralls",
     "check": "gts check",
     "fix": "gts fix"
@@ -38,7 +38,7 @@
     "url": "https://github.com/lamnhan/testea/issues"
   },
   "dependencies": {
-    "@lamnhan/ayedocs": "1.0.0-beta4",
+    "@lamnhan/ayedocs": "^1.0.0",
     "@types/marked": "^1.1.0",
     "chalk": "^4.1.0",
     "commander": "^6.1.0",

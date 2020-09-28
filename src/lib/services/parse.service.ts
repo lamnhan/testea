@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {resolve} from 'path';
 import {readFile, pathExistsSync} from 'fs-extra';
 import * as recursiveReaddir from 'recursive-readdir';

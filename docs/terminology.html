@@ -115,16 +115,20 @@
             id="content"
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
-            <h2 id="module-and-mocked-module">
-              <code>Module</code> and <code>mocked module</code>
-            </h2>
+            <a
+              href="#module-and-mocked-module"
+              id="module-and-mocked-module"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2><code>Module</code> and <code>mocked module</code></h2>
+            </a>
             <p>
               A <strong>module</strong> is a dependency or a file that is
               imported by your code. Example: <code>path</code> module,
               <code>module1</code> module, ...
             </p>
-            <pre><code class="language-ts">import { resolve } from &quot;path&quot;;
-import { something } from &quot;./module1&quot;;</code></pre>
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { resolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;
+<span class="hljs-keyword">import</span> { something } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./module1&quot;</span>;</code></pre>
             <p>There are 3 kinds of module:</p>
             <ul>
               <li><strong>Native</strong>: Node builtin modules</li>
@@ -141,36 +145,48 @@ import { something } from &quot;./module1&quot;;</code></pre>
               A <strong>mocked module</strong> is a module that was created to
               replace the original module for testea purpose.
             </p>
-            <h2 id="service-and-mocked-service">
-              <code>Service</code> and <code>mocked service</code>
-            </h2>
+
+            <a
+              href="#service-and-mocked-service"
+              id="service-and-mocked-service"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2><code>Service</code> and <code>mocked service</code></h2>
+            </a>
             <p>
               A <strong>service</strong> is an exported member of a
               <strong>module</strong>, usually an exported <code>class</code> in
               a module. Example: <code>MyService</code> service,
               <code>AnotherService</code> service, ...
             </p>
-            <pre><code class="language-ts">import { MyService } from &quot;./module1&quot;;
-import { AnotherService } from &quot;./module2&quot;;</code></pre>
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { MyService } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./module1&quot;</span>;
+<span class="hljs-keyword">import</span> { AnotherService } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./module2&quot;</span>;</code></pre>
             <p>
               A <strong>mocked service</strong> is a service that was created to
               replace the original service for testea purpose.
             </p>
-            <h2 id="stub"><code>Stub</code></h2>
+
+            <a
+              href="#stub"
+              id="stub"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2><code>Stub</code></h2>
+            </a>
             <p>
               <strong>Stubbing</strong> is an action that replace a
               <strong>method</strong> of a <strong>server</strong> with a mocked
               one. Stubbing is useful when a method depends on other methods
               within the same service.
             </p>
-            <pre><code class="language-ts">class MyService {
+            <pre><code class="language-ts"><span class="hljs-keyword">class</span> MyService {
   a() {
-    return 1;
+    <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
   }
 
   b() {
-    const useTheAMethod = this.a();
-    return 2;
+    <span class="hljs-keyword">const</span> useTheAMethod = <span class="hljs-built_in">this</span>.a();
+    <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;
   }
 }</code></pre>
             <p>

@@ -1,7 +1,7 @@
 import {resolve} from 'path';
 import {ReflectionData} from '@lamnhan/ayedocs';
 
-import {ParsedImport, ParsedClass} from './parse';
+import {ParsedImport, ParsedClass} from './parse.service';
 
 export class TemplateService {
   constructor() {}
@@ -25,7 +25,7 @@ export class TemplateService {
     }
     // result
     return this.toText([
-      '// tslint:disable: no-any ban-ts-ignore ban',
+      '/* eslint-disable @typescript-eslint/ban-ts-ignore */',
       "import { expect } from 'chai';",
       `import { ${testeaImports.join(', ')} } from '@lamnhan/testea';`,
     ]);

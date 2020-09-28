@@ -218,7 +218,14 @@
                 </ul>
               </li>
             </ul>
-            <h2 id="rewiremock"><code>rewiremock</code></h2>
+
+            <a
+              href="#rewiremock"
+              id="rewiremock"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2><code>rewiremock</code></h2>
+            </a>
             <p>
               This package also exports a
               <a href="https://github.com/theKashey/rewiremock"
@@ -230,39 +237,53 @@
                 >https://github.com/theKashey/rewiremock</a
               >
             </p>
-            <h2 id="rewiremoduleinput-mockedmodules">
-              <a href="https://lamnhan.com/testea/index.html#rewiremodule"
-                ><code>rewireModule(input, mockedModules)</code></a
-              >
-            </h2>
+
+            <a
+              href="#rewiremoduleinput-mockedmodules"
+              id="rewiremoduleinput-mockedmodules"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                <a href="https://lamnhan.com/testea/index.html#rewiremodule"
+                  ><code>rewireModule(input, mockedModules)</code></a
+                >
+              </h2>
+            </a>
             <p>Load a module with mocked dependencies.</p>
-            <pre><code class="language-ts">// rewire the &#39;module1&#39;
-const module1Rewiring = rewireModule(
-  // load the original module
-  &quot;@src/module1&quot;,
-  // (optional) replace dependencies with mocked instances
+            <pre><code class="language-ts"><span class="hljs-comment">// rewire the &#x27;module1&#x27;</span>
+<span class="hljs-keyword">const</span> module1Rewiring = rewireModule(
+  <span class="hljs-comment">// load the original module</span>
+  <span class="hljs-string">&quot;@src/module1&quot;</span>,
+  <span class="hljs-comment">// (optional) replace dependencies with mocked instances</span>
   {
     path: {},
-    &quot;~lodash&quot;: {},
-    &quot;@xxx/abc&quot;: {},
+    <span class="hljs-string">&quot;~lodash&quot;</span>: {},
+    <span class="hljs-string">&quot;@xxx/abc&quot;</span>: {},
   }
 );
 
-// start test
-it(&quot;ok&quot;, async () =&gt; {
-  // retrieve the rewired module
-  const rewiredModule1 = await module1Rewiring.getModule();
+<span class="hljs-comment">// start test</span>
+it(<span class="hljs-string">&quot;ok&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-comment">// retrieve the rewired module</span>
+  <span class="hljs-keyword">const</span> rewiredModule1 = <span class="hljs-keyword">await</span> module1Rewiring.getModule();
 
-  // test a method
-  const result = rewiredModule1.someMethod();
-  expect(result).equal(&quot;xxx&quot;);
+  <span class="hljs-comment">// test a method</span>
+  <span class="hljs-keyword">const</span> result = rewiredModule1.someMethod();
+  expect(result).equal(<span class="hljs-string">&quot;xxx&quot;</span>);
 });</code></pre>
-            <h3 id="the-modulerewiring">
-              The
-              <a href="https://lamnhan.com/testea/classes/modulerewiring.html"
-                ><code>ModuleRewiring</code></a
-              >
-            </h3>
+
+            <a
+              href="#the-modulerewiring"
+              id="the-modulerewiring"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>
+                The
+                <a href="https://lamnhan.com/testea/classes/modulerewiring.html"
+                  ><code>ModuleRewiring</code></a
+                >
+              </h3>
+            </a>
             <p>
               <a href="https://lamnhan.com/testea/classes/modulerewiring.html"
                 ><code>ModuleRewiring</code></a
@@ -301,47 +322,62 @@ it(&quot;ok&quot;, async () =&gt; {
                 </tr>
               </tbody>
             </table>
-            <h2 id="rewireserviceserviceconstructor-mockedservices-withstubs">
-              <a href="https://lamnhan.com/testea/index.html#rewireservice"
-                ><code
-                  >rewireService(serviceConstructor, mockedServices,
-                  withStubs)</code
-                ></a
-              >
-            </h2>
-            <p>Load a service with mocked dependencies and stubing methods.</p>
-            <pre><code class="language-ts">import { MyService } from &quot;module1&quot;;
 
-const myServiceRewiring = rewireService(
-  // the original or a mocked service constructor extracted from a rewired module
+            <a
+              href="#rewireserviceserviceconstructor-mockedservices-withstubs"
+              id="rewireserviceserviceconstructor-mockedservices-withstubs"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>
+                <a href="https://lamnhan.com/testea/index.html#rewireservice"
+                  ><code
+                    >rewireService(serviceConstructor, mockedServices,
+                    withStubs)</code
+                  ></a
+                >
+              </h2>
+            </a>
+            <p>Load a service with mocked dependencies and stubing methods.</p>
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { MyService } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;module1&quot;</span>;
+
+<span class="hljs-keyword">const</span> myServiceRewiring = rewireService(
+  <span class="hljs-comment">// the original or a mocked service constructor extracted from a rewired module</span>
   MyService,
-  // (optional) mocked service dependencies (constructor params)
+  <span class="hljs-comment">// (optional) mocked service dependencies (constructor params)</span>
   {
-    &quot;@xxx/abc&quot;: {},
-    &quot;@xxx/xyz&quot;: {},
+    <span class="hljs-string">&quot;@xxx/abc&quot;</span>: {},
+    <span class="hljs-string">&quot;@xxx/xyz&quot;</span>: {},
   },
-  // (optional) pre-stubing methods
+  <span class="hljs-comment">// (optional) pre-stubing methods</span>
   {
-    a: 1,
-    b: () =&gt; 2,
+    a: <span class="hljs-number">1</span>,
+    b: <span class="hljs-function">() =&gt;</span> <span class="hljs-number">2</span>,
   }
 );
 
-// start test
-it(&quot;ok&quot;, async () =&gt; {
-  // retrieve the rewired service
-  const rewiredMyService = await myServiceRewiring.getInstance();
+<span class="hljs-comment">// start test</span>
+it(<span class="hljs-string">&quot;ok&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+  <span class="hljs-comment">// retrieve the rewired service</span>
+  <span class="hljs-keyword">const</span> rewiredMyService = <span class="hljs-keyword">await</span> myServiceRewiring.getInstance();
 
-  // test a method
-  const result = rewiredMyService.someMethod();
-  expect(result).equal(&quot;xxx&quot;);
+  <span class="hljs-comment">// test a method</span>
+  <span class="hljs-keyword">const</span> result = rewiredMyService.someMethod();
+  expect(result).equal(<span class="hljs-string">&quot;xxx&quot;</span>);
 });</code></pre>
-            <h3 id="the-servicerewiring">
-              The
-              <a href="https://lamnhan.com/testea/classes/servicerewiring.html"
-                ><code>ServiceRewiring</code></a
-              >
-            </h3>
+
+            <a
+              href="#the-servicerewiring"
+              id="the-servicerewiring"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>
+                The
+                <a
+                  href="https://lamnhan.com/testea/classes/servicerewiring.html"
+                  ><code>ServiceRewiring</code></a
+                >
+              </h3>
+            </a>
             <p>
               <a href="https://lamnhan.com/testea/classes/servicerewiring.html"
                 ><code>ServiceRewiring</code></a
@@ -396,23 +432,35 @@ it(&quot;ok&quot;, async () =&gt; {
                 </tr>
               </tbody>
             </table>
-            <h2
+
+            <a
+              href="#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs"
               id="rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs"
+              style="color: inherit; text-decoration: none"
             >
-              <a href="https://lamnhan.com/testea/index.html#rewirefull"
-                ><code
-                  >rewireFull(input, mockedModules, serviceInterface,
-                  mockedServices, withStubs)</code
-                ></a
-              >
-            </h2>
+              <h2>
+                <a href="https://lamnhan.com/testea/index.html#rewirefull"
+                  ><code
+                    >rewireFull(input, mockedModules, serviceInterface,
+                    mockedServices, withStubs)</code
+                  ></a
+                >
+              </h2>
+            </a>
             <p>Rewire both module &amp; service.</p>
-            <h3 id="the-fullrewiring">
-              The
-              <a href="https://lamnhan.com/testea/classes/fullrewiring.html"
-                ><code>FullRewiring</code></a
-              >
-            </h3>
+
+            <a
+              href="#the-fullrewiring"
+              id="the-fullrewiring"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>
+                The
+                <a href="https://lamnhan.com/testea/classes/fullrewiring.html"
+                  ><code>FullRewiring</code></a
+                >
+              </h3>
+            </a>
             <p>
               A
               <a href="https://lamnhan.com/testea/classes/fullrewiring.html"
@@ -454,127 +502,155 @@ it(&quot;ok&quot;, async () =&gt; {
                 </tr>
               </tbody>
             </table>
-            <h2 id="rewiring-examples">Rewiring examples</h2>
+
+            <a
+              href="#rewiring-examples"
+              id="rewiring-examples"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>Rewiring examples</h2>
+            </a>
             <p>
               All testea examples is using
               <a href="https://mochajs.org/">mocha</a> as test runner and
               <a href="https://www.chaijs.com/">chai</a> as assertion tool.
             </p>
-            <h3 id="rewire-module">Rewire module</h3>
+
+            <a
+              href="#rewire-module"
+              id="rewire-module"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Rewire module</h3>
+            </a>
             <p>An example of how to rewire a module.</p>
             <p>
               <strong><code>./src/module1.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { resolve } from &quot;path&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { resolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;
 
-export function doSomething() {
-  const useExternal = resolve(&quot;xxx&quot;);
-  return &quot;something&quot;;
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> useExternal = resolve(<span class="hljs-string">&quot;xxx&quot;</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
 }</code></pre>
             <p>
               <strong><code>./test/module1.spec.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { rewireModule } from &quot;@lamnhan/testea&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { rewireModule } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@lamnhan/testea&quot;</span>;
 
-// setup
-function getModule() {
-  return rewireModule(
-    // load the tested module
-    &quot;@src/module1&quot;,
-    // rewire all dependencies with mocked replacement
+<span class="hljs-comment">// setup</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getModule</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> rewireModule(
+    <span class="hljs-comment">// load the tested module</span>
+    <span class="hljs-string">&quot;@src/module1&quot;</span>,
+    <span class="hljs-comment">// rewire all dependencies with mocked replacement</span>
     {
       path: {
-        resolve: () =&gt; &quot;any mocked returns value&quot;,
-        // mock other methods of this module
+        resolve: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&quot;any mocked returns value&quot;</span>,
+        <span class="hljs-comment">// mock other methods of this module</span>
       },
     }
   );
 }
 
-// start testea
-describe(&quot;Test module1&quot;, () =&gt; {
-  it(&quot;#doSomething&quot;, async () =&gt; {
-    // retrieve the rewired module
-    const module1Rewiring = getModule();
-    const rewiredModule1 = await module1Rewiring.getModule();
+<span class="hljs-comment">// start testea</span>
+describe(<span class="hljs-string">&quot;Test module1&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  it(<span class="hljs-string">&quot;#doSomething&quot;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">// retrieve the rewired module</span>
+    <span class="hljs-keyword">const</span> module1Rewiring = getModule();
+    <span class="hljs-keyword">const</span> rewiredModule1 = <span class="hljs-keyword">await</span> module1Rewiring.getModule();
 
-    // test a module member
-    const result = rewiredModule1.doSomething();
-    expect(result).equal(&quot;xxx&quot;);
+    <span class="hljs-comment">// test a module member</span>
+    <span class="hljs-keyword">const</span> result = rewiredModule1.doSomething();
+    expect(result).equal(<span class="hljs-string">&quot;xxx&quot;</span>);
   });
 });</code></pre>
-            <h3 id="rewire-service">Rewire service</h3>
+
+            <a
+              href="#rewire-service"
+              id="rewire-service"
+              style="color: inherit; text-decoration: none"
+            >
+              <h3>Rewire service</h3>
+            </a>
             <p>An example of how to rewire a service.</p>
             <p>
               <strong><code>./src/module1.ts</code></strong>
             </p>
-            <pre><code class="language-ts">export class Service1 {
-  constructor() {}
+            <pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Service1 {
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params"></span>) {}
 
-  doSomething(param1: any) {
-    // do something with the &#39;param1&#39;
-    return &quot;something&quot;;
+  doSomething(param1: <span class="hljs-built_in">any</span>) {
+    <span class="hljs-comment">// do something with the &#x27;param1&#x27;</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
   }
 }</code></pre>
             <p>
               <strong><code>./src/module2.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { Service1 } from &quot;./module1&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { Service1 } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./module1&quot;</span>;
 
-export class Service2 {
-  private service1: Service1;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Service2 {
+  <span class="hljs-keyword">private</span> service1: Service1;
 
-  constructor(service1: Service1) {
-    this.service1 = service1;
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params">service1: Service1</span>) {
+    <span class="hljs-built_in">this</span>.service1 = service1;
   }
 
   doSomething() {
-    const useExternal = this.service1.doSomething(&quot;xxx&quot;);
-    return &quot;something&quot;;
+    <span class="hljs-keyword">const</span> useExternal = <span class="hljs-built_in">this</span>.service1.doSomething(<span class="hljs-string">&quot;xxx&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
   }
 }</code></pre>
             <p>
               <strong><code>./test/module2.spec.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { rewireService } from &#39;@lamnhan/testea&#39;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { rewireService } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@lamnhan/testea&#x27;</span>;
 
-import { Service2 } from &#39;../src/module2&#39;;
+<span class="hljs-keyword">import</span> { Service2 } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../src/module2&#x27;</span>;
 
-// setup
-function getService() {
-  return rewireService(
-    // rewire this service
+<span class="hljs-comment">// setup</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getService</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> rewireService(
+    <span class="hljs-comment">// rewire this service</span>
     Service2,
-    // replace all dependencies with mocked replacement
+    <span class="hljs-comment">// replace all dependencies with mocked replacement</span>
     {
-      &#39;@src/module1&#39;: {
-        doSomething1: &#39;any mocked returns value&#39;;
+      <span class="hljs-string">&#x27;@src/module1&#x27;</span>: {
+        doSomething1: <span class="hljs-string">&#x27;any mocked returns value&#x27;</span>;
       },
     },
-    // no stubbing for now
+    <span class="hljs-comment">// no stubbing for now</span>
   );
 }
 
-// start testea
-describe(&#39;Test Service2&#39;, () =&gt; {
+<span class="hljs-comment">// start testea</span>
+describe(<span class="hljs-string">&#x27;Test Service2&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
 
-  it(&#39;#doSomething2&#39;, async () =&gt; {
-    // retrieve the rewired service
-    const service2Rewiring = getService();
-    const rewiredService2 = await service2Rewiring.getInstance();
-    // retrieve a mocked servics for passed argument testea
-    const { &#39;@src/module1&#39;: mockedModule1 } = service2Rewiring.getMockedServices();
+  it(<span class="hljs-string">&#x27;#doSomething2&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">// retrieve the rewired service</span>
+    <span class="hljs-keyword">const</span> service2Rewiring = getService();
+    <span class="hljs-keyword">const</span> rewiredService2 = <span class="hljs-keyword">await</span> service2Rewiring.getInstance();
+    <span class="hljs-comment">// retrieve a mocked servics for passed argument testea</span>
+    <span class="hljs-keyword">const</span> { <span class="hljs-string">&#x27;@src/module1&#x27;</span>: mockedModule1 } = service2Rewiring.getMockedServices();
 
-    // test a module member
-    const result = rewiredService2.doSomething();
-    expect(result).equal(&#39;...&#39;);
+    <span class="hljs-comment">// test a module member</span>
+    <span class="hljs-keyword">const</span> result = rewiredService2.doSomething();
+    expect(result).equal(<span class="hljs-string">&#x27;...&#x27;</span>);
     expect(
-      mockedModule1.getArgFirst(&#39;doSomething&#39;), // get the first arg of #doSomething
-    ).equal(&#39;xxx&#39;);
+      mockedModule1.getArgFirst(<span class="hljs-string">&#x27;doSomething&#x27;</span>), <span class="hljs-comment">// get the first arg of #doSomething</span>
+    ).equal(<span class="hljs-string">&#x27;xxx&#x27;</span>);
   });
 
 });</code></pre>
-            <h2 id="fully-rewiring">Fully rewiring</h2>
+
+            <a
+              href="#fully-rewiring"
+              id="fully-rewiring"
+              style="color: inherit; text-decoration: none"
+            >
+              <h2>Fully rewiring</h2>
+            </a>
             <p>
               An example of how to rewire a module and a service with full
               functionality.
@@ -582,61 +658,61 @@ describe(&#39;Test Service2&#39;, () =&gt; {
             <p>
               <strong><code>./src/module1.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { resolve } from &quot;path&quot;;
-import { readFile } from &quot;fs-extra&quot;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { resolve } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>;
+<span class="hljs-keyword">import</span> { readFile } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs-extra&quot;</span>;
 
-import { Service2 } from &quot;./service2&quot;;
+<span class="hljs-keyword">import</span> { Service2 } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./service2&quot;</span>;
 
-export class MyService {
-  private service2: Service2;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> MyService {
+  <span class="hljs-keyword">private</span> service2: Service2;
 
-  constructor(service2: Service2) {
-    this.service2 = service2;
+  <span class="hljs-keyword">constructor</span>(<span class="hljs-params">service2: Service2</span>) {
+    <span class="hljs-built_in">this</span>.service2 = service2;
   }
 
   doSomething() {
-    const usePath = resolve(&quot;xxx&quot;);
-    const useFSExtra = readFile(&quot;xxx.txt&quot;);
-    const useService2 = this.service2.doSomething(&quot;xxx&quot;);
-    return &quot;something&quot;;
+    <span class="hljs-keyword">const</span> usePath = resolve(<span class="hljs-string">&quot;xxx&quot;</span>);
+    <span class="hljs-keyword">const</span> useFSExtra = readFile(<span class="hljs-string">&quot;xxx.txt&quot;</span>);
+    <span class="hljs-keyword">const</span> useService2 = <span class="hljs-built_in">this</span>.service2.doSomething(<span class="hljs-string">&quot;xxx&quot;</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
   }
 
   doMore() {
-    const useThis = this.doSomething();
-    return &quot;do more&quot;;
+    <span class="hljs-keyword">const</span> useThis = <span class="hljs-built_in">this</span>.doSomething();
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;do more&quot;</span>;
   }
 }</code></pre>
             <p>
               <strong><code>./test/module1.spec.ts</code></strong>
             </p>
-            <pre><code class="language-ts">import { rewireFull } from &#39;@lamnhan/testea&#39;;
+            <pre><code class="language-ts"><span class="hljs-keyword">import</span> { rewireFull } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@lamnhan/testea&#x27;</span>;
 
-import { MyService } from &#39;../src/module1&#39;;
+<span class="hljs-keyword">import</span> { MyService } <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;../src/module1&#x27;</span>;
 
-// setup test
-async function setup(
-  stubs: any,
-) {
-  return rewireFull(
-    // load the tested module
-    &#39;@src/module1&#39;, // () =&gt; import(&#39;../src/module1&#39;)
-    // rewire all dependencies with mocked replacement
+<span class="hljs-comment">// setup test</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setup</span>(<span class="hljs-params">
+  stubs: <span class="hljs-built_in">any</span>,
+</span>) </span>{
+  <span class="hljs-keyword">return</span> rewireFull(
+    <span class="hljs-comment">// load the tested module</span>
+    <span class="hljs-string">&#x27;@src/module1&#x27;</span>, <span class="hljs-comment">// () =&gt; import(&#x27;../src/module1&#x27;)</span>
+    <span class="hljs-comment">// rewire all dependencies with mocked replacement</span>
     {
-      &#39;path&#39;: {
-        resolve: () =&gt; &#39;any mocked returns value&#39;,
-        // mock other methods of this module
+      <span class="hljs-string">&#x27;path&#x27;</span>: {
+        resolve: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&#x27;any mocked returns value&#x27;</span>,
+        <span class="hljs-comment">// mock other methods of this module</span>
       },
-      &#39;~fs-extra&#39;: {
-        readFile: async () =&gt; &#39;any mocked returns value&#39;,
-        // mock other methods of this module
+      <span class="hljs-string">&#x27;~fs-extra&#x27;</span>: {
+        readFile: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&#x27;any mocked returns value&#x27;</span>,
+        <span class="hljs-comment">// mock other methods of this module</span>
       }
     }
-    // rewire this service
+    <span class="hljs-comment">// rewire this service</span>
     MyService,
-    // replace all dependencies with mocked replacement
+    <span class="hljs-comment">// replace all dependencies with mocked replacement</span>
     {
-      &#39;@src/service2&#39;: {
-        doSomething: &#39;any mocked returns value&#39;;
+      <span class="hljs-string">&#x27;@src/service2&#x27;</span>: {
+        doSomething: <span class="hljs-string">&#x27;any mocked returns value&#x27;</span>;
       },
     },
     stubs,
@@ -644,44 +720,44 @@ async function setup(
   .getResult();
 }
 
-// start testea
-describe(&#39;Test MyService&#39;, () =&gt; {
+<span class="hljs-comment">// start testea</span>
+describe(<span class="hljs-string">&#x27;Test MyService&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
 
-  it(&#39;#doSomething&#39;, async () =&gt; {
-    // retrieve the data
-    const {
+  it(<span class="hljs-string">&#x27;#doSomething&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">// retrieve the data</span>
+    <span class="hljs-keyword">const</span> {
       service,
       mockedModules: {
-        &#39;path&#39;: mockedPathModuleTestea,
-        &#39;~fs-extra&#39;: mockedFSExtraModuleTestea,
+        <span class="hljs-string">&#x27;path&#x27;</span>: mockedPathModuleTestea,
+        <span class="hljs-string">&#x27;~fs-extra&#x27;</span>: mockedFSExtraModuleTestea,
       },
       mockedServices: {
-        &#39;@src/service2&#39;: mockedService2Testea,
+        <span class="hljs-string">&#x27;@src/service2&#x27;</span>: mockedService2Testea,
       }
-    } = await setup();
+    } = <span class="hljs-keyword">await</span> setup();
 
-    // test a service method
-    const result = service.doSomething();
-    expect(result).equal(&#39;...&#39;);
-    // do more assertions about passed arguments
-    const resolveArgs = mockedPathModuleTestea.getArgFirst(&#39;resolve&#39;);
-    const readFileArg = mockedFSExtraModuleTestea.getArgFirst(&#39;readFile&#39;);
-    const doSomethingArg = mockedService2Testea.getArgFirst(&#39;doSomething&#39;);
-    expect(resolveArg).equal(&#39;xxx&#39;);
-    expect(readFileArg).equal(&#39;xxx.txt&#39;);
-    expect(doSomethingArg).equal(&#39;xxx&#39;);
-    // ...
+    <span class="hljs-comment">// test a service method</span>
+    <span class="hljs-keyword">const</span> result = service.doSomething();
+    expect(result).equal(<span class="hljs-string">&#x27;...&#x27;</span>);
+    <span class="hljs-comment">// do more assertions about passed arguments</span>
+    <span class="hljs-keyword">const</span> resolveArgs = mockedPathModuleTestea.getArgFirst(<span class="hljs-string">&#x27;resolve&#x27;</span>);
+    <span class="hljs-keyword">const</span> readFileArg = mockedFSExtraModuleTestea.getArgFirst(<span class="hljs-string">&#x27;readFile&#x27;</span>);
+    <span class="hljs-keyword">const</span> doSomethingArg = mockedService2Testea.getArgFirst(<span class="hljs-string">&#x27;doSomething&#x27;</span>);
+    expect(resolveArg).equal(<span class="hljs-string">&#x27;xxx&#x27;</span>);
+    expect(readFileArg).equal(<span class="hljs-string">&#x27;xxx.txt&#x27;</span>);
+    expect(doSomethingArg).equal(<span class="hljs-string">&#x27;xxx&#x27;</span>);
+    <span class="hljs-comment">// ...</span>
   });
 
-  it(&#39;#doMore&#39;, async () =&gt; {
-    // retrieve the data
-    const { service } = await setup({
-      doSomething: &#39;returns something else&#39;,
+  it(<span class="hljs-string">&#x27;#doMore&#x27;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-comment">// retrieve the data</span>
+    <span class="hljs-keyword">const</span> { service } = <span class="hljs-keyword">await</span> setup({
+      doSomething: <span class="hljs-string">&#x27;returns something else&#x27;</span>,
     });
 
-    // test a service method
-    const result = service.doMore();
-    expect(result).equal(&#39;...&#39;);
+    <span class="hljs-comment">// test a service method</span>
+    <span class="hljs-keyword">const</span> result = service.doMore();
+    expect(result).equal(<span class="hljs-string">&#x27;...&#x27;</span>);
   });
 
 });</code></pre>

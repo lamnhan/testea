@@ -1,5 +1,5 @@
-import {ParsedItem} from './parse';
-import {TemplateService} from './template';
+import {ParsedItem} from './parse.service';
+import {TemplateService} from './template.service';
 
 export class RenderService {
   constructor(private templateService: TemplateService) {}

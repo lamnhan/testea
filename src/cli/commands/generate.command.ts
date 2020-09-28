@@ -1,7 +1,9 @@
 import {resolve} from 'path';
 import {outputFile, pathExists} from 'fs-extra';
 import {green, blue} from 'chalk';
-import {ParseService, RenderService} from '../../public-api';
+
+import {ParseService} from '../../lib/services/parse.service';
+import {RenderService} from '../../lib/services/render.service';
 
 export class GenerateCommand {
   constructor(
