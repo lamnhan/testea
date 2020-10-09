@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 export type MockedValue = Function | string | number | boolean | {} | any[];
 
 export type Mocked<Members> = MockBuilder<
