@@ -6,7 +6,7 @@
   "homepage": "https://lamnhan.com",
   "license": "MIT",
   "main": "src/public-api.js",
-  "typings": "src/public-api.d.ts",
+  "types": "src/public-api.d.ts",
   "bin": {
     "testea": "src/bin.js"
   },
