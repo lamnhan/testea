@@ -95,15 +95,18 @@
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <ul>
-              <li><a href="#command-overview">Command overview</a></li>
+              <li><a href="#cli-command-overview">Command overview</a></li>
               <li>
-                <a href="#command-reference">Command reference</a>
+                <a href="#cli-command-reference">Command reference</a>
                 <ul>
                   <li>
                     <a href="#command-generate"><code>generate</code></a>
                   </li>
                   <li>
                     <a href="#command-help"><code>help</code></a>
+                  </li>
+                  <li>
+                    <a href="#command-*"><code>*</code></a>
                   </li>
                 </ul>
               </li>
@@ -115,7 +118,7 @@
             data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!"
           >
             <h2>
-              <a name="command-overview"><p>Command overview</p> </a>
+              <a name="cli-command-overview"><p>Command overview</p> </a>
             </h2>
 
             <p>Spec file generate, ...</p>
@@ -126,9 +129,12 @@
               <li>
                 <a href="#command-help"><code>testea help</code></a>
               </li>
+              <li>
+                <a href="#command-*"><code>testea *</code></a>
+              </li>
             </ul>
             <h2>
-              <a name="command-reference"><p>Command reference</p> </a>
+              <a name="cli-command-reference"><p>Command reference</p> </a>
             </h2>
 
             <h3>
@@ -138,6 +144,9 @@
             </h3>
 
             <p>Generate spec files.</p>
+            <p><strong>Usage:</strong></p>
+            <pre><code class="language-sh">testea generate
+</code></pre>
             <h3>
               <a name="command-help"
                 ><p><code>help</code></p>
@@ -145,6 +154,19 @@
             </h3>
 
             <p>Display help.</p>
+            <p><strong>Usage:</strong></p>
+            <pre><code class="language-sh">testea <span class="hljs-built_in">help</span>
+</code></pre>
+            <h3>
+              <a name="command-*"
+                ><p><code>*</code></p>
+              </a>
+            </h3>
+
+            <p>Any other command is not suppoted.</p>
+            <p><strong>Usage:</strong></p>
+            <pre><code class="language-sh">testea &lt;cmd&gt;
+</code></pre>
           </section>
         </article>
       </div>

@@ -140,7 +140,8 @@
 <span class="hljs-keyword">const</span> serviceRewiring = rewireService(MyService);
 <span class="hljs-comment">// stub a method</span>
 <span class="hljs-keyword">const</span> doSomethingStub = serviceRewiring.stub(<span class="hljs-string">&quot;doSomething&quot;</span>).returns(<span class="hljs-string">&quot;anything&quot;</span>);
-<span class="hljs-keyword">const</span> doMoreStub = serviceRewiring.stub(<span class="hljs-string">&quot;doMore&quot;</span>).callsFake(<span class="hljs-string">&quot;do more&quot;</span>);</code></pre>
+<span class="hljs-keyword">const</span> doMoreStub = serviceRewiring.stub(<span class="hljs-string">&quot;doMore&quot;</span>).callsFake(<span class="hljs-string">&quot;do more&quot;</span>);
+</code></pre>
             <p>
               See more about sinon stubbing at:
               <a href="https://sinonjs.org/releases/latest/stubs/"
@@ -169,8 +170,8 @@
   MyService,
   {}, <span class="hljs-comment">// no dependencies</span>
   {
-    doSomething: <span class="hljs-string">&quot;anything&quot;</span>,
-    doMore: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;do more&quot;</span>,
+    <span class="hljs-attr">doSomething</span>: <span class="hljs-string">&quot;anything&quot;</span>,
+    <span class="hljs-attr">doMore</span>: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;do more&quot;</span>,
     <span class="hljs-comment">// more stubs</span>
   }
 );
@@ -180,7 +181,8 @@
 <span class="hljs-comment">// testea</span>
 <span class="hljs-keyword">const</span> result = service.doNothing();
 <span class="hljs-keyword">const</span> doSomethingArgs = stubbedService.getResult(<span class="hljs-string">&quot;doSomething&quot;</span>).getArgs();
-<span class="hljs-comment">// do assertion</span></code></pre>
+<span class="hljs-comment">// do assertion</span>
+</code></pre>
           </section>
         </article>
       </div>

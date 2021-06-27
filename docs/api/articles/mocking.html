@@ -1,0 +1,139 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#-mockmodule-members-https-lamnhan-com-testea-index-html-mockmodule"><a href="https://lamnhan.com/testea/index.html#mockmodule"><code>mockModule(members)</code></a></a></li>
+<li><a href="#-mockservice-members-https-lamnhan-com-testea-index-html-mockservice"><a href="https://lamnhan.com/testea/index.html#mockservice"><code>mockService(members)</code></a></a></li>
+<li><a href="#the-mockbuilder-https-lamnhan-com-testea-classes-mockbuilder-html">The <a href="https://lamnhan.com/testea/classes/mockbuilder.html"><code>MockBuilder</code></a></a><ul>
+<li><a href="#mocked-returns">Mocked returns</a></li>
+<li><a href="#instance-methods">Instance methods</a></li>
+</ul>
+</li>
+<li><a href="#the-mockedresult-https-lamnhan-com-testea-classes-mockedresult-html">The <a href="https://lamnhan.com/testea/classes/mockedresult.html"><code>MockedResult</code></a></a></li>
+<li><a href="#mocking-example">Mocking example</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+
+<a href="#mockmodulemembers" id="mockmodulemembers" style="color: inherit; text-decoration: none;">
+  <h2><a href="https://lamnhan.com/testea/index.html#mockmodule"><code>mockModule(members)</code></a></h2>
+</a>
+<p>Create a mock module for testea purpose, this method is a proxy to the <a href="#the-mockbuilder"><code>MockBuilder</code></a>.</p>
+<p>The original module, for example:</p>
+<pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">a</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do something</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
+}
+
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">b</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do somthing else</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nothing at all&quot;</span>;
+}
+
+<span class="hljs-keyword">export</span> { a, b };
+</code></pre>
+<p>Create a mocked version of the original module:</p>
+<pre><code class="language-ts"><span class="hljs-keyword">const</span> mockedModule = mockModule({
+  <span class="hljs-attr">a</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">&quot;something else&quot;</span>,
+  <span class="hljs-attr">b</span>: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;never&quot;</span>,
+});
+
+<span class="hljs-comment">// start using the mocked module</span>
+</code></pre>
+
+<a href="#mockservicemembers" id="mockservicemembers" style="color: inherit; text-decoration: none;">
+  <h2><a href="https://lamnhan.com/testea/index.html#mockservice"><code>mockService(members)</code></a></h2>
+</a>
+<p>Create a mock service for testea purpose, this method is a proxy to the <a href="#the-mockbuilder"><code>MockBuilder</code></a>. See <a href="#mockmodulemembers"><code>mockModule</code></a> for usage info.</p>
+
+<a href="#the-mockbuilder" id="the-mockbuilder" style="color: inherit; text-decoration: none;">
+  <h2>The <a href="https://lamnhan.com/testea/classes/mockbuilder.html"><code>MockBuilder</code></a></h2>
+</a>
+<p>The <a href="https://lamnhan.com/testea/classes/mockbuilder.html"><code>MockBuilder</code></a> constructor create a mocked object for mocking modules and services.</p>
+<pre><code class="language-ts"><span class="hljs-keyword">const</span> mocked = <span class="hljs-keyword">new</span> MockBuilder({
+  <span class="hljs-string">&quot;.A&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// prop &#x27;A&#x27; contains a value of 0</span>
+  <span class="hljs-attr">a</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-number">1</span>, <span class="hljs-comment">// method &#x27;a&#x27; returns 1</span>
+  <span class="hljs-attr">b</span>: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-number">2</span>, <span class="hljs-comment">// method &#x27;b&#x27; async returns 2</span>
+});
+</code></pre>
+<p>The <a href="#the-mockbuilder"><code>MockBuilder</code></a> create a mocked instance of any modules or services with every method defined in the <code>members</code> param. When a method is called, the mocked instance record all arguments and returns a value that defined by the <code>members</code> param.</p>
+<p><strong>Note</strong>: To mock a property, just add a <code>.</code> before the property name.</p>
+
+<a href="#mocked-returns" id="mocked-returns" style="color: inherit; text-decoration: none;">
+  <h3>Mocked returns</h3>
+</a>
+<p>These are the supported returns values.</p>
+<ul>
+<li><code>*</code>: returns <code>this</code> (the mocked instance)</li>
+<li><code>.</code>: returns the first argument</li>
+<li><code>.$</code>: async returns the first argument</li>
+<li><code>...</code>: returns the list of arguments</li>
+<li><code>...$</code>: async returns the list of arguments</li>
+<li><code>!</code>: throws an error, with custom message: <code>!=The message!</code></li>
+<li><code>!$</code>: async reject, with custom message: <code>!$=The message!</code></li>
+<li><code>Function</code>: returns the result of this function (with the same arguments as the original method)</li>
+<li><code>any</code>: returns as is: <code>string</code>, <code>number</code>, <code>boolean</code>, <code>{}</code>, <code>any[]</code></li>
+</ul>
+
+<a href="#instance-methods" id="instance-methods" style="color: inherit; text-decoration: none;">
+  <h3>Instance methods</h3>
+</a>
+<p>A <a href="#the-mockbuilder"><code>MockBuilder</code></a> instance provides these methods for retrieving testea data.</p>
+<ul>
+<li><code>getProp(prop)</code>: Get a mocked property value</li>
+<li><code>getResult(member)</code>: Get the result for a certain member, returns <code>MockedResult</code>](#the-mockedresult)</li>
+<li><code>getAllReturns()</code>: Get all the data holded by the Returns Keeper</li>
+<li><code>getAllArgs()</code>: Get all the data holded by the Args Keeper</li>
+<li><code>getAllStackedArgs()</code>: Get all the data holded by the StackedArgs Keeper</li>
+</ul>
+
+<a href="#the-mockedresult" id="the-mockedresult" style="color: inherit; text-decoration: none;">
+  <h2>The <a href="https://lamnhan.com/testea/classes/mockedresult.html"><code>MockedResult</code></a></h2>
+</a>
+<p>The <a href="https://lamnhan.com/testea/classes/mockedresult.html"><code>MockedResult</code></a> constructor provide values and methods for testea a mocked method.</p>
+<ul>
+<li><code>getArgs()</code>: Get a list of args</li>
+<li><code>countArgs()</code>: Get the number of args</li>
+<li><code>getArg(position)</code>: Get an arg by paramter position</li>
+<li><code>getArgFirst()</code>: Get the first arg</li>
+<li><code>getArgSecond()</code>: Get the second arg</li>
+<li><code>getArgThird()</code>: Get the third arg</li>
+<li><code>getArgLast()</code>: Get the last arg</li>
+<li><code>getStackedArgs()</code>: Get a list of stacked args</li>
+<li><code>countStackedArgs()</code>: Get the number of stacked args (same as <code>callCount()</code>)</li>
+<li><code>getStackedArgsChild(execution)</code>: Get a list of args by execution order</li>
+<li><code>getStackedArgsFirst()</code>: Get a list of args of the first execution</li>
+<li><code>getStackedArgsSecond()</code>: Get a list of args of the second execution</li>
+<li><code>getStackedArgsThird()</code>: Get a list of args of the third execution</li>
+<li><code>getStackedArgsLast()</code>: Get a list of args of the last execution</li>
+<li><code>getArgInStack(execution, position)</code>: Get an arg by execution order and parameter position</li>
+<li><code>hasBeenCalled()</code>: See if a method has been called</li>
+<li><code>hasBeenCalledWith(...args)</code>: See if a method has been called with certain args</li>
+<li><code>callCount()</code>: Get the number of call</li>
+</ul>
+
+<a href="#mocking-example" id="mocking-example" style="color: inherit; text-decoration: none;">
+  <h2>Mocking example</h2>
+</a>
+<p>An example of how to create a mocked version of a module or a service.</p>
+<p><strong><code>./src/module1.ts</code></strong></p>
+<pre><code class="language-ts"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething1</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do something</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;something&quot;</span>;
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">doSomething2</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// do somthing else</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;nothing at all&quot;</span>;
+}
+</code></pre>
+<p><strong><code>./test/module1.spec.ts</code></strong></p>
+<pre><code class="language-ts"><span class="hljs-keyword">const</span> mockedModule = mockModule({
+  <span class="hljs-attr">doSomething1</span>: <span class="hljs-string">&quot;any mocked returns value&quot;</span>,
+  <span class="hljs-attr">doSomething2</span>: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;any mocked returns value&quot;</span>,
+});
+
+<span class="hljs-comment">// start using the mocked module</span>
+</code></pre>
+</section>

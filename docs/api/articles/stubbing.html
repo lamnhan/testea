@@ -1,0 +1,48 @@
+<section id="toc" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<ul>
+<li><a href="#manually-stubbing">Manually stubbing</a></li>
+<li><a href="#auto-stubbing">Auto stubbing</a></li>
+</ul>
+</section>
+
+<section id="content" data-note="AUTO-GENERATED CONTENT, DO NOT EDIT DIRECTLY!">
+
+<p>You can either stubbing a service method manually with <a href="https://sinonjs.org">sinon</a> or automatically using the <a href="#rewireserviceserviceconstructor-mockedservices-withstubs"><code>withStubs</code></a> param.</p>
+<p>To stub methods, you need to retrieve a <a href="#the-servicerewiring"><code>ServiceRewiring</code></a> using <a href="#rewireserviceserviceconstructor-mockedservices-withstubs"><code>rewireService</code></a> or <a href="#rewirefullinput-mockedmodules-serviceinterface-mockedservices-withstubs"><code>rewireFull</code></a> first.</p>
+
+<a href="#manually-stubbing" id="manually-stubbing" style="color: inherit; text-decoration: none;">
+  <h2>Manually stubbing</h2>
+</a>
+<pre><code class="language-ts"><span class="hljs-comment">// rewire the service</span>
+<span class="hljs-keyword">const</span> serviceRewiring = rewireService(MyService);
+<span class="hljs-comment">// stub a method</span>
+<span class="hljs-keyword">const</span> doSomethingStub = serviceRewiring.stub(<span class="hljs-string">&quot;doSomething&quot;</span>).returns(<span class="hljs-string">&quot;anything&quot;</span>);
+<span class="hljs-keyword">const</span> doMoreStub = serviceRewiring.stub(<span class="hljs-string">&quot;doMore&quot;</span>).callsFake(<span class="hljs-string">&quot;do more&quot;</span>);
+</code></pre>
+<p>See more about sinon stubbing at: <a href="https://sinonjs.org/releases/latest/stubs/">https://sinonjs.org/releases/latest/stubs/</a></p>
+
+<a href="#auto-stubbing" id="auto-stubbing" style="color: inherit; text-decoration: none;">
+  <h2>Auto stubbing</h2>
+</a>
+<p>With the <code>withStubs</code> param, you can provide multiple stubbing methods and be able to get the stubed result a <a href="#the-mockbuilder"><code>MockBuilder</code></a> instance.</p>
+<p>A stub can <a href="#mocked-returns">returns</a> any value same as a mocking member.</p>
+<pre><code class="language-ts"><span class="hljs-comment">// rewire the service</span>
+<span class="hljs-keyword">const</span> serviceRewiring = rewireService(
+  MyService,
+  {}, <span class="hljs-comment">// no dependencies</span>
+  {
+    <span class="hljs-attr">doSomething</span>: <span class="hljs-string">&quot;anything&quot;</span>,
+    <span class="hljs-attr">doMore</span>: <span class="hljs-keyword">async</span> () =&gt; <span class="hljs-string">&quot;do more&quot;</span>,
+    <span class="hljs-comment">// more stubs</span>
+  }
+);
+<span class="hljs-comment">// get service &amp; stubbed</span>
+<span class="hljs-keyword">const</span> service = serviceRewiring.getInstance();
+<span class="hljs-keyword">const</span> stubbedService = serviceRewiring.getStubbedInstance();
+<span class="hljs-comment">// testea</span>
+<span class="hljs-keyword">const</span> result = service.doNothing();
+<span class="hljs-keyword">const</span> doSomethingArgs = stubbedService.getResult(<span class="hljs-string">&quot;doSomething&quot;</span>).getArgs();
+<span class="hljs-comment">// do assertion</span>
+</code></pre>
+</section>
