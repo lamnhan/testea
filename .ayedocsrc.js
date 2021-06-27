@@ -1,5 +1,5 @@
 module.exports = {
-  url: 'https://lamnhan.com/testea',
+  url: 'https://testea.lamnhan.com',
   cleanOutput: true,
   fileRender: {
     'README.md': {
